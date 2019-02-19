@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>Cogito Extended Silence Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Cogito Extended Silence Flow</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Extended_Silence_Screen</name>
+        <label>Extended Silence Screen</label>
+        <locationX>353</locationX>
+        <locationY>169</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Extended_Silence_Text</name>
+            <fieldText>Extended Silence</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Extended_Silence_Screen</startElementReference>
+    <status>Active</status>
+</Flow>

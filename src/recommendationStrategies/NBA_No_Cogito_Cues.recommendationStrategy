@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecommendationStrategy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Same Strategy, no Behavioral Cues</description>
+    <if>
+        <childNode>Load_Premium_Elite_Retention</childNode>
+        <description>Show Premium Elite Retention</description>
+        <label>Show_Premium_Elite_Retention</label>
+        <name>Show_Premium_Elite_Retention</name>
+        <childNodeExpression>
+            <childName>Load_Premium_Elite_Retention</childName>
+            <expression>$Record.Live_Call_Object__r.Empathy_Cue_Count__c &gt;0</expression>
+        </childNodeExpression>
+        <onlyFirstMatch>false</onlyFirstMatch>
+    </if>
+    <if>
+        <childNode>Load_Premium_Elite_Standard</childNode>
+        <description>Show Premium Elite Standard</description>
+        <label>Show_Premium_Elite_Standard</label>
+        <name>Show_Premium_Elite_Standard</name>
+        <childNodeExpression>
+            <childName>Load_Premium_Elite_Standard</childName>
+            <expression>$Record.Live_Call_Object__r.Empathy_Cue_Count__c = 0</expression>
+        </childNodeExpression>
+        <onlyFirstMatch>false</onlyFirstMatch>
+    </if>
+    <label>NBA No Cogito Cues</label>
+    <recommendationLoad>
+        <description>Load Premium Elite Retention</description>
+        <label>Load_Premium_Elite_Retention</label>
+        <name>Load_Premium_Elite_Retention</name>
+        <condition>
+            <field>Name</field>
+            <operator>EQUALS</operator>
+            <value>
+                <type>TEXT</type>
+                <value>SELECT AcceptanceLabel, ActionReference, Category__c, Description, ImageId, Name, Rank_Order__c, RejectionLabel FROM Proposition WHERE Category__c = &apos;Premium_Elite_Retention&apos;</value>
+            </value>
+        </condition>
+        <conditionLogic>and</conditionLogic>
+    </recommendationLoad>
+    <recommendationLoad>
+        <description>Load Premium Elite Standard</description>
+        <label>Load_Premium_Elite_Standard</label>
+        <name>Load_Premium_Elite_Standard</name>
+        <condition>
+            <field>Name</field>
+            <operator>EQUALS</operator>
+            <value>
+                <type>TEXT</type>
+                <value>SELECT AcceptanceLabel, ActionReference, Category__c, Description, ImageId, Name, Rank_Order__c, RejectionLabel FROM Proposition WHERE Category__c = &apos;Premium_Elite_Standard&apos;</value>
+            </value>
+        </condition>
+        <conditionLogic>and</conditionLogic>
+    </recommendationLoad>
+    <union>
+        <childNode>Show_Premium_Elite_Retention</childNode>
+        <childNode>Show_Premium_Elite_Standard</childNode>
+        <description>The root</description>
+        <label>WinningPropositions</label>
+        <name>WinningPropositions</name>
+    </union>
+</RecommendationStrategy>

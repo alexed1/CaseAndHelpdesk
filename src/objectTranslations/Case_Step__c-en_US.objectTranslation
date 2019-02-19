@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Case Step</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Case Steps</value>
+    </caseValues>
+    <fields>
+        <label><!-- Associate Case Status --></label>
+        <name>Associate_Case_Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- Case Plan --></label>
+        <name>Case_Plan__c</name>
+        <relationshipLabel><!-- Case Steps --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Case --></label>
+        <name>Case__c</name>
+        <relationshipLabel><!-- Case Steps --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Error Message --></label>
+        <name>Error_Message__c</name>
+    </fields>
+    <fields>
+        <label><!-- Flow --></label>
+        <name>Flow__c</name>
+    </fields>
+    <fields>
+        <label><!-- IsCompleted --></label>
+        <name>IsCompleted__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Pending --></label>
+        <name>Is_Pending__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Required --></label>
+        <name>Is_Required__c</name>
+    </fields>
+    <fields>
+        <label><!-- Object API Name --></label>
+        <name>Object_API_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Picklist Field API Name --></label>
+        <name>Picklist_Field_API_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Start_When__c --></label>
+        <name>Start_When__c</name>
+        <picklistValues>
+            <masterLabel>Account Setup</masterLabel>
+            <translation><!-- Account Setup --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Add User To Public Group</masterLabel>
+            <translation><!-- Add User To Public Group --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Case Step Testing</masterLabel>
+            <translation><!-- Case Step Testing --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Create Account</masterLabel>
+            <translation><!-- Create Account --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Create Community User</masterLabel>
+            <translation><!-- Create Community User --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Create Contact</masterLabel>
+            <translation><!-- Create Contact --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Create User</masterLabel>
+            <translation><!-- Create User --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Direct User</masterLabel>
+            <translation><!-- Direct User --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>IT Approvals</masterLabel>
+            <translation><!-- IT Approvals --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Manager Approval</masterLabel>
+            <translation><!-- Manager Approval --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Request Approval</masterLabel>
+            <translation><!-- Request Approval --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Request Reports</masterLabel>
+            <translation><!-- Request Reports --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Send Email</masterLabel>
+            <translation><!-- Send Email --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Send Reports To Client</masterLabel>
+            <translation><!-- Send Reports To Client --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test</masterLabel>
+            <translation><!-- Test --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test 2</masterLabel>
+            <translation><!-- Test 2 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Case Step</masterLabel>
+            <translation><!-- Test Case Step --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Case Step Internal</masterLabel>
+            <translation><!-- Test Case Step Internal --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test New Flow</masterLabel>
+            <translation><!-- Test New Flow --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test Step</masterLabel>
+            <translation><!-- Test Step --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test User</masterLabel>
+            <translation><!-- Test User --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Test User 2</masterLabel>
+            <translation><!-- Test User 2 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Update Contact</masterLabel>
+            <translation><!-- Update Contact --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Update Opportunity</masterLabel>
+            <translation><!-- Update Opportunity --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Update Opportunity Status</masterLabel>
+            <translation><!-- Update Opportunity Status --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Wait For Approval</masterLabel>
+            <translation><!-- Wait For Approval --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Wait For User Response</masterLabel>
+            <translation><!-- Wait For User Response --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>create Refresh</masterLabel>
+            <translation><!-- create Refresh --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>test user Step</masterLabel>
+            <translation><!-- test user Step --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>xyz</masterLabel>
+            <translation><!-- xyz --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Unique Name --></label>
+        <name>Unique_Name__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

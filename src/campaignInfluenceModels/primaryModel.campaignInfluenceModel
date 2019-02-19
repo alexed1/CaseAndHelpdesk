@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CampaignInfluenceModel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isActive>true</isActive>
+    <isDefaultModel>true</isDefaultModel>
+    <isModelLocked>true</isModelLocked>
+    <modelDescription>Primary campaign gets 100% of the revenue share</modelDescription>
+    <name>Primary Campaign Source Model</name>
+    <recordPreference>AllRecords</recordPreference>
+</CampaignInfluenceModel>

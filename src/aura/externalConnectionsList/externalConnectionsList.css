@@ -1,0 +1,88 @@
+.THIS.container {
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    min-height: 85px;
+}
+
+.THIS .label {
+    margin: 0.25em;
+    font-size: 0.825rem;
+}
+
+.THIS .scroll-container {
+    flex-grow: 1;
+}
+
+.THIS .list {
+    list-style-type: none;
+}
+
+.THIS .list-item {
+    display: inline;
+}
+
+.THIS .list-item-container {
+    margin: 0 0.1rem;
+    width: 80px;
+    display: inline-flex;
+    flex-direction: column;    
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.THIS .list-item-body {
+    width: 48px;
+	height: 48px;
+	border-radius: 12px;
+    background-color: dodgerblue;
+	background-image: url(/resource/stratcraft__externalNode);
+}
+
+.THIS .unmanaged-list-item-body {
+    width: 48px;
+	height: 48px;
+	border-radius: 12px;
+    background-color: dodgerblue;
+	background-image: url(/resource/externalNode);
+}
+
+.THIS .list-item-name {
+    width: 100%;
+    font-weight: 600;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+
+.THIS .connections-context-menu {
+	display: none;
+	position: absolute;
+	background: white;
+	z-index: 10;
+	min-width: 140px;
+	-webkit-box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+	        box-shadow: 0 4px 5px 3px rgba(0, 0, 0, 0.2);
+}
+
+.THIS .connections-context-menu-options {
+	list-style: none;
+}
+
+.THIS .connections-context-menu-item {	
+	padding: 10px 20px;
+	color: gray;
+	cursor: pointer;	
+}
+
+.THIS .connections-context-menu-item.enabled {	
+	color: black;
+	font-weight: 500;
+}
+
+.THIS .connections-context-menu-item.enabled:hover {
+	background: rgba(0, 0, 0, 0.2);
+}

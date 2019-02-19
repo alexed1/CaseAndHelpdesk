@@ -1,0 +1,80 @@
+.THIS .narrowpopoverclass {
+	min-width: 20rem;
+	width:15%;
+}
+
+.THIS .two-lines {
+	max-width: 150px;
+}
+
+.THIS .v-align-center {
+	align-self: center;
+}
+
+.THIS .error-text {
+	color: rgb(194, 57, 52);
+}
+
+.THIS .select_box {
+	width: 250px;
+	margin: 0 0 10px;
+}
+
+.THIS .heading {
+	font-size: 200%;
+}
+
+.THIS .m-vertical-align {
+	margin-bottom: 2px;
+}
+
+.THIS .m-top-align {
+	margin-top: -0.55rem;
+}
+
+.THIS.root {
+	height: 75vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.THIS .tool-bar {
+	display: flex;
+	align-items: center;
+	min-height: 85px;
+	z-index: 1;
+}
+
+.THIS .undo-redo-button {
+	padding-left: 6px;
+	padding-right: 0px;
+}
+
+.THIS .icon-host {
+	position: relative;
+	width: 24px;
+	height: 24px;
+}
+
+.THIS .tooltip {
+	width: 350px;
+	background-color: white;
+	position: absolute;
+	border: solid 1px gray;
+	box-shadow: 0 0 3px #0070d2;
+	visibility: hidden;
+	opacity: 0;
+	transition-delay: 0.5s;
+	transition: opacity 0.5s;
+	left: 24px;
+	top: -24px;
+}
+
+.THIS .icon-host:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+}
+
+.THIS .context-bot-align {
+	margin-bottom: 20px;
+}

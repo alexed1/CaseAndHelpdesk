@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Plan Step</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Plan Steps</value>
+    </caseValues>
+    <fields>
+        <label><!-- Case Plan --></label>
+        <name>Case_Plan__c</name>
+        <relationshipLabel><!-- Plan Steps --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Case Step --></label>
+        <name>Case_Step__c</name>
+        <relationshipLabel><!-- Plan Steps --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

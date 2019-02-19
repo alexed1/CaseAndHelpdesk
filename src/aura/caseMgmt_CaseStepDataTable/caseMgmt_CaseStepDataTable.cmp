@@ -1,0 +1,50 @@
+<!--
+ - Created by Shubham on 1/30/2019.
+ -->
+
+<aura:component description="caseMgmt_CaseStepDataTable" implements="lightning:availableForFlowScreens" access="global">
+
+
+    <!-- attributes -->
+
+    <aura:attribute name="objectArrayCasePlan" type="Case_Plan__c[]"/>
+    <aura:attribute name="objectArrayCaseStep" type="Case_Step__c[]"/>
+    <aura:attribute name="isCasePlan" type="boolean"/>
+    <aura:attribute name="columnsStr" type="String"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+    <aura:attribute name="numOfRowsSelected" type="Integer" default="0"/>
+    <aura:attribute name="key" type="String" default="Id"/>
+    <aura:attribute name="recordId" type="String" />
+
+    <!-- handlers-->
+    <aura:handler value="{!this}" name="init" action="{!c.invoke}"/>
+
+
+
+    <div style="height: 300px">
+
+        <aura:if isTrue="{! v.isCasePlan}">
+            <lightning:datatable keyField="{!v.key}"
+                                 data="{! v.objectArrayCasePlan }"
+                                 columns="{! v.columns }"
+                                 maxRowSelection="{! v.maxRowSelection }"
+                                 onrowselection="{! c.setRecordId }"
+            />
+            <aura:set attribute="else">
+                <lightning:datatable keyField="{!v.key}"
+                                     data="{! v.objectArrayCaseStep }"
+                                     columns="{! v.columns }"
+                                     maxRowSelection="{! v.maxRowSelection }"
+                                     onrowselection="{! c.setRecordId }"
+                />
+            </aura:set>
+        </aura:if>
+
+
+
+
+
+    </div>
+
+</aura:component>

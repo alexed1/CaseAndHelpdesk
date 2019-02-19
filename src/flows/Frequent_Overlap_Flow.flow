@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>Frequent Overlap Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Frequent Overlap Flow</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Frequent_Overlaps_Screen</name>
+        <label>Frequent Overlaps Screen</label>
+        <locationX>467</locationX>
+        <locationY>111</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Frequent_Overlap_Text</name>
+            <fieldText>Frequent Overlap</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Frequent_Overlaps_Screen</startElementReference>
+    <status>Active</status>
+</Flow>

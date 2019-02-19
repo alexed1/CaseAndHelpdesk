@@ -1,0 +1,181 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <ltng:require scripts="{!$Resource.utils}" />
+
+    <aura:attribute name="currentStrategy" type="Object" />
+    <!--This attribute is set from the outside by component consumers and represents the original state of the node-->
+    <aura:attribute name="currentNode" type="Object" />
+    <!--This attribute is set privately and stores the current state of all the node fields in order not to spoil the state of actual node-->
+    <aura:attribute name="_currentNodeDirty" type="Object" />
+    <aura:attribute name="_isIf" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isSoqlLoad" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isFilter" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isUnion" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isSort" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isRecommendationLimit" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isExternalConnection" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isRecordJoin" type="Boolean" access="private" default="false" />
+    <aura:attribute name="_isMutuallyExclusive" type="Boolean" access="private" default="false" />
+    <aura:attribute name="availableNodeTypes" type="List" />
+    <aura:attribute name="availableParentNodes" type="List" />
+    <aura:attribute name="showParent" type="Boolean" default="True" />
+    <aura:attribute name="showNodeActions" type="Boolean" default="True" />
+    <aura:attribute name="isConnectionMode" type="Boolean" default="False" />
+
+    <aura:handler name="change" value="{!v.currentStrategy}" action="{!c.handleStrategyChanged}" />
+    <aura:handler name="change" value="{!v._currentNodeDirty.nodeType}" action="{!c.handleTypeChanged}" />
+    <aura:handler name="change" value="{!v.currentNode}" action="{!c.handleCurrentNodeChanged}" />
+    <aura:handler name="change" value="{!v.isConnectionMode}" action="{!c.handleConnectionModeChange}" />
+
+    <aura:registerEvent name="propertyPageSaveRequest" type="c:propertyPageSaveRequestEvent" />
+    <aura:method name="reset" action="{!c.resetPage}" />
+    <aura:method name="clear" action="{!c.clear}" />
+    <aura:method name="isDirty" action="{!c.isDirty}" />
+
+    <aura:method name="validate" action="{!c.validate}" />
+
+    <div class="slds-form slds-form_stacked">
+
+        <!-- header -->
+        <div class="slds-grid">
+            <div class="slds-col slds-size_6-of-12">
+                <div class="slds-text-heading_medium">Properties</div>
+            </div>
+            <div class="slds-col slds-size_6-of-12">
+                <div class="slds-float_right">
+                    <div class="slds-grid">
+                        <aura:if isTrue="{!v.showNodeActions}">
+                            <div class="slds-col">
+                                <lightning:buttonMenu menuAlignment="right" iconName="utility:settings" alternativeText="Node Manages" onselect="{!c.handleNodeActions}">
+                                    <lightning:menuItem label="{!v.isConnectionMode ? 'Delete Connection' : 'Delete Node'}" value="delete" disabled="{!v.currentNode == null}" />
+                                </lightning:buttonMenu>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- body -->
+        <div class="slds-form-element">
+            <ui:inputText aura:id="name" label="Unique Name" class="field" value="{!v._currentNodeDirty.name}" disabled="{!v.currentNode == null}" />
+            <div aura:id="nameError" class="error-text slds-form-element__help slds-m-left_xx-small slds-hide">Name can't be empty, can't contain spaces and must be unique across current strategy</div>
+        </div><div class="slds-form-element">
+            <ui:inputText aura:id="description" label="Description" class="field" value="{!v._currentNodeDirty.description}" disabled="{!v.currentNode == null}" />
+            <div aura:id="descriptionError" class="error-text slds-form-element__help slds-m-left_xx-small slds-hide">Description of an External Connection can't be empty</div>
+        </div>
+        <aura:if isTrue="{!v.showParent}">
+            <div class="slds-form-element">
+                <lightning:select aura:id="parentNode" label="Parent Node" value="{!v._currentNodeDirty.parentNodeName}" class="select_box"
+                    disabled="{!v.currentNode == null}">
+                    <aura:iteration items="{!v.availableParentNodes}" var="item">
+                        <option value="{!item[0]}" text="{!item[1]}" selected="{!item[0] == v._currentNodeDirty.parentNodeName}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!!v.isConnectionMode}">
+            <div class="slds-form-element">
+                <lightning:select aura:id="nodeType" label="Node Type" value="{!v._currentNodeDirty.nodeType}" class="select_box" required="true"
+                    messageWhenValueMissing="Please select node type" disabled="{!v.currentNode == null}">
+                    <aura:iteration items="{!v.availableNodeTypes}" var="item">
+                        <option value="{!item[0]}" text="{!item[1]}" selected="{!item[0] == v._currentNodeDirty.nodeType}" />
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </aura:if>
+
+        <div class="slds-form-element">
+            <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isIf}">
+                <c:ifNodePropertyPage aura:id="ifNode" currentNode="{!v._currentNodeDirty}" strategy="{!v.currentStrategy}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </aura:if>
+        </div>
+
+        <div class="slds-form-element">
+            <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isMutuallyExclusive}">
+                <c:mutuallyExclusivePropertyPage aura:id="mutuallyExclusive" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </aura:if>
+        </div>
+
+        <div class="slds-form-element">
+            <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isSoqlLoad}">
+                <c:soqlLoadNodePropertyPage aura:id="soqlLoadNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </aura:if>
+        </div>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isFilter}">
+            <div class="slds-form-element">
+                <c:filterNodePropertyPage aura:id="filterNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isUnion}">
+            <div class="slds-form-element">
+                <c:unionNodePropertyPage aura:id="unionNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isRecommendationLimit}">
+            <div class="slds-form-element">
+                <c:recommendationLimitNodePropertyPage aura:id="recommendationLimitNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isSort}">
+            <div class="slds-form-element">
+                <c:sortPropertyPage aura:id="sortNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isExternalConnection}">
+            <div class="slds-form-element">
+                <c:externalConnectionPropertyPage aura:id="externalConnectionNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v._currentNodeDirty &amp;&amp; v._isRecordJoin}">
+            <div class="slds-form-element">
+                <c:recordJoinPropertyPage aura:id="recordJoinNode" currentNode="{!v._currentNodeDirty}" />
+                <aura:set attribute="else">
+                    <div class="hidden" />
+                </aura:set>
+            </div>
+        </aura:if>
+
+        <div class="slds-form-element">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_6-of-12">
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-float_right">
+                        <lightning:button variant="brand" label="Save" onclick="{!c.handleSaveClick}" disabled="{!v.currentNode == null}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

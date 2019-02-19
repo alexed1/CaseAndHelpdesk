@@ -1,0 +1,18 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">
+    <aura:handler value="{!this}" name="init" action="{!c.invoke}"/>
+    <aura:attribute name="StatusOrder" type="String"/>
+    <aura:attribute name="SelectedStatusOrder" type="String"/>
+    <aura:attribute name="isEditScreen" type="Boolean" default="false"/>
+    <aura:attribute name="options" type="List" default="[]"/>
+    <aura:attribute name="values" type="List" default="[]"/>
+    
+    <lightning:dualListbox name="CaseStatusOrderList"
+                           label= "Order Case Stages"
+                           sourceLabel="Available" 
+                           selectedLabel="Selected" 
+                           fieldLevelHelp="Select You New Order For Status"
+                           options="{!v.options}"
+                           value="{!v.values}"
+                           onchange="{! c.handleChange }"
+                           />
+</aura:component>

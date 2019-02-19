@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>Cogito Speaking Slowly Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Cogito Speaking Slowly Flow</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>Speaking_Slowly_Screen</name>
+        <label>Speaking Slowly Screen</label>
+        <locationX>522</locationX>
+        <locationY>184</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Speaking_Slowly_Text</name>
+            <fieldText>Speaking Slowly</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <startElementReference>Speaking_Slowly_Screen</startElementReference>
+    <status>Active</status>
+</Flow>

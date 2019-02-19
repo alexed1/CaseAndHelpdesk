@@ -1,0 +1,50 @@
+<!--
+- Created by Shubham on 2/1/2019.
+-->
+
+<aura:component description="caseMgmt_CaseRecordTypePicklist" implements="lightning:availableForFlowScreens" access="global">
+    <aura:handler name="init" action="{!c.invoke}" value="{!this}"/>
+    <aura:attribute name="SelectedRecordTypeId" type="String"/>
+    <aura:attribute name="Options" type="List" default="[]"/>
+    <aura:attribute name="LabelPicklist" type="String"/>
+    <aura:attribute name="recordTypeCSV" type="String"/>
+    <aura:attribute name="selectedFlow" type="String"/>
+
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Run which Flow when this step is started')}">
+        <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
+            <!--<option label="Case_Step_Management" value="Case_Step_Management"/>
+            <option label="Sample_Send_Email_For_Case_Management" value="Sample_Send_Email_For_Case_Management"/>-->
+            <aura:iteration items="{!v.Options}" var="option">
+                <option label="{!option.label}" value="{!option.value}"/>
+            </aura:iteration>
+        </lightning:select>
+    </aura:if>
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Associate Predecessor')}">
+        <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
+            <option label="None" value="None"/>
+            <aura:iteration items="{!v.Options}" var="option">
+                <option label="{!option.label}" value="{!option.value}"/>
+            </aura:iteration>
+        </lightning:select>
+    </aura:if>
+
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Add to which Case Status')}">
+        <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
+
+            <aura:iteration items="{!v.Options}" var="option">
+                <option label="{!option.label}" value="{!option.value}"/>
+            </aura:iteration>
+        </lightning:select>
+    </aura:if>
+
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Record Type')}">
+        <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
+            <option label="None" value="None"/>
+            <aura:iteration items="{!v.Options}" var="option">
+                <option label="{!option.label}" value="{!option.value}"/>
+            </aura:iteration>
+        </lightning:select>
+    </aura:if>
+
+
+</aura:component>
