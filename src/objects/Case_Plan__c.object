@@ -47,7 +47,6 @@
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
-    <enableLicensing>false</enableLicensing>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
@@ -55,7 +54,7 @@
     <fields>
         <fullName>CaseStatusOrdering__c</fullName>
         <externalId>false</externalId>
-        <label>CaseStatusOrdering</label>
+        <label>Case Status Ordering</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -66,7 +65,7 @@
     <fields>
         <fullName>RecordTypeId__c</fullName>
         <externalId>false</externalId>
-        <label>RecordTypeId</label>
+        <label>Record Type Id</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -77,7 +76,7 @@
     <fields>
         <fullName>RecordType_SupportProcess__c</fullName>
         <externalId>false</externalId>
-        <label>RecordType/SupportProcess</label>
+        <label>Record Type / Support Process</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -85,36 +84,10 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <fields>
-        <fullName>Status__c</fullName>
-        <externalId>false</externalId>
-        <label>Status</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <restricted>true</restricted>
-            <valueSetDefinition>
-                <sorted>false</sorted>
-                <value>
-                    <fullName>Active</fullName>
-                    <default>false</default>
-                    <label>Active</label>
-                </value>
-                <value>
-                    <fullName>Inactive</fullName>
-                    <default>true</default>
-                    <label>Inactive</label>
-                </value>
-            </valueSetDefinition>
-        </valueSet>
-    </fields>
     <label>Case Plan</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Status__c</columns>
         <columns>CaseStatusOrdering__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>

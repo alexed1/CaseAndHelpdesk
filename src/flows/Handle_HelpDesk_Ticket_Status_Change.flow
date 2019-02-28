@@ -2,49 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <processMetadataValues>
-            <name>postTarget</name>
-            <value>
-                <stringValue>Helpdesk</stringValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>textJson</name>
-            <value>
-                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;New ticket {![HelpDesk_Ticket__c].Name} has been created.\nClick on below link to see more details.\n{![HelpDesk_Ticket__c].Base_URL__c}{![HelpDesk_Ticket__c].Id}&quot;}</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myRule_1_A1</name>
-        <label>Post to Chatter Group</label>
-        <locationX>100</locationX>
-        <locationY>200</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <connector>
-            <targetReference>myRule_1_A2</targetReference>
-        </connector>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <stringValue>New ticket {!myVariable_current.Name} has been created.
-Click on below link to see more details.
-{!myVariable_current.Base_URL__c}{!myVariable_current.Id}</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-            <value>
-                <stringValue>GROUP</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>subjectNameOrId</name>
-            <value>
-                <stringValue>0F9B0000000TRQ4KAO</stringValue>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <processMetadataValues>
             <name>ActionCallType</name>
             <value>
                 <stringValue>flow</stringValue>
@@ -56,10 +13,10 @@ Click on below link to see more details.
                 <stringValue>HelpDesk Notify Group</stringValue>
             </value>
         </processMetadataValues>
-        <name>myRule_1_A2</name>
-        <label>Call Notify Group FLow</label>
+        <name>myRule_1_A1</name>
+        <label>Call Notify Group Flow</label>
         <locationX>100</locationX>
-        <locationY>300</locationY>
+        <locationY>200</locationY>
         <actionName>HelpDesk_Notify_Group</actionName>
         <actionType>flow</actionType>
         <inputParameters>
@@ -513,7 +470,7 @@ Click on below link to see more details.
         </rules>
     </decisions>
     <description>This process will be fired everytime helpdesk ticket status changes to New or Assigned</description>
-    <interviewLabel>Handle_HelpDesk_Ticket_Status_Change-19_InterviewLabel</interviewLabel>
+    <interviewLabel>Handle_HelpDesk_Ticket_Status_Change-21_InterviewLabel</interviewLabel>
     <label>Handle HelpDesk Ticket Status Change</label>
     <processMetadataValues>
         <name>ObjectType</name>

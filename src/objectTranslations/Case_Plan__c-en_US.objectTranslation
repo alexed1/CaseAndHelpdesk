@@ -9,28 +9,16 @@
         <value>Case Plans</value>
     </caseValues>
     <fields>
-        <label><!-- CaseStatusOrdering --></label>
+        <label><!-- Case Status Ordering --></label>
         <name>CaseStatusOrdering__c</name>
     </fields>
     <fields>
-        <label><!-- RecordTypeId --></label>
+        <label><!-- Record Type Id --></label>
         <name>RecordTypeId__c</name>
     </fields>
     <fields>
-        <label><!-- RecordType/SupportProcess --></label>
+        <label><!-- Record Type / Support Process --></label>
         <name>RecordType_SupportProcess__c</name>
-    </fields>
-    <fields>
-        <label><!-- Status --></label>
-        <name>Status__c</name>
-        <picklistValues>
-            <masterLabel>Active</masterLabel>
-            <translation><!-- Active --></translation>
-        </picklistValues>
-        <picklistValues>
-            <masterLabel>Inactive</masterLabel>
-            <translation><!-- Inactive --></translation>
-        </picklistValues>
     </fields>
     <startsWith>Consonant</startsWith>
     <webLinks>

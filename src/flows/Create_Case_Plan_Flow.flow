@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Fetch_Selected_Case_Picklist</name>
         <label>Fetch Selected Case Picklist</label>
-        <locationX>427</locationX>
-        <locationY>381</locationY>
+        <locationX>432</locationX>
+        <locationY>380</locationY>
         <actionName>CaseMgmt_CasePlanController</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -21,32 +21,11 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
-    <actionCalls>
-        <name>Update_Case_Status_Order</name>
-        <label>Update Case Status Order</label>
-        <locationX>1358</locationX>
-        <locationY>388</locationY>
-        <actionName>CaseMgmt_CasePlanController</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Manage_Case_Plan_Edit</targetReference>
-        </connector>
-        <inputParameters>
-            <name>RecordIdList</name>
-            <value>
-                <elementReference>SelectedRecordType</elementReference>
-            </value>
-        </inputParameters>
-        <outputParameters>
-            <assignToReference>CaseStatesOrder</assignToReference>
-            <name>output</name>
-        </outputParameters>
-    </actionCalls>
     <assignments>
         <name>Assign_Selected_RecordTypeId</name>
         <label>Assign Selected RecordTypeId</label>
-        <locationX>494</locationX>
-        <locationY>231</locationY>
+        <locationX>591</locationX>
+        <locationY>235</locationY>
         <assignmentItems>
             <assignToReference>SelectedRecordType</assignToReference>
             <operator>Assign</operator>
@@ -75,41 +54,57 @@
         </connector>
     </assignments>
     <assignments>
-        <name>AssignCaseStatusOrder</name>
-        <label>AssignCaseStatusOrder</label>
-        <locationX>1106</locationX>
-        <locationY>389</locationY>
+        <name>Create_Assignment</name>
+        <label>Create Assignment</label>
+        <locationX>1215</locationX>
+        <locationY>149</locationY>
         <assignmentItems>
-            <assignToReference>selectedCaseStatusOrder</assignToReference>
+            <assignToReference>createPlanStep</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>storeCasePlanRecord.CaseStatusOrdering__c</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_Case_Status_Order</targetReference>
+            <targetReference>manage_Case_Steps</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Empty_Selectd</name>
-        <label>Empty Selectd</label>
-        <locationX>760</locationX>
-        <locationY>376</locationY>
+        <name>Delete_Assignment</name>
+        <label>Delete Assignment</label>
+        <locationX>1481</locationX>
+        <locationY>253</locationY>
         <assignmentItems>
-            <assignToReference>SelectedRecordType</assignToReference>
+            <assignToReference>DeletePlanStep</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue></stringValue>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Edit_Case_Plan_Screen</targetReference>
+            <targetReference>manage_Case_Steps</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Edit_Assignment</name>
+        <label>Edit Assignment</label>
+        <locationX>1570</locationX>
+        <locationY>520</locationY>
+        <assignmentItems>
+            <assignToReference>editPlanStep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>manage_Case_Steps</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>GetCasePlanData</name>
         <label>GetCasePlanData</label>
-        <locationX>663</locationX>
+        <locationX>308</locationX>
         <locationY>775</locationY>
         <assignmentItems>
             <assignToReference>SelectedId</assignToReference>
@@ -119,30 +114,62 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_Other_Case_Plan</targetReference>
+            <targetReference>Get_Case_Plan_After_Update</targetReference>
         </connector>
     </assignments>
     <choices>
         <name>create_Choice</name>
-        <choiceText>Create</choiceText>
+        <choiceText>Create New Case Plan</choiceText>
         <dataType>String</dataType>
         <value>
             <elementReference>CreateCasePlan</elementReference>
         </value>
     </choices>
     <choices>
-        <name>edit_choice</name>
+        <name>DefineNewPlanStep</name>
+        <choiceText>Define New Plan Step</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Create</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Delete</name>
+        <choiceText>Delete</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Delete</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Edit</name>
         <choiceText>Edit</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Update</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>edit_choice</name>
+        <choiceText>Edit Existing Case Plan</choiceText>
         <dataType>String</dataType>
         <value>
             <elementReference>EditCasePlan</elementReference>
         </value>
     </choices>
+    <choices>
+        <name>ModifyExistingPlanStep</name>
+        <choiceText>Modify Existing Plan Step</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Edit</stringValue>
+        </value>
+    </choices>
     <decisions>
         <name>Case_Plan_Exist</name>
         <label>Case Plan Exist</label>
-        <locationX>499</locationX>
-        <locationY>61</locationY>
+        <locationX>539</locationX>
+        <locationY>66</locationY>
         <defaultConnector>
             <targetReference>Error</targetReference>
         </defaultConnector>
@@ -195,40 +222,87 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Empty_Selectd</targetReference>
+                <targetReference>Edit_Case_Plan_Screen</targetReference>
             </connector>
             <label>isEdit</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_RecordType_Changed</name>
-        <label>Check RecordType Changed</label>
-        <locationX>1097</locationX>
-        <locationY>244</locationY>
-        <defaultConnector>
-            <targetReference>Update_Case_Status_Order</targetReference>
-        </defaultConnector>
+        <name>Check_Output</name>
+        <label>Check Output</label>
+        <locationX>1613</locationX>
+        <locationY>734</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Record_Type_Chnaged</name>
+            <name>Is_Flow_Call_By_Admin</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SelectedRecordType</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>Output</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <elementReference>storeCasePlanRecord.RecordTypeId__c</elementReference>
+                    <stringValue>Created By User</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>AssignCaseStatusOrder</targetReference>
+                <targetReference>Get_Plan_Steps_Of_Case_Plan</targetReference>
             </connector>
-            <label>Record Type Not Chnaged</label>
+            <label>Is Flow Call By Admin</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Selected_Id_is_Null</name>
+        <label>Check Selected Id is Null</label>
+        <locationX>1013</locationX>
+        <locationY>232</locationY>
+        <defaultConnector>
+            <targetReference>Get_Selected_Case_Plan</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Id_Selected</targetReference>
+            </connector>
+            <label>Is Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckSelecttion</name>
+        <label>CheckSelecttion</label>
+        <locationX>1357</locationX>
+        <locationY>273</locationY>
+        <defaultConnector>
+            <targetReference>Type_of_Modification</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Selected_Id_Is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SelectedPlanStepId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Screen</targetReference>
+            </connector>
+            <label>Selected Id Is Null</label>
         </rules>
     </decisions>
     <decisions>
         <name>CreateOrEdit</name>
         <label>Create Or Edit</label>
-        <locationX>192</locationX>
+        <locationX>245</locationX>
         <locationY>337</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -262,10 +336,123 @@
             <label>Edit Case Plan</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Modification_Type</name>
+        <label>Modification Type</label>
+        <locationX>1204</locationX>
+        <locationY>421</locationY>
+        <defaultConnector>
+            <targetReference>Get_New_Records_for_Case_Plan</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Define_New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>DefineNewPlanStep</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Assignment</targetReference>
+            </connector>
+            <label>Define New</label>
+        </rules>
+        <rules>
+            <name>Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CheckSelecttion</targetReference>
+            </connector>
+            <label>Modification</label>
+        </rules>
+        <rules>
+            <name>Modification_Not_Checked_But_Option_Selected</name>
+            <conditionLogic>(1 AND 2) AND (3 OR 4)</conditionLogic>
+            <conditions>
+                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>DefineNewPlanStep</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Edit</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Delete</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>No_Modification_Selected</targetReference>
+            </connector>
+            <label>Modification Not Checked But Option Selected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Type_of_Modification</name>
+        <label>Type of Modification</label>
+        <locationX>1472</locationX>
+        <locationY>628</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>DeleteModification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Delete</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Assignment</targetReference>
+            </connector>
+            <label>Delete</label>
+        </rules>
+        <rules>
+            <name>EditModification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Edit</leftValueReference>
+                <operator>WasSelected</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Edit_Assignment</targetReference>
+            </connector>
+            <label>Edit</label>
+        </rules>
+    </decisions>
     <formulas>
         <name>fieldsDataCSV</name>
         <dataType>String</dataType>
-        <expression>{!loopRecordVar.Id}&amp;&quot;,&quot;&amp;{!loopRecordVar.Name}&amp;&quot;,&quot;&amp;{!loopRecordVar.CaseStatusOrdering__c}&amp;&quot;,&quot;&amp;{!casePlanStatus}&amp;&quot;,&quot;&amp;{!loopRecordVar.RecordType_SupportProcess__c}</expression>
+        <expression>{!loopRecordVar.Id}&amp;&quot;,&quot;&amp;{!loopRecordVar.Name}&amp;&quot;,&quot;&amp;{!loopRecordVar.CaseStatusOrdering__c}&amp;&quot;,&quot;&amp;{!loopRecordVar.RecordType_SupportProcess__c}</expression>
     </formulas>
     <formulas>
         <name>RecordTypeCSVFormula</name>
@@ -305,11 +492,11 @@
     <recordCreates>
         <name>Create_Case_Plan_Record</name>
         <label>Create Case Plan Record</label>
-        <locationX>523</locationX>
-        <locationY>776</locationY>
+        <locationX>43</locationX>
+        <locationY>666</locationY>
         <assignRecordIdToReference>CasePlanRecordVar.Id</assignRecordIdToReference>
         <connector>
-            <targetReference>GetCasePlanData</targetReference>
+            <targetReference>Case_Plan_Created</targetReference>
         </connector>
         <inputAssignments>
             <field>CaseStatusOrdering__c</field>
@@ -320,7 +507,7 @@
         <inputAssignments>
             <field>Name</field>
             <value>
-                <elementReference>CasePlanName</elementReference>
+                <elementReference>Case_Plan_Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -335,19 +522,13 @@
                 <elementReference>SelectedRecordTypeValue.DeveloperName</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>Active</stringValue>
-            </value>
-        </inputAssignments>
         <object>Case_Plan__c</object>
     </recordCreates>
     <recordLookups>
         <name>Get_Case_Plan</name>
         <label>Get Case Plan</label>
-        <locationX>285</locationX>
-        <locationY>167</locationY>
+        <locationX>353</locationX>
+        <locationY>195</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Case_Plan_Exist</targetReference>
@@ -357,18 +538,17 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>Name</queriedFields>
-        <queriedFields>Status__c</queriedFields>
         <queriedFields>RecordType_SupportProcess__c</queriedFields>
         <queriedFields>RecordTypeId__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>Get_Case_Plan_After_Update</name>
         <label>Get Case Plan After Update</label>
-        <locationX>926</locationX>
-        <locationY>655</locationY>
+        <locationX>498</locationX>
+        <locationY>775</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Update_Custom_Setting_For_Selected</targetReference>
+            <targetReference>Get_Plan_Steps_Of_Case_Plan</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -384,7 +564,47 @@
         <queriedFields>RecordType_SupportProcess__c</queriedFields>
         <queriedFields>RecordTypeId__c</queriedFields>
         <queriedFields>Name</queriedFields>
-        <queriedFields>Status__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_New_Records_for_Case_Plan</name>
+        <label>Get New Records for Case Plan</label>
+        <locationX>997</locationX>
+        <locationY>409</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>New_Case_Plan_List</targetReference>
+        </connector>
+        <object>Case_Plan__c</object>
+        <outputReference>casePlanRecordList</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>CaseStatusOrdering__c</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>RecordType_SupportProcess__c</queriedFields>
+        <queriedFields>RecordTypeId__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Plan_Steps_Of_Case_Plan</name>
+        <label>Get Plan Steps Of Case Plan</label>
+        <locationX>1216</locationX>
+        <locationY>734</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Manage_Plan_Steps</targetReference>
+        </connector>
+        <filters>
+            <field>Case_Plan__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>storeCasePlanRecord.Id</elementReference>
+            </value>
+        </filters>
+        <object>Plan_Step__c</object>
+        <outputReference>PlanStepRecordsList</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Flow__c</queriedFields>
+        <queriedFields>Associate_Case_Status__c</queriedFields>
+        <queriedFields>Start_When__c</queriedFields>
+        <queriedFields>Name</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>Get_Record_Type</name>
@@ -410,8 +630,8 @@
     <recordLookups>
         <name>Get_Selected_Case_Plan</name>
         <label>Get Selected Case Plan</label>
-        <locationX>617</locationX>
-        <locationY>229</locationY>
+        <locationX>790</locationX>
+        <locationY>235</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Selected_RecordTypeId</targetReference>
@@ -428,15 +648,14 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>Name</queriedFields>
-        <queriedFields>Status__c</queriedFields>
         <queriedFields>RecordType_SupportProcess__c</queriedFields>
         <queriedFields>RecordTypeId__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>GetSelectedRecordType</name>
         <label>GetSelectedRecordType</label>
-        <locationX>948</locationX>
-        <locationY>509</locationY>
+        <locationX>733</locationX>
+        <locationY>512</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Edited_Record_case_Plan</targetReference>
@@ -456,8 +675,8 @@
     <recordLookups>
         <name>GetSelectedRecordTypeDataCreate</name>
         <label>GetSelectedRecordTypeDataCreate</label>
-        <locationX>410</locationX>
-        <locationY>683</locationY>
+        <locationX>319</locationX>
+        <locationY>586</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Case_Plan_Record</targetReference>
@@ -475,35 +694,12 @@
         <queriedFields>DeveloperName</queriedFields>
     </recordLookups>
     <recordUpdates>
-        <name>Update_Custom_Setting_For_Selected</name>
-        <label>Update Custom Setting For Selected</label>
-        <locationX>1105</locationX>
-        <locationY>655</locationY>
-        <connector>
-            <targetReference>manage_Case_Steps</targetReference>
-        </connector>
-        <filters>
-            <field>Support_Process__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>SupportProcessData.Name</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Case_Plan__c</field>
-            <value>
-                <elementReference>SelectedId</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Case_Plan_Support_Process__c</object>
-    </recordUpdates>
-    <recordUpdates>
         <name>Update_Edited_Record_case_Plan</name>
         <label>Update Edited Record case Plan</label>
-        <locationX>763</locationX>
-        <locationY>508</locationY>
+        <locationX>733</locationX>
+        <locationY>680</locationY>
         <connector>
-            <targetReference>Update_Other_Case_Plan</targetReference>
+            <targetReference>Get_Case_Plan_After_Update</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -530,37 +726,28 @@
                 <elementReference>SelectedRecordTypeValue.DeveloperName</elementReference>
             </value>
         </inputAssignments>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>Active</stringValue>
-            </value>
-        </inputAssignments>
         <object>Case_Plan__c</object>
     </recordUpdates>
-    <recordUpdates>
-        <name>Update_Other_Case_Plan</name>
-        <label>Update Other Case Plan</label>
-        <locationX>764</locationX>
-        <locationY>657</locationY>
+    <screens>
+        <name>Case_Plan_Created</name>
+        <label>Case Plan Created</label>
+        <locationX>173</locationX>
+        <locationY>776</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Case_Plan_After_Update</targetReference>
+            <targetReference>GetCasePlanData</targetReference>
         </connector>
-        <filters>
-            <field>Id</field>
-            <operator>NotEqualTo</operator>
-            <value>
-                <elementReference>SelectedId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>Inactive</stringValue>
-            </value>
-        </inputAssignments>
-        <object>Case_Plan__c</object>
-    </recordUpdates>
+        <fields>
+            <name>CasePlanSuccessMessage</name>
+            <fieldText>Case Plan {!Case_Plan_Name} Created
+Click on the Next button to manage case steps for this case plan</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <screens>
         <name>Create_Case_Plan_Screen</name>
         <label>Create Case Plan Screen</label>
@@ -573,11 +760,9 @@
             <targetReference>GetSelectedRecordTypeDataCreate</targetReference>
         </connector>
         <fields>
-            <name>CasePlanName</name>
-            <dataType>String</dataType>
-            <fieldText>Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <name>ManageCaseStatusOrder</name>
+            <fieldText>Manage Case Status Order</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>caseStatusDualListBox</name>
@@ -595,14 +780,19 @@
                 <name>StatusOrder</name>
             </outputParameters>
         </fields>
+        <fields>
+            <name>DisplayToolTip</name>
+            <fieldText>Case Plans allow you to specify the order in which the case transitions through its stages.</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>CreateCase_Plan</name>
         <label>Select Choice</label>
-        <locationX>161</locationX>
-        <locationY>119</locationY>
+        <locationX>169</locationX>
+        <locationY>51</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -614,7 +804,7 @@
             <choiceReferences>create_Choice</choiceReferences>
             <choiceReferences>edit_choice</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Select Your Choice For Case Plan</fieldText>
+            <fieldText>Case Plan Manager</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -624,13 +814,13 @@
     <screens>
         <name>Edit_Case_Plan_Screen</name>
         <label>Edit Case Plan Screen</label>
-        <locationX>943</locationX>
-        <locationY>377</locationY>
+        <locationX>739</locationX>
+        <locationY>383</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Check_RecordType_Changed</targetReference>
+            <targetReference>Manage_Case_Plan_Edit</targetReference>
         </connector>
         <fields>
             <name>Name</name>
@@ -638,37 +828,14 @@
             <defaultValue>
                 <elementReference>storeCasePlanRecord.Name</elementReference>
             </defaultValue>
-            <fieldText>Name</fieldText>
+            <fieldText>Case Plan Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <fields>
-            <name>RecordTypeEdit</name>
-            <extensionName>c:caseMgmt_CaseRecordTypePicklist</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>LabelPicklist</name>
-                <value>
-                    <stringValue>Record Type</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>recordTypeCSV</name>
-                <value>
-                    <elementReference>RecordTypeCSVVar</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedRecordTypeId</name>
-                <value>
-                    <elementReference>SelectedRecordType</elementReference>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>SelectedRecordType</assignToReference>
-                <name>SelectedRecordTypeId</name>
-            </outputParameters>
+            <name>RecordType</name>
+            <fieldText>Record Type: {!storeCasePlanRecord.RecordType_SupportProcess__c}</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -676,8 +843,8 @@
     <screens>
         <name>Error</name>
         <label>Error!!</label>
-        <locationX>291</locationX>
-        <locationY>52</locationY>
+        <locationX>301</locationX>
+        <locationY>50</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -693,19 +860,38 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Existing_Case_Plan</name>
-        <label>Existing Case Plan</label>
-        <locationX>789</locationX>
-        <locationY>125</locationY>
+        <name>Error_Screen</name>
+        <label>Error Screen</label>
+        <locationX>1361</locationX>
+        <locationY>582</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Selected_Case_Plan</targetReference>
+            <targetReference>Manage_Plan_Steps</targetReference>
+        </connector>
+        <fields>
+            <name>ErrorMessageNoID</name>
+            <fieldText>Please select a record from table and then click next.</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Existing_Case_Plan</name>
+        <label>Existing Case Plan</label>
+        <locationX>790</locationX>
+        <locationY>60</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Check_Selected_Id_is_Null</targetReference>
         </connector>
         <fields>
             <name>DisplayHeaderForExistngCasePlan</name>
-            <fieldText>Select case Plan To Edit</fieldText>
+            <fieldText>Select Case Plan to Edit</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -742,14 +928,19 @@
     <screens>
         <name>Manage_Case_Plan_Edit</name>
         <label>Manage Case Plan</label>
-        <locationX>1164</locationX>
-        <locationY>509</locationY>
+        <locationX>889</locationX>
+        <locationY>513</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
             <targetReference>GetSelectedRecordType</targetReference>
         </connector>
+        <fields>
+            <name>ScreenMessage</name>
+            <fieldText>Configure Case Plan</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>CaseStatusEditComponent</name>
             <extensionName>c:caseMgmt_CaseStatusDualListBox</extensionName>
@@ -769,17 +960,161 @@
             <inputParameters>
                 <name>SelectedStatusOrder</name>
                 <value>
-                    <elementReference>selectedCaseStatusOrder</elementReference>
+                    <elementReference>storeCasePlanRecord.CaseStatusOrdering__c</elementReference>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>CaseStatesOrder</assignToReference>
-                <name>StatusOrder</name>
+                <name>SelectedValue</name>
             </outputParameters>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manage_Plan_Steps</name>
+        <label>Manage Plan Steps</label>
+        <locationX>1216</locationX>
+        <locationY>583</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Modification_Type</targetReference>
+        </connector>
+        <fields>
+            <name>Manage_Plan_Step</name>
+            <choiceReferences>DefineNewPlanStep</choiceReferences>
+            <choiceReferences>ModifyExistingPlanStep</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Manage Plan Steps</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>PlanStepDataTable</name>
+            <extensionName>c:caseMgmt_CaseStepDataTable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>columnsStr</name>
+                <value>
+                    <elementReference>PlanStepFields</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>isCasePlan</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectArrayCaseStep</name>
+                <value>
+                    <elementReference>PlanStepRecordsList</elementReference>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>SelectedPlanStepId</assignToReference>
+                <name>recordId</name>
+            </outputParameters>
+        </fields>
+        <fields>
+            <name>What_Kind_Of_Modification_Needed</name>
+            <choiceReferences>Edit</choiceReferences>
+            <choiceReferences>Delete</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>What Kind Of Modification Needed</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>New_Case_Plan_List</name>
+        <label>New Case Plan List</label>
+        <locationX>1093</locationX>
+        <locationY>320</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>YourCasePlan</name>
+            <fieldText>Case Plan Setup Completed!</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>NewCasePlanTable</name>
+            <extensionName>c:caseMgmt_CaseStepDataTable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>isCasePlan</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnsStr</name>
+                <value>
+                    <elementReference>CasePlanColumns</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectArrayCasePlan</name>
+                <value>
+                    <elementReference>casePlanRecordList</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>maxRowSelection</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>No_Id_Selected</name>
+        <label>No Id Selected</label>
+        <locationX>1016</locationX>
+        <locationY>56</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Existing_Case_Plan</targetReference>
+        </connector>
+        <fields>
+            <name>ErrorNoId</name>
+            <fieldText>No Record Selected From Case Plan, Please Select One Record.</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>No_Modification_Selected</name>
+        <label>No Modification Selected</label>
+        <locationX>1006</locationX>
+        <locationY>575</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Manage_Plan_Steps</targetReference>
+        </connector>
+        <fields>
+            <name>NoModificationError</name>
+            <fieldText>Please select &apos;Modify Existing Plan Step&apos; from above choices, then select a record and chose one modification type!</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>RecordTypeSelectScreen</name>
@@ -794,8 +1129,15 @@
         </connector>
         <fields>
             <name>DisplaytextRecordTypeScreen</name>
-            <fieldText>Select Record Type</fieldText>
+            <fieldText>Create New Case Plan</fieldText>
             <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Case_Plan_Name</name>
+            <dataType>String</dataType>
+            <fieldText>Case Plan Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
         </fields>
         <fields>
             <name>caseRecordTypeComponent</name>
@@ -816,7 +1158,7 @@
             <inputParameters>
                 <name>LabelPicklist</name>
                 <value>
-                    <stringValue>Record Type</stringValue>
+                    <stringValue>Link this Case Plan to Support Process</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -833,8 +1175,11 @@
     <subflows>
         <name>manage_Case_Steps</name>
         <label>manage Case Step</label>
-        <locationX>1324</locationX>
-        <locationY>655</locationY>
+        <locationX>1614</locationX>
+        <locationY>155</locationY>
+        <connector>
+            <targetReference>Check_Output</targetReference>
+        </connector>
         <flowName>Create_Case_Step_Flow</flowName>
         <inputAssignments>
             <name>CaseId</name>
@@ -852,14 +1197,42 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>Create</name>
+            <value>
+                <elementReference>createPlanStep</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>Delete</name>
+            <value>
+                <elementReference>DeletePlanStep</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>Edit</name>
+            <value>
+                <elementReference>editPlanStep</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>isAdmin</name>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <name>SelectedPlanStepId</name>
+            <value>
+                <elementReference>SelectedPlanStepId</elementReference>
+            </value>
+        </inputAssignments>
         <outputAssignments>
             <assignToReference>Message</assignToReference>
             <name>Message</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>Output</assignToReference>
+            <name>Output</name>
         </outputAssignments>
     </subflows>
     <variables>
@@ -869,7 +1242,7 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <value>
-            <stringValue>Name,Name,text;CaseStatusOrdering,CaseStatusOrdering__c,text;Status,Status__c,text;SupportProcess,RecordType_SupportProcess__c,text</stringValue>
+            <stringValue>Name,Name,text;Case Status Ordering,CaseStatusOrdering__c,text;Support Process,RecordType_SupportProcess__c,text</stringValue>
         </value>
     </variables>
     <variables>
@@ -889,13 +1262,6 @@
         <objectType>Case_Plan__c</objectType>
     </variables>
     <variables>
-        <name>casePlanStatus</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
         <name>CaseStatesOrder</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -913,21 +1279,14 @@
         </value>
     </variables>
     <variables>
-        <name>CreateCaseStep</name>
+        <name>createPlanStep</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>dataArr</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>DeleteCaseStep</name>
+        <name>DeletePlanStep</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -944,23 +1303,8 @@
         </value>
     </variables>
     <variables>
-        <name>EditCaseStep</name>
+        <name>editPlanStep</name>
         <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>ExistActiveCasePlan</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>flowCSV</name>
-        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
@@ -987,6 +1331,31 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>Output</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>PlanStepFields</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>Name,Name,text;Parent/Predecessor,Start_When__c,text;;Flow,Flow__c,text</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>PlanStepRecordsList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Plan_Step__c</objectType>
     </variables>
     <variables>
         <name>RecordTypeCSVVar</name>
@@ -1018,8 +1387,8 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>selectedPicklist</name>
-        <dataType>Picklist</dataType>
+        <name>SelectedPlanStepId</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
@@ -1046,20 +1415,5 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>SupportProcessData</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>BusinessProcess</objectType>
-    </variables>
-    <variables>
-        <name>updatedStatusOrder</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
     </variables>
 </Flow>

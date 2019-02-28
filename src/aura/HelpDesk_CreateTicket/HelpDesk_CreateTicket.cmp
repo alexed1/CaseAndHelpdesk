@@ -1,4 +1,0 @@
-<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable" access="global">
-    <aura:handler name="init" value="{!this}" action="{!c.init}" />
-    <lightning:flow aura:id="flowData" />
-</aura:component>

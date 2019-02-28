@@ -126,7 +126,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>caseMgmt_CasePlan</componentName>
+            <componentName>CasePlan</componentName>
         </componentInstances>
         <componentInstances>
             <componentName>Cogito_In_Case</componentName>

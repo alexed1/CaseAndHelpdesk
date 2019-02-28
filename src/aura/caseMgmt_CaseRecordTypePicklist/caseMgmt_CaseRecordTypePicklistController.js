@@ -21,7 +21,7 @@
                  valueForList.push({label:res[i],value:res[i],});
              }
             component.set("v.Options",valueForList);
-        }else if(component.get('v.LabelPicklist') == 'Record Type'){
+        }else if(component.get('v.LabelPicklist') == 'Link this Case Plan to Support Process'){
             var fieldNameArr = component.get('v.Options');
             var colsStr = component.get('v.recordTypeCSV');
             var colStrArr = colsStr.split(';');
@@ -36,7 +36,7 @@
                 }
                 component.set('v.Options', colArr);
             }
-        }else if(component.get('v.LabelPicklist') == 'Associate Predecessor'){
+        }else if(component.get('v.LabelPicklist') == 'Specify a predecessor (parent) case step'){
             var fieldNameArr = component.get('v.Options');
             var colsStr = component.get('v.recordTypeCSV');
             var colStrArr = colsStr.split(';');

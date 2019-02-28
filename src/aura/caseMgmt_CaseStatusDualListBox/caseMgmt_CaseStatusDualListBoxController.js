@@ -3,39 +3,50 @@
  */
 ({
         invoke : function(component, event, helper) {
+            console.log('invoke>>>');
             if(!component.get('v.isEditScreen')){
-                console.log(component.get('v.StatusOrder'));
                 var oldOrderList = component.get('v.StatusOrder');
-                var res = oldOrderList.split(";");
+                var res;
+                if(oldOrderList){
+                   res = oldOrderList.split(";");   
+                }
                 var valueForList = [];
                 for (var i = 0; i < res.length; i++) {
                     valueForList.push({label:res[i],value:res[i],});
                 }
                 component.set("v.options",valueForList);
             }else{
+                var res;
                 var oldOrderList = component.get('v.StatusOrder');
                 var selectedOrderList = component.get('v.SelectedStatusOrder');
-                var res = oldOrderList.split(";");
+                if(oldOrderList){
+                	res = oldOrderList.split(";");
+                }
                 var selectedRes = selectedOrderList.split(";");
                 var flag =0;
                 var items = [];
                 for (var i = 0; i < res.length; i++) {
-                    flag = 0;
-                    for(var j = 0; j<selectedRes.length; j++){
-                        if(res[i] == selectedRes[j]){
-                            flag=1;
-                        }
-                    }
-                    if(flag==1){
-                        var item = {
+                    var item = {
                            "label": res[i],
                            "value": res[i],
                         };
                         items.push(item);
-                    }
                 }
+                console.log('Items: ' + items);
+                console.log('selectedRes: ' + selectedRes);
                 component.set("v.options", items);
                 component.set("v.values", selectedRes);
+                console.log('Chnage : ');
+                var selectedOptionValue = component.get("v.values");
+                var newOrder= "";
+                for(var i=0; i< selectedOptionValue.length; i++){
+                    if(newOrder.length <=0){
+                        newOrder = selectedOptionValue[i];
+                    }else{
+                        newOrder = newOrder + ";" + selectedOptionValue[i];
+                    }
+                }
+                component.set('v.SelectedValue',newOrder);
             }
          },
 
@@ -51,7 +62,7 @@
                  }
 
              }
-             component.set('v.StatusOrder',newOrder);
+             component.set('v.SelectedValue',newOrder);
 
          }
 })

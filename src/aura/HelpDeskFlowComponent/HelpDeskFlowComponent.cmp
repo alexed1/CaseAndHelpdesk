@@ -1,0 +1,33 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickAction" access="global" controller="HelpDesk_Ticket_Management_Ctrl">
+    
+    <aura:attribute name="userProfile" type="String"/>
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:HelpDeskUpdateOwnerEvt" action="{!c.handleApplicationEvent}"/>
+    
+    <aura:if isTrue="{!v.userProfile == 'HelpDesk User' || v.userProfile =='System Administrator'}">
+    	<lightning:button onclick="{!c.startTicketCreateFlow}" label="Create New Ticket" variant="brand"/>
+    </aura:if>
+    
+    <aura:if isTrue="{!(v.userProfile =='System Administrator' || v.userProfile =='HelpDesk Manager')}" >
+          <lightning:button onclick="{!c.startManageTicketFlow}" label="Manage Tickets" variant="brand"/>
+    </aura:if>
+    
+    
+    <div class="demo-only slds-hide" aura:id="modalDiv">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <div onclick="{!c.handleClose}" class="close-div slds-float_right">
+                        <lightning:icon iconName="utility:close" title="Close" alternativeText="Close" size="small"/>
+                    </div>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Help Desk Ticket</h2>
+                </header>
+                <div class="slds-modal__content" id="modal-content-id-1">
+                    <lightning:flow aura:id="flowData" />
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

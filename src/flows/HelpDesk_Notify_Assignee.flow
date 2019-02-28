@@ -27,7 +27,6 @@
         </inputParameters>
     </actionCalls>
     <interviewLabel>HelpDesk Notify Assignee {!$Flow.CurrentDateTime}</interviewLabel>
-    <isTemplate>true</isTemplate>
     <label>HelpDesk Notify Assignee</label>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -88,7 +87,7 @@
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Email_Setting__mdt</objectType>
+        <objectType>Helpdesk_Target_Email__mdt</objectType>
     </variables>
     <variables>
         <name>varEmailSetting</name>
@@ -96,7 +95,7 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Email_Setting__mdt</objectType>
+        <objectType>Helpdesk_Target_Email__mdt</objectType>
     </variables>
     <variables>
         <name>varHelpDeskRecord</name>

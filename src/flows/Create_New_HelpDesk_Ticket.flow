@@ -83,7 +83,6 @@
         <picklistObject>HelpDesk_Ticket__c</picklistObject>
     </dynamicChoiceSets>
     <interviewLabel>Create New HelpDesk Ticket {!$Flow.CurrentDateTime}</interviewLabel>
-    <isTemplate>true</isTemplate>
     <label>Create and Update HelpDesk Ticket</label>
     <processMetadataValues>
         <name>BuilderType</name>

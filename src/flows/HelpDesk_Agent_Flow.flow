@@ -30,7 +30,6 @@
         <picklistObject>HelpDesk_Ticket__c</picklistObject>
     </dynamicChoiceSets>
     <interviewLabel>HelpDesk Agent Flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <isTemplate>true</isTemplate>
     <label>HelpDesk Agent Flow</label>
     <processMetadataValues>
         <name>BuilderType</name>

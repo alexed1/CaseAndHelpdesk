@@ -1,3 +1,0 @@
-<aura:event type="COMPONENT" description="Raised when source filter requests to change its priority">
-    <aura:attribute name="destination" type="String" />
-</aura:event>

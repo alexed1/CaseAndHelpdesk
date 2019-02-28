@@ -47,34 +47,20 @@
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
-    <enableLicensing>false</enableLicensing>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
-        <fullName>Associate_Case_Status__c</fullName>
+        <fullName>Associated_Status__c</fullName>
         <externalId>false</externalId>
-        <label>Associate Case Status</label>
+        <label>Associated Status</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Case_Plan__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Case Plan</label>
-        <referenceTo>Case_Plan__c</referenceTo>
-        <relationshipLabel>Case Steps</relationshipLabel>
-        <relationshipName>Case_Steps</relationshipName>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Case__c</fullName>
@@ -90,20 +76,9 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>Error_Message__c</fullName>
+        <fullName>Flow_By_User__c</fullName>
         <externalId>false</externalId>
-        <label>Error Message</label>
-        <length>255</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Flow__c</fullName>
-        <externalId>false</externalId>
-        <label>Flow</label>
+        <label>Flow By User</label>
         <length>255</length>
         <required>false</required>
         <trackHistory>false</trackHistory>
@@ -130,224 +105,36 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>Is_Required__c</fullName>
-        <defaultValue>false</defaultValue>
+        <fullName>PlanStepOrder__c</fullName>
         <externalId>false</externalId>
-        <label>Is Required</label>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>Object_API_Name__c</fullName>
-        <externalId>false</externalId>
-        <formula>&quot;Case_Step__c&quot;</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Object API Name</label>
+        <label>PlanStepOrder</label>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>DateTime</type>
     </fields>
     <fields>
-        <fullName>Picklist_Field_API_Name__c</fullName>
-        <defaultValue>&quot;Start_When__c&quot;</defaultValue>
+        <fullName>Plan_Step__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
-        <label>Picklist Field API Name</label>
-        <length>255</length>
+        <label>Plan Step</label>
+        <referenceTo>Plan_Step__c</referenceTo>
+        <relationshipLabel>Case Steps</relationshipLabel>
+        <relationshipName>Case_Steps</relationshipName>
         <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Start_When__c</fullName>
-        <externalId>false</externalId>
-        <label>Start_When__c</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <valueSetDefinition>
-                <sorted>false</sorted>
-                <value>
-                    <fullName>Send Reports To Client</fullName>
-                    <default>false</default>
-                    <label>Send Reports To Client</label>
-                </value>
-                <value>
-                    <fullName>Request Reports</fullName>
-                    <default>false</default>
-                    <label>Request Reports</label>
-                </value>
-                <value>
-                    <fullName>Wait For Approval</fullName>
-                    <default>false</default>
-                    <label>Wait For Approval</label>
-                </value>
-                <value>
-                    <fullName>Account Setup</fullName>
-                    <default>false</default>
-                    <label>Account Setup</label>
-                </value>
-                <value>
-                    <fullName>Create Account</fullName>
-                    <default>false</default>
-                    <label>Create Account</label>
-                </value>
-                <value>
-                    <fullName>Create Contact</fullName>
-                    <default>false</default>
-                    <label>Create Contact</label>
-                </value>
-                <value>
-                    <fullName>Send Email</fullName>
-                    <default>false</default>
-                    <label>Send Email</label>
-                </value>
-                <value>
-                    <fullName>Test Case Step Internal</fullName>
-                    <default>false</default>
-                    <label>Test Case Step Internal</label>
-                </value>
-                <value>
-                    <fullName>Test Step</fullName>
-                    <default>false</default>
-                    <label>Test Step</label>
-                </value>
-                <value>
-                    <fullName>Update Opportunity</fullName>
-                    <default>false</default>
-                    <label>Update Opportunity</label>
-                </value>
-                <value>
-                    <fullName>Update Opportunity Status</fullName>
-                    <default>false</default>
-                    <label>Update Opportunity Status</label>
-                </value>
-                <value>
-                    <fullName>create Refresh</fullName>
-                    <default>false</default>
-                    <label>create Refresh</label>
-                </value>
-                <value>
-                    <fullName>test user Step</fullName>
-                    <default>false</default>
-                    <label>test user Step</label>
-                </value>
-                <value>
-                    <fullName>Case Step Testing</fullName>
-                    <default>false</default>
-                    <label>Case Step Testing</label>
-                </value>
-                <value>
-                    <fullName>Direct User</fullName>
-                    <default>false</default>
-                    <label>Direct User</label>
-                </value>
-                <value>
-                    <fullName>Test New Flow</fullName>
-                    <default>false</default>
-                    <label>Test New Flow</label>
-                </value>
-                <value>
-                    <fullName>Test 2</fullName>
-                    <default>false</default>
-                    <label>Test 2</label>
-                </value>
-                <value>
-                    <fullName>Test Case Step</fullName>
-                    <default>false</default>
-                    <label>Test Case Step</label>
-                </value>
-                <value>
-                    <fullName>Test</fullName>
-                    <default>false</default>
-                    <label>Test</label>
-                </value>
-                <value>
-                    <fullName>xyz</fullName>
-                    <default>false</default>
-                    <label>xyz</label>
-                </value>
-                <value>
-                    <fullName>Update Contact</fullName>
-                    <default>false</default>
-                    <label>Update Contact</label>
-                </value>
-                <value>
-                    <fullName>Test User 2</fullName>
-                    <default>false</default>
-                    <label>Test User 2</label>
-                </value>
-                <value>
-                    <fullName>Test User</fullName>
-                    <default>false</default>
-                    <label>Test User</label>
-                </value>
-                <value>
-                    <fullName>Add User To Public Group</fullName>
-                    <default>false</default>
-                    <label>Add User To Public Group</label>
-                </value>
-                <value>
-                    <fullName>Wait For User Response</fullName>
-                    <default>false</default>
-                    <label>Wait For User Response</label>
-                </value>
-                <value>
-                    <fullName>Create Community User</fullName>
-                    <default>false</default>
-                    <label>Create Community User</label>
-                </value>
-                <value>
-                    <fullName>Create User</fullName>
-                    <default>false</default>
-                    <label>Create User</label>
-                </value>
-                <value>
-                    <fullName>Manager Approval</fullName>
-                    <default>false</default>
-                    <label>Manager Approval</label>
-                </value>
-                <value>
-                    <fullName>IT Approvals</fullName>
-                    <default>false</default>
-                    <label>IT Approvals</label>
-                </value>
-                <value>
-                    <fullName>Request Approval</fullName>
-                    <default>false</default>
-                    <label>Request Approval</label>
-                </value>
-            </valueSetDefinition>
-        </valueSet>
-    </fields>
-    <fields>
-        <fullName>Unique_Name__c</fullName>
-        <externalId>false</externalId>
-        <formula>Object_API_Name__c + &apos;&apos; + &apos;Start When&apos; + &apos;&apos; + Name</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Unique Name</label>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
+        <type>Lookup</type>
     </fields>
     <label>Case Step</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Associate_Case_Status__c</columns>
-        <columns>Start_When__c</columns>
-        <columns>Is_Required__c</columns>
         <columns>IsCompleted__c</columns>
         <columns>Case__c</columns>
-        <columns>Case_Plan__c</columns>
+        <columns>PlanStepOrder__c</columns>
+        <columns>Associated_Status__c</columns>
+        <columns>Flow_By_User__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

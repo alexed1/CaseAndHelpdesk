@@ -3,25 +3,65 @@ global class CaseMgmt_CasePlanController {
     public static CaseManager manageCase(Id recordId){
         
         CaseManager caseManagerRecord = new CaseManager();
-        List<Id> caseStepIdList = new List<Id>();
+        caseStepWrapper caseStepWrpobj;
+        List<Plan_Step__c> planStepList = new List<Plan_Step__c>();
+        Map<Plan_Step__c,Case_Step__c> planStepAndCaseStepMap = new Map<Plan_Step__c, Case_Step__c>();
+        List<Case_Step__c> caseStepList = new List<Case_Step__c>();
+        Boolean flag = false;
         List<Case> caseRecords = new List<Case>([Select Id, Status,Case_Plan__c  From Case where Id =: recordId]);
         if(!caseRecords.isEmpty()){
             caseManagerRecord.CaseStatus = caseRecords[0].Status;
         }
-        for(Case_Plan__c casePlan : [Select Id, Status__c, CaseStatusOrdering__c  From Case_Plan__c where Id =: caseRecords[0].Case_Plan__c And Status__c = 'Active']){
-            System.debug('SD : Case Plan : ' + casePlan);
-            caseManagerRecord.recordCasePlan = casePlan;
+        for(Plan_Step__c planStepObject : [Select Id, Name, Flow__c, Start_When__c, Associate_Case_Status__c, Is_Required__c From Plan_Step__c Where Case_Plan__c =: caseRecords[0].Case_Plan__c AND Associate_Case_Status__c =: caseRecords[0].Status ORDER BY CreatedDate ASC]){
+            planStepList.add(planStepObject);
         }
-        for(Plan_Step__c planStep : [Select Id, Name, Case_Step__c, Case_Plan__c  From Plan_Step__c where Case_Plan__c =: caseManagerRecord.recordCasePlan.Id]){
-            caseManagerRecord.listOfPlanSteps.add(planStep);
-            caseStepIdList.add(planStep.Case_Step__c);
+
+        for(Case_Step__c caseStepObjt : [Select Id, Name,PlanStepOrder__c, IsCompleted__c, Is_Pending__c,Associated_Status__c,Flow_By_User__c, Case__c, Plan_Step__c From Case_Step__c Where Case__c =: recordId AND (Flow_By_User__c != null OR Plan_Step__c IN : planStepList) AND Associated_Status__c =: caseRecords[0].Status  ORDER BY PlanStepOrder__c ASC]){
+            /*for(Plan_Step__c planStepObj : planStepList){
+                if(caseStepObjt.Plan_Step__c == planStepObj.Id){
+                    planStepAndCaseStepMap.put(planStepObj,caseStepObjt);
+                }else{
+
+                }
+            }*/
+            caseStepList.add(caseStepObjt);
         }
-        for(Case_Step__c caseStep : [Select Id, Start_When__c,Associate_Case_Status__c, IsCompleted__c,Is_Pending__c,Is_Required__c, Name, Flow__c From Case_Step__c where Case__c =: recordId AND Id IN: caseStepIdList AND Associate_Case_Status__c =: caseRecords[0].Status ORDER By CreatedDate ASC ]){
-            caseManagerRecord.listOfCaseSteps.add(caseStep);
+        for(Case_Step__c caseStepObject : caseStepList){
+            flag = false;
+            for(Plan_Step__c planStepObj : planStepList){
+                if(caseStepObject.Plan_Step__c == planStepObj.Id && !flag){
+                    caseStepWrpobj = new caseStepWrapper();
+                    caseStepWrpobj.StepName =  planStepObj.Name;
+                    caseStepWrpobj.AssociateStatus = planStepObj.Associate_Case_Status__c;
+                    caseStepWrpobj.IsRequired   = planStepObj.Is_Required__c;
+                    caseStepWrpobj.StepFlow = planStepObj.Flow__c;
+                    caseStepWrpobj.PlanStepId = planStepObj.Id;
+                    caseStepWrpobj.StartWhen = planStepObj.Start_When__c;
+                    caseStepWrpobj.CaseStepId = caseStepObject.Id;
+                    caseStepWrpobj.IsCompleted = caseStepObject.IsCompleted__c;
+                    caseStepWrpobj.IsPending = caseStepObject.Is_Pending__c;
+                    caseManagerRecord.caseStepWraperList.add(caseStepWrpobj);
+                    flag = true;
+                }
+            }
+            if(!flag){
+                caseStepWrpobj = new caseStepWrapper();
+                caseStepWrpobj.StepName =  caseStepObject.Name;
+                caseStepWrpobj.AssociateStatus = caseStepObject.Associated_Status__c;
+                caseStepWrpobj.IsRequired   = false;
+                caseStepWrpobj.StepFlow = caseStepObject.Flow_By_User__c;
+                caseStepWrpobj.PlanStepId = null;
+                caseStepWrpobj.StartWhen = 'None';
+                caseStepWrpobj.CaseStepId = caseStepObject.Id;
+                caseStepWrpobj.IsCompleted = caseStepObject.IsCompleted__c;
+                caseStepWrpobj.IsPending = caseStepObject.Is_Pending__c;
+                caseManagerRecord.caseStepWraperList.add(caseStepWrpobj);
+            }
+
         }
-        
-        
-        System.debug('SD : Case Record : ' + caseManagerRecord);
+        caseManagerRecord.recordCasePlan = [SELECT Name, Id, CaseStatusOrdering__c, RecordType_SupportProcess__c, RecordTypeId__c FROM Case_Plan__c WHERE Id =: caseRecords[0].Case_Plan__c];
+
+
         return caseManagerRecord;
     }
     
@@ -82,16 +122,24 @@ global class CaseMgmt_CasePlanController {
     }
     
     public class CaseManager{
-        @auraEnabled public List<Plan_Step__c> listOfPlanSteps;
+        @auraEnabled public List<CaseMgmt_CasePlanController.caseStepWrapper> caseStepWraperList;
         @auraEnabled public String CaseStatus;
-        @auraEnabled public List<Case_Step__c> listOfCaseSteps;
         @auraEnabled public Case_Plan__c recordCasePlan;
         public CaseManager(){
-            listOfCaseSteps = new List<Case_Step__c>();
-            listOfPlanSteps = new List<Plan_Step__c>();
+            caseStepWraperList = new List<CaseMgmt_CasePlanController.caseStepWrapper>();
             CaseStatus = '';
             recordCasePlan = new Case_Plan__c();
         }
     }
-    
+    public class caseStepWrapper{
+        @auraEnabled public String StepName;
+        @auraEnabled public String StepFlow;
+        @auraEnabled public Boolean IsPending;
+        @auraEnabled public Boolean IsCompleted;
+        @auraEnabled public Boolean IsRequired;
+        @auraEnabled public String AssociateStatus;
+        @auraEnabled public String CaseStepId;
+        @auraEnabled public String PlanStepId;
+        @auraEnabled public String StartWhen;
+    }
 }

@@ -10,18 +10,10 @@
     <aura:attribute name="recordTypeCSV" type="String"/>
     <aura:attribute name="selectedFlow" type="String"/>
 
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Run which Flow when this step is started')}">
+
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Specify a predecessor (parent) case step')}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
-            <!--<option label="Case_Step_Management" value="Case_Step_Management"/>
-            <option label="Sample_Send_Email_For_Case_Management" value="Sample_Send_Email_For_Case_Management"/>-->
-            <aura:iteration items="{!v.Options}" var="option">
-                <option label="{!option.label}" value="{!option.value}"/>
-            </aura:iteration>
-        </lightning:select>
-    </aura:if>
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Associate Predecessor')}">
-        <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
-            <option label="None" value="None"/>
+
             <aura:iteration items="{!v.Options}" var="option">
                 <option label="{!option.label}" value="{!option.value}"/>
             </aura:iteration>
@@ -37,9 +29,9 @@
         </lightning:select>
     </aura:if>
 
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Record Type')}">
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Link this Case Plan to Support Process')}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
-            <option label="None" value="None"/>
+            
             <aura:iteration items="{!v.Options}" var="option">
                 <option label="{!option.label}" value="{!option.value}"/>
             </aura:iteration>

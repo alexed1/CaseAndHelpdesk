@@ -1,9 +1,0 @@
-<aura:component implements="flexipage:availableForAllPageTypes" access="global">
-    <!-- <force:utilityBarAPIAccess aura:id="utilitybar" /> -->
-    <lightning:utilityBarAPI aura:id="utilitybar"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <iframe aura:id="iframe"
-            src="https://crm.cogitocorp.com/mini?context=SFDC_LIGHTNING"
-            style="position:absolute;width:100%;height:90.5%;border-width:0;"
-    />
-</aura:component>

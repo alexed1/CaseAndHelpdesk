@@ -6,5 +6,6 @@
     <design:attribute name="StatusOrder" label="New Status Order"/>
     <design:attribute name="SelectedStatusOrder" label="Order From Case Plan"/>
     <design:attribute name="isEditScreen" label="Is Edit"/>
+    <design:attribute name="SelectedValue" label="Returned Values"/>
 
 </design:component>

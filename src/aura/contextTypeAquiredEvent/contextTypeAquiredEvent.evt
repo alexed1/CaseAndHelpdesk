@@ -1,3 +1,0 @@
-<aura:event type="APPLICATION" description="Raised when current strategy receives target context from one of the children components">
-    <aura:attribute name="contextType" type="String" />
-</aura:event>
