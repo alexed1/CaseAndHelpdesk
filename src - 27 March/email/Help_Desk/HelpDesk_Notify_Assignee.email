@@ -1,0 +1,5 @@
+Hi,
+
+New HelpDesk Ticket has been created.
+Click on the link below to see more detail::
+https://real-time-nba-demo.lightning.force.com/{!HelpDesk_Ticket__c.Id}

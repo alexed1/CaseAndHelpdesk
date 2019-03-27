@@ -1,0 +1,4 @@
+<!--c:aeEvent-->
+<aura:event type="APPLICATION">
+    <aura:attribute name="message" type="String"/>
+</aura:event>

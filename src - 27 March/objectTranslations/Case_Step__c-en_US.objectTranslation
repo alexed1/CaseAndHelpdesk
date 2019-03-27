@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Case Step</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Case Steps</value>
+    </caseValues>
+    <fields>
+        <label><!-- Associated Status --></label>
+        <name>Associated_Status__c</name>
+    </fields>
+    <fields>
+        <label><!-- Case --></label>
+        <name>Case__c</name>
+        <relationshipLabel><!-- Case Steps --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Flow By User --></label>
+        <name>Flow_By_User__c</name>
+    </fields>
+    <fields>
+        <label><!-- IsCompleted --></label>
+        <name>IsCompleted__c</name>
+    </fields>
+    <fields>
+        <label><!-- Is Pending --></label>
+        <name>Is_Pending__c</name>
+    </fields>
+    <fields>
+        <label><!-- PlanStepOrderDate --></label>
+        <name>PlanStepOrder__c</name>
+    </fields>
+    <fields>
+        <label><!-- Plan Step --></label>
+        <name>Plan_Step__c</name>
+        <relationshipLabel><!-- Case Steps --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>
