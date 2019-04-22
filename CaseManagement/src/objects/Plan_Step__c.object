@@ -142,6 +142,21 @@
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
+                    <fullName>Step 2</fullName>
+                    <default>false</default>
+                    <label>Step 2</label>
+                </value>
+                <value>
+                    <fullName>Step1</fullName>
+                    <default>false</default>
+                    <label>Step1</label>
+                </value>
+                <value>
+                    <fullName>st1</fullName>
+                    <default>false</default>
+                    <label>st1</label>
+                </value>
+                <value>
                     <fullName>Clear Record</fullName>
                     <default>false</default>
                     <label>Clear Record</label>
@@ -257,11 +272,6 @@
                     <label>Step 3</label>
                 </value>
                 <value>
-                    <fullName>Step 2</fullName>
-                    <default>false</default>
-                    <label>Step 2</label>
-                </value>
-                <value>
                     <fullName>Step 1</fullName>
                     <default>false</default>
                     <label>Step 1</label>
@@ -292,18 +302,6 @@
         <unique>false</unique>
     </fields>
     <label>Plan Step</label>
-    <listViews>
-        <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>Case_Plan__c</columns>
-        <columns>Associate_Case_Status__c</columns>
-        <columns>Flow__c</columns>
-        <columns>Start_When__c</columns>
-        <columns>CREATED_DATE</columns>
-        <columns>Is_Required__c</columns>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <label>Plan Step Name</label>
         <trackHistory>false</trackHistory>

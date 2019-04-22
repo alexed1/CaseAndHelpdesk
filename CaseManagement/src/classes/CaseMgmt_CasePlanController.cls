@@ -1,4 +1,8 @@
 global class CaseMgmt_CasePlanController {
+
+/********************************************************
+Controller for CaseMgmt_CasePlan lightning component
+*********************************************************/
     
     @auraEnabled
     public static CaseManager manageCase(Id recordId){
@@ -113,7 +117,7 @@ global class CaseMgmt_CasePlanController {
                 }
             }
         } catch( System.Exception e) {
-
+            
             throw e;
         }
         return orderStatusStringList;

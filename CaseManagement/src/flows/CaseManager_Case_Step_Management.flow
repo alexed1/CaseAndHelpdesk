@@ -102,8 +102,8 @@
             <label>Is Null</label>
         </rules>
     </decisions>
-    <interviewLabel>Case Step Management {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Case Step Management</label>
+    <interviewLabel>CaseManager Case Step Management {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CaseManager Case Step Management</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>

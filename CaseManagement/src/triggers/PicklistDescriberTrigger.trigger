@@ -1,3 +1,7 @@
+/****************
+ Purpose: Create and Update picklist and its values for plan step 
+ Handler: PicklistDescriber
+ ****************/
 trigger PicklistDescriberTrigger on Plan_Step__c (after insert, before insert, after update) {
     Set<Id> picklistDescriberIdSet = new Set<Id>();
     Map<String, Plan_Step__c> picklistIdOldValueMap = new Map<String, Plan_Step__c>();
@@ -7,7 +11,7 @@ trigger PicklistDescriberTrigger on Plan_Step__c (after insert, before insert, a
         }
         if(!picklistDescriberIdSet.isEmpty()){
             If(!test.isRunningTest()){
-            	Database.executeBatch(new PicklistDescriber(picklistDescriberIdSet, picklistIdOldValueMap));
+                Database.executeBatch(new PicklistDescriber(picklistDescriberIdSet, picklistIdOldValueMap));
             }
         }
     }
@@ -40,7 +44,7 @@ trigger PicklistDescriberTrigger on Plan_Step__c (after insert, before insert, a
         }
         if(!picklistDescriberIdSet.isEmpty()){
             If(!test.isRunningTest()){
-            	Database.executeBatch(new PicklistDescriber(picklistDescriberIdSet, picklistIdOldValueMap));
+                Database.executeBatch(new PicklistDescriber(picklistDescriberIdSet, picklistIdOldValueMap));
             }
         }
     }

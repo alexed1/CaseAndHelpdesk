@@ -1,5 +1,6 @@
 /**
  * Created by Shubham on 2/7/2019.
+ JSON response parser used in CaseMgmt_FlowRestAPI controller class
  */
 
 public with sharing class JSON2ApexFlow {

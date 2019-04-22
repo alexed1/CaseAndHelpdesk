@@ -85,13 +85,6 @@
         <unique>false</unique>
     </fields>
     <label>Case Plan</label>
-    <listViews>
-        <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>CaseStatusOrdering__c</columns>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <label>Case Plan Name</label>
         <trackHistory>false</trackHistory>

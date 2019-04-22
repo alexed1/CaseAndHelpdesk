@@ -4,9 +4,11 @@
 ({
         // Invoke Method Will Populate all the Picklist value to Dual List Box
         invoke : function(component, event, helper) {
+            console.log('status order invoke');
             component.set('v.SelectedValue','');
             //Validate Calling Screen
             if(!component.get('v.isEditScreen')){
+                console.log('status order',component.get('v.StatusOrder'));
                 //Setting up new dual list box with respected picklist values
                 var oldOrderList = component.get('v.StatusOrder');
                 var res;
@@ -19,6 +21,7 @@
                 }
                 component.set("v.options",valueForList);
             }else{
+                console.log('status order edit',component.get('v.StatusOrder'));
                 //If Edit screen then set already selected status order to values, and remaining Will be the options
                 var res;
                 var oldOrderList = component.get('v.StatusOrder');

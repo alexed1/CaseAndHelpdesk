@@ -127,17 +127,6 @@
         <type>Lookup</type>
     </fields>
     <label>Case Step</label>
-    <listViews>
-        <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>IsCompleted__c</columns>
-        <columns>Case__c</columns>
-        <columns>PlanStepOrder__c</columns>
-        <columns>Associated_Status__c</columns>
-        <columns>Flow_By_User__c</columns>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <label>Case Step Name</label>
         <trackHistory>false</trackHistory>

@@ -67,20 +67,13 @@
         <name>CustomTab</name>
     </types>
     <types>
-        <members>Case_Management_Next_Status</members>
-        <members>Case_Step_Management</members>
-        <members>Complete_Case_Steps</members>
-        <members>Create_Case_Plan_Flow</members>
-        <members>Create_Case_Step_Flow</members>
+        <members>CaseManager_Case_Management_Next_Status-1</members>
+        <members>CaseManager_Case_Step_Complete_Handler-1</members>
+        <members>CaseManager_Case_Step_Management-1</members>
+        <members>CaseManager_Complete_Case_Steps-1</members>
+        <members>CaseManager_Manage_Case_Plan-1</members>
+        <members>CaseManager_Plan_Step_Manager-1</members>
         <name>Flow</name>
-    </types>
-    <types>
-        <members>Case_Management_Next_Status</members>
-        <members>Case_Step_Management</members>
-        <members>Complete_Case_Steps</members>
-        <members>Create_Case_Plan_Flow</members>
-        <members>Create_Case_Step_Flow</members>
-        <name>FlowDefinition</name>
     </types>
     <version>44.0</version>
 </Package>

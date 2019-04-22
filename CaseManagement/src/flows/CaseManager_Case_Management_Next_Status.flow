@@ -188,7 +188,7 @@
         </rules>
     </decisions>
     <interviewLabel>Case Management Next Status {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Case Management Next Status</label>
+    <label>CaseManager Case Management Next Status</label>
     <loops>
         <name>Loop_Over_Case_Step_Records</name>
         <label>Loop Over Case Step Records</label>

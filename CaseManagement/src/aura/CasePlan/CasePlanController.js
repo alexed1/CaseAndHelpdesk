@@ -31,7 +31,7 @@
 
             ];
             // Invokes a flow Case_Step_Management.
-            flowCaseStart.startFlow('Case_Step_Management',inputVariablesCaseStart);
+            flowCaseStart.startFlow('CaseManager_Case_Step_Management',inputVariablesCaseStart);
         }else{
             component.set('v.caseStepId',event.currentTarget.getAttribute("data-id"));
             component.set('v.startCaseStepManagement',true);
@@ -65,7 +65,7 @@
                         if(isParentComplete){
                             // If Parent Completed then Invoke Associated Flow using flow URL
                             var currentUrl = window.location.href;
-                            var finishFlows = encodeURI('/flow/Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
+                            var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
                             var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
                             window.open(associateFlowUrl, "_blank");
                         }else{
@@ -87,7 +87,7 @@
      restartFlow : function(component,event,helper){
          component.set('v.alreadyFlowRuning',false);
          var currentUrl = window.location.href;
-         var finishFlows = encodeURI('/flow/Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId'));
+         var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId'));
          var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
          window.open(associateFlowUrl, "_blank");
 
@@ -198,7 +198,7 @@
 
         ];
         // Invoke a flow from here
-        flow.startFlow("Case_Management_Next_Status",inputVariables);
+        flow.startFlow("CaseManager_Case_Management_Next_Status",inputVariables);
     },
 
     // Invoke on finish of case status change flow

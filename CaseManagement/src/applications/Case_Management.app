@@ -12,9 +12,6 @@
     <tabs>standard-home</tabs>
     <tabs>Case_Management</tabs>
     <tabs>standard-Case</tabs>
-    <tabs>Case_Plan__c</tabs>
-    <tabs>Case_Step__c</tabs>
-    <tabs>Plan_Step__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Case_Management_UtilityBar</utilityBar>
 </CustomApplication>
