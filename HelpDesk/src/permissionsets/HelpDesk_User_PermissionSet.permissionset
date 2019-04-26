@@ -82,10 +82,6 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <tabSettings>
-        <tab>HelpDesk_Ticket</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
         <tab>HelpDesk_Ticket__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>

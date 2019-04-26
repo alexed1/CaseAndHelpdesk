@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HelpDeskApp</fullName>
     <types>
         <members>AssembleString</members>
         <members>AssembleStringTest</members>
@@ -8,10 +9,15 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>FlowRedirect</members>
         <members>HelpDeskFlowComponent</members>
         <members>HelpDeskUpdateOwnerEvt</members>
         <members>HelpDesk_Ticket_Management</members>
         <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>HelpDesk</members>
+        <name>CustomApplication</name>
     </types>
     <types>
         <members>HelpDesk_Note__c.Body__c</members>
@@ -28,10 +34,6 @@
         <name>CustomField</name>
     </types>
     <types>
-        <members>Helpdesk_Target_Email.Admin</members>
-        <name>CustomMetadata</name>
-    </types>
-    <types>
         <members>HelpDesk_Note__c</members>
         <members>HelpDesk_Ticket__c</members>
         <members>Helpdesk_Chatter_Group__c</members>
@@ -39,20 +41,49 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Handle_HelpDesk_Ticket_Status_Change-21</members>
-        <members>HelpDesk_Agent_Flow-46</members>
-        <members>HelpDesk_Create_and_Update_Ticket-2</members>
-        <members>HelpDesk_Management_Flow-3</members>
-        <members>HelpDesk_Notify_Assignee-10</members>
-        <members>HelpDesk_Notify_Group-13</members>
-        <members>HelpDesk_Notify_Requestor-19</members>
+        <members>HelpDesk_Ticket</members>
+        <members>HelpDesk_Ticket__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>HelpDesk_Ticket</members>
+        <members>HelpDesk_Ticket_Record_Page</members>
+        <members>HelpDesk_UtilityBar</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>Handle_HelpDesk_Ticket_Status_Change</members>
+        <members>HelpDesk_Agent_Flow</members>
+        <members>HelpDesk_Create_and_Update_Ticket</members>
+        <members>HelpDesk_Management_Flow</members>
+        <members>HelpDesk_Notify_Assignee</members>
+        <members>HelpDesk_Notify_Group</members>
+        <members>HelpDesk_Notify_Requestor</members>
         <name>Flow</name>
+    </types>
+    <types>
+        <members>HelpDesk_Note__c-Help Desk Note Layout</members>
+        <members>HelpDesk_Ticket__c-HelpDesk Ticket Agent Layout</members>
+        <members>HelpDesk_Ticket__c-HelpDesk Ticket Layout</members>
+        <members>HelpDesk_Ticket__c-HelpDesk Ticket Manager Layout</members>
+        <members>HelpDesk_Ticket__c-HelpDesk Ticket User Layout</members>
+        <members>Helpdesk_Target_Email__mdt-Email Setting Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>HelpDesk_Ticket__c.All</members>
+        <name>ListView</name>
     </types>
     <types>
         <members>HelpDesk_Agent_PermissionSet</members>
         <members>HelpDesk_Manager_PermissionSet</members>
         <members>HelpDesk_User_PermissionSet</members>
         <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>HelpDesk_Ticket__c.Agent_Flow</members>
+        <members>HelpDesk_Ticket__c.Update_Ticket</members>
+        <name>QuickAction</name>
     </types>
     <version>45.0</version>
 </Package>

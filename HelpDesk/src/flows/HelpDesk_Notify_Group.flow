@@ -21,8 +21,8 @@
         </inputParameters>
     </actionCalls>
     <actionCalls>
-        <name>Send_Email_To_Email_in_Meta_Data_Type</name>
-        <label>Send Email in Meta Data Type address</label>
+        <name>Send_Email_to_address_specified_in_metadata_type</name>
+        <label>Send Email to address specified in metadata type</label>
         <locationX>705</locationX>
         <locationY>50</locationY>
         <actionName>emailSimple</actionName>
@@ -119,7 +119,7 @@
         <locationY>50</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_Email_To_Email_in_Meta_Data_Type</targetReference>
+            <targetReference>Send_Email_to_address_specified_in_metadata_type</targetReference>
         </connector>
         <filters>
             <field>Id</field>
@@ -139,7 +139,7 @@
         <queriedFields>Subject__c</queriedFields>
     </recordLookups>
     <startElementReference>Get_Email_Setting_MetaData</startElementReference>
-    <status>Obsolete</status>
+    <status>Active</status>
     <variables>
         <name>ChatterGroupId</name>
         <dataType>String</dataType>
