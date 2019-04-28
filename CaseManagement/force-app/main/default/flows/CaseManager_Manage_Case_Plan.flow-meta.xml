@@ -396,7 +396,7 @@
                 <leftValueReference>selectedCaseStatusOrder</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue/>
                 </rightValue>
             </conditions>
             <conditions>
@@ -490,7 +490,7 @@
                 <leftValueReference>selectedCaseStatusOrder</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue/>
                 </rightValue>
             </conditions>
             <conditions>
@@ -1439,7 +1439,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>NoModificationError</name>
-            <fieldText>Please select &apos;Modify Existing Plan Step&apos; from above choices, then select a record and chose one modification type!</fieldText>
+            <fieldText>Please select &#39;Modify Existing Plan Step&#39; from above choices, then select a record and chose one modification type!</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1673,7 +1673,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <value>
-            <stringValue>&apos;Create&apos;</stringValue>
+            <stringValue>&#39;Create&#39;</stringValue>
         </value>
     </variables>
     <variables>

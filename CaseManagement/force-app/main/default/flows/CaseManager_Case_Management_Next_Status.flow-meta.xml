@@ -128,7 +128,7 @@
                 <leftValueReference>nextStatus</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue/>
                 </rightValue>
             </conditions>
             <connector>
