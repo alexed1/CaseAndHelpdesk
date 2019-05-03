@@ -88,7 +88,7 @@
     <assignments>
         <name>Create_Assignment</name>
         <label>Create Assignment</label>
-        <locationX>1511</locationX>
+        <locationX>1969</locationX>
         <locationY>155</locationY>
         <assignmentItems>
             <assignToReference>createPlanStep</assignToReference>
@@ -159,7 +159,7 @@
     </choices>
     <choices>
         <name>DefineNewPlanStep</name>
-        <choiceText>Define New Plan Step</choiceText>
+        <choiceText>Add Plan Step</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Create</stringValue>
@@ -191,12 +191,37 @@
     </choices>
     <choices>
         <name>ModifyExistingPlanStep</name>
-        <choiceText>Modify Existing Plan Step</choiceText>
+        <choiceText>Edit or Delete Plan Step</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Edit</stringValue>
         </value>
     </choices>
+    <decisions>
+        <name>Add_or_Delete_Branch</name>
+        <label>Add or Edit Branch</label>
+        <locationX>1930</locationX>
+        <locationY>792</locationY>
+        <defaultConnector>
+            <targetReference>Manage_Plan_Steps</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Modify</defaultConnectorLabel>
+        <rules>
+            <name>Add</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AddOrEditRadioButtons</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>DefineNewPlanStep</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Assignment</targetReference>
+            </connector>
+            <label>Add</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Case_Plan_Exist</name>
         <label>Case Plan Exist</label>
@@ -415,8 +440,8 @@
     <decisions>
         <name>CheckSelecttion</name>
         <label>CheckSelecttion</label>
-        <locationX>1865</locationX>
-        <locationY>346</locationY>
+        <locationX>1845</locationX>
+        <locationY>335</locationY>
         <defaultConnector>
             <targetReference>Type_of_Modification</targetReference>
         </defaultConnector>
@@ -516,30 +541,8 @@
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Define_New</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>DefineNewPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_Assignment</targetReference>
-            </connector>
-            <label>Define New</label>
-        </rules>
-        <rules>
             <name>Modification</name>
-            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
-            <conditions>
-                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
+            <conditionLogic>1 OR 2</conditionLogic>
             <conditions>
                 <leftValueReference>Edit</leftValueReference>
                 <operator>WasSelected</operator>
@@ -563,13 +566,6 @@
             <name>Modification_Selected</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>DefineNewPlanStep</leftValueReference>
                 <operator>WasSelected</operator>
                 <rightValue>
@@ -590,82 +586,7 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>No_Modification_Selected</targetReference>
-            </connector>
             <label>Modification Selected And But Option Not Slected</label>
-        </rules>
-        <rules>
-            <name>Modification_Not_Checked_But_Option_Selected</name>
-            <conditionLogic>(1 AND 2) AND (3 OR 4)</conditionLogic>
-            <conditions>
-                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>DefineNewPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Edit</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Delete</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>No_Modification_Selected</targetReference>
-            </connector>
-            <label>Modification Not Checked But Option Selected</label>
-        </rules>
-        <rules>
-            <name>Only_Record_Selected</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>SelectedPlanStepId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>ModifyExistingPlanStep</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Edit</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Delete</leftValueReference>
-                <operator>WasSelected</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>No_Modification_Selected</targetReference>
-            </connector>
-            <label>Only Record Selected</label>
         </rules>
     </decisions>
     <decisions>
@@ -845,7 +766,7 @@
         <locationY>1079</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Manage_Plan_Steps</targetReference>
+            <targetReference>Manage_Plan_Steps_0</targetReference>
         </connector>
         <filters>
             <field>Case_Plan__c</field>
@@ -1138,7 +1059,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <defaultValue>
                 <elementReference>storeCasePlanRecord.Name</elementReference>
             </defaultValue>
-            <fieldText>Case Plan Name</fieldText>
+            <fieldText>Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1172,8 +1093,8 @@ Click on the Next button to manage case steps for this case plan</fieldText>
     <screens>
         <name>Error_Screen</name>
         <label>Error Screen</label>
-        <locationX>1877</locationX>
-        <locationY>610</locationY>
+        <locationX>1854</locationX>
+        <locationY>605</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1182,7 +1103,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorMessageNoID</name>
-            <fieldText>Please select a record from table and then click next.</fieldText>
+            <fieldText>&lt;p&gt;Please select a record from the table.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1267,7 +1188,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ScreenMessage</name>
-            <fieldText>Configure Case Plan</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 20px;&quot;&gt;Configure Case Plan&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1304,8 +1225,8 @@ Click on the Next button to manage case steps for this case plan</fieldText>
     <screens>
         <name>Manage_Plan_Steps</name>
         <label>Manage Plan Steps</label>
-        <locationX>1696</locationX>
-        <locationY>613</locationY>
+        <locationX>1502</locationX>
+        <locationY>648</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1313,13 +1234,13 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <targetReference>Modification_Type</targetReference>
         </connector>
         <fields>
-            <name>Manage_Plan_Step</name>
-            <choiceReferences>DefineNewPlanStep</choiceReferences>
-            <choiceReferences>ModifyExistingPlanStep</choiceReferences>
+            <name>What_Kind_Of_Modification_Needed</name>
+            <choiceReferences>Edit</choiceReferences>
+            <choiceReferences>Delete</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Manage Plan Steps</fieldText>
+            <fieldText>Edit or Delete?</fieldText>
             <fieldType>RadioButtons</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>PlanStepDataTable</name>
@@ -1349,12 +1270,26 @@ Click on the Next button to manage case steps for this case plan</fieldText>
                 <name>recordId</name>
             </outputParameters>
         </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manage_Plan_Steps_0</name>
+        <label>Add or Edit Plan Step?</label>
+        <locationX>1696</locationX>
+        <locationY>920</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Add_or_Delete_Branch</targetReference>
+        </connector>
         <fields>
-            <name>What_Kind_Of_Modification_Needed</name>
-            <choiceReferences>Edit</choiceReferences>
-            <choiceReferences>Delete</choiceReferences>
+            <name>AddOrEditRadioButtons</name>
+            <choiceReferences>DefineNewPlanStep</choiceReferences>
+            <choiceReferences>ModifyExistingPlanStep</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>What Kind Of Modification Needed</fieldText>
+            <fieldText>Add or Edit Plan Step?</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -1371,7 +1306,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <allowPause>false</allowPause>
         <fields>
             <name>YourCasePlan</name>
-            <fieldText>Case Plan Setup Completed!</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Case Plan Setup Completed!&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1421,25 +1356,6 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <fields>
             <name>ErrorNoId</name>
             <fieldText>No Record Selected From Case Plan, Please Select One Record.</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>No_Modification_Selected</name>
-        <label>No Modification Selected</label>
-        <locationX>1508</locationX>
-        <locationY>614</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Manage_Plan_Steps</targetReference>
-        </connector>
-        <fields>
-            <name>NoModificationError</name>
-            <fieldText>Please select &#39;Modify Existing Plan Step&#39; from above choices, then select a record and chose one modification type!</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1550,14 +1466,14 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>SimilarCasePlanWhenUpdate</name>
-            <fieldText>Case Plan already exist with same name, please update with different name!</fieldText>
+            <fieldText>&lt;p&gt;A Case Plan already exists with this name.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <startElementReference>CreateCase_Plan</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <subflows>
         <name>manage_Case_Steps</name>
         <label>manage Case Step</label>
