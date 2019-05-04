@@ -31,7 +31,7 @@
     </aura:if>
 
     <!-- Support Process Or Record Type Picklist -->
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Link this Case Plan to Support Process')}">
+    <aura:if isTrue="{! equals(v.LabelPicklist,'Link to which Case Record Type?')}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
             
             <aura:iteration items="{!v.Options}" var="option">

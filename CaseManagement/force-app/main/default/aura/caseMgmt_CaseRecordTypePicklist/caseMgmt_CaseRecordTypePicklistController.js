@@ -4,7 +4,8 @@
 ({
     // Invoke will update picklist value for rendered picklist
     invoke : function(component, event, helper){
-
+        console.log('entering invoke for CaseRecordTypePicklistController');
+        console.log('vlabelpicklist is: ' + component.get('v.LabelPicklist'));
         if(component.get('v.LabelPicklist') == 'Add to which Case Status'){
             //Update Value In Picklist if Component Call From Add New Plan Step
             var oldOrderList = component.get('v.recordTypeCSV');
@@ -23,8 +24,9 @@
                  valueForList.push({label:res[i],value:res[i],});
              }
             component.set("v.Options",valueForList);
-        }else if(component.get('v.LabelPicklist') == 'Link this Case Plan to Support Process'){
+        }else if(component.get('v.LabelPicklist') == 'Link to which Case Record Type?'){
             //Update Value In Picklist if Component Call From Create Case Plan
+            console.log('entering the create case plan scenario');
             var fieldNameArr = component.get('v.Options');
             var colsStr = component.get('v.recordTypeCSV');
             var colStrArr = colsStr.split(';');
@@ -37,7 +39,11 @@
                         colArr.push(colObj);
                     }
                 }
+                console.log('vrecordTypeCSV is: ' + component.get('v.recordTypeCSV'));
+                
+
                 component.set('v.Options', colArr);
+                console.log('voptions is: ' + component.get('v.Options'));
             }
         }else if(component.get('v.LabelPicklist') == 'Specify a predecessor (parent) case step'){
             //Update Value In Picklist if Component Call From Add New Plan Step

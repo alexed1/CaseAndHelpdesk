@@ -859,8 +859,8 @@
     <recordLookups>
         <name>Get_Similiar_Record</name>
         <label>Get Similar Record</label>
-        <locationX>249</locationX>
-        <locationY>758</locationY>
+        <locationX>355</locationX>
+        <locationY>725</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Similar_Record_Found</targetReference>
@@ -966,8 +966,7 @@
         </connector>
         <fields>
             <name>CasePlanSuccessMessage</name>
-            <fieldText>Case Plan {!Case_Plan_Name} Created
-Click on the Next button to manage case steps for this case plan</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Case Plan {!Case_Plan_Name} Created.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -986,7 +985,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ManageCaseStatusOrder</name>
-            <fieldText>Manage Case Status Order</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Set the Case Plan Order&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1013,7 +1012,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </fields>
         <fields>
             <name>DisplayToolTip</name>
-            <fieldText>Case Plans allow you to specify the order in which the case transitions through its stages.</fieldText>
+            <fieldText>&lt;p&gt;When you use a Case Plans, you define a particular order for the different status values of the Case Record type. The Case Plan will then follow that order.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1122,7 +1121,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorNoItemSelected</name>
-            <fieldText>Their is not item selected please select one value from the list.</fieldText>
+            <fieldText>&lt;p&gt;Please select a single value.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1141,7 +1140,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>DisplayHeaderForExistngCasePlan</name>
-            <fieldText>Select Case Plan to Edit</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Select Case Plan&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1355,7 +1354,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorNoId</name>
-            <fieldText>No Record Selected From Case Plan, Please Select One Record.</fieldText>
+            <fieldText>&lt;p&gt;You must select a single Case Plan.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1433,7 +1432,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorSelectedItem</name>
-            <fieldText>Their is not item selected please select one value from the list.</fieldText>
+            <fieldText>&lt;p&gt;You must select an item.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
