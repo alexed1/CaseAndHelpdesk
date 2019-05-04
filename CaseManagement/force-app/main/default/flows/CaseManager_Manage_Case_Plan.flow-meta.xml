@@ -1035,7 +1035,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <choiceReferences>create_Choice</choiceReferences>
             <choiceReferences>edit_choice</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Case Plan Manager</fieldText>
+            <fieldText>Select Activity</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1084,7 +1084,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorMessage</name>
-            <fieldText>No Case Plan Exist Please Create One</fieldText>
+            <fieldText>&lt;p&gt;No Case Plan found. Please Create One.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1374,13 +1374,13 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>DisplaytextRecordTypeScreen</name>
-            <fieldText>Create New Case Plan</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Create New Case Plan&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Case_Plan_Name</name>
             <dataType>String</dataType>
-            <fieldText>Case Plan Name</fieldText>
+            <fieldText>Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1403,7 +1403,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <inputParameters>
                 <name>LabelPicklist</name>
                 <value>
-                    <stringValue>Link this Case Plan to Support Process</stringValue>
+                    <stringValue>Link to which Case Record Type?</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -1411,6 +1411,11 @@ Click on the Next button to manage case steps for this case plan</fieldText>
                 <assignToReference>SelectedRecordType</assignToReference>
                 <name>SelectedRecordTypeId</name>
             </outputParameters>
+        </fields>
+        <fields>
+            <name>noteCaseRecordType</name>
+            <fieldText>&lt;p&gt;Each Case Record Type can have several Case Plans associated with it, but only one can be Active. Set the Active Case Plan for a record type with a Custom Setting. &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1447,7 +1452,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>SimilarCasePlanMessage</name>
-            <fieldText>Case Plan already exist with same name, please create with different name!</fieldText>
+            <fieldText>&lt;p&gt;A Case Plan already exist with this name. &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
