@@ -10,7 +10,7 @@ global class CaseMgmt_FlowRestAPI {
         List<String> orderStatusStringList = new List<String>();
         String sfdcURL = URL.getSalesforceBaseUrl().toExternalForm();
         String restAPIURL = sfdcURL + '/services/data/v44.0/actions/custom/flow/';
-        caseMgmt_JSON2Apex myWrapper;
+        CaseMgmt_JSON2Apex myWrapper;
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.setMethod('GET');
         PageReference pg = new PageReference('/Apex/SessionIdUtilityPage');
