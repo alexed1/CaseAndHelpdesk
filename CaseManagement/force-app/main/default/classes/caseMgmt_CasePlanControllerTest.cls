@@ -3,7 +3,7 @@
 */
 
 @isTest(SeeAllData=true)
-private class CaseMgmt_CasePlanControllerTest {
+private class caseMgmt_CasePlanControllerTest {
     public static testMethod void testf0rCallout(){
         Test.setMock(HTTPCalloutMock.class, new MockHttpResponseGenrator());
         
