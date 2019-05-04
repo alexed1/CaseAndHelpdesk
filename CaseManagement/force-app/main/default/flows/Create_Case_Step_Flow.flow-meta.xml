@@ -4,7 +4,7 @@
         <name>AssignValue_To_Parent_String</name>
         <label>AssignValue To Parent String</label>
         <locationX>596</locationX>
-        <locationY>268</locationY>
+        <locationY>269</locationY>
         <assignmentItems>
             <assignToReference>caseStepParentString</assignToReference>
             <operator>Add</operator>
@@ -29,6 +29,43 @@
             </value>
         </assignmentItems>
     </assignments>
+    <decisions>
+        <name>Identical_Name_In_Use</name>
+        <label>Is Name in Use?</label>
+        <locationX>821</locationX>
+        <locationY>685</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Name_in_Use</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>curPlanStep</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Name_in_use</targetReference>
+            </connector>
+            <label>Name in Use</label>
+        </rules>
+        <rules>
+            <name>Name_Available</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>curPlanStep</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Plan_Step</targetReference>
+            </connector>
+            <label>Name Available</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Operation_On_Plan_Step</name>
         <label>Operation On Plan Step</label>
@@ -98,7 +135,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Plan_Step_Record</targetReference>
+                <targetReference>Get_Plan_Steps</targetReference>
             </connector>
             <label>Admin</label>
         </rules>
@@ -118,57 +155,20 @@
             <label>User</label>
         </rules>
     </decisions>
-    <decisions>
-        <name>Similar_Name_Exist</name>
-        <label>Similar Name Exist</label>
-        <locationX>821</locationX>
-        <locationY>685</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>PlanStepRecord</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Message_Screen</targetReference>
-            </connector>
-            <label>Exist</label>
-        </rules>
-        <rules>
-            <name>Not_Exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>PlanStepRecord</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_Plan_Step_Record</targetReference>
-            </connector>
-            <label>Not Exist</label>
-        </rules>
-    </decisions>
     <formulas>
         <name>caseParentValue</name>
         <dataType>String</dataType>
-        <expression>{!PlanStepRecord.Name}&amp;&quot;,&quot;&amp;{!PlanStepRecord.Name}&amp;&quot;;&quot;</expression>
+        <expression>{!curPlanStep.Name}&amp;&quot;,&quot;&amp;{!curPlanStep.Name}&amp;&quot;;&quot;</expression>
     </formulas>
     <interviewLabel>Create Case Step Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Manage Case Steps</label>
     <loops>
         <name>Loop_Over_Plan_Steps_Records</name>
         <label>Loop Over Plan Steps Records</label>
-        <locationX>408</locationX>
+        <locationX>401</locationX>
         <locationY>267</locationY>
-        <assignNextValueToReference>PlanStepRecord</assignNextValueToReference>
-        <collectionReference>PlanStepsRecords</collectionReference>
+        <assignNextValueToReference>curPlanStep</assignNextValueToReference>
+        <collectionReference>curPlanSteps</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>AssignValue_To_Parent_String</targetReference>
@@ -232,11 +232,11 @@
         <object>Case_Step__c</object>
     </recordCreates>
     <recordCreates>
-        <name>Create_Plan_Step_Record</name>
-        <label>Create Plan Step Record</label>
+        <name>Create_Plan_Step</name>
+        <label>Create Plan Step</label>
         <locationX>1088</locationX>
         <locationY>684</locationY>
-        <assignRecordIdToReference>PlanStepRecord.Id</assignRecordIdToReference>
+        <assignRecordIdToReference>curPlanStep.Id</assignRecordIdToReference>
         <inputAssignments>
             <field>Associate_Case_Status__c</field>
             <value>
@@ -246,13 +246,13 @@
         <inputAssignments>
             <field>Case_Plan__c</field>
             <value>
-                <elementReference>CasePlanRecord.Id</elementReference>
+                <elementReference>curCasePlanId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>Flow__c</field>
             <value>
-                <elementReference>Enter_Flow_Name_To_Case_Step</elementReference>
+                <elementReference>selectedFlowName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -293,8 +293,35 @@
         <object>Plan_Step__c</object>
     </recordDeletes>
     <recordLookups>
-        <name>Get_Plan_Step_Record</name>
-        <label>Get Plan Step Record</label>
+        <name>Get_Identical_Name_Record</name>
+        <label>Query for Identical Name Step</label>
+        <locationX>829</locationX>
+        <locationY>504</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Identical_Name_In_Use</targetReference>
+        </connector>
+        <filters>
+            <field>Case_Plan__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>curCasePlanId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Step_Name</elementReference>
+            </value>
+        </filters>
+        <object>Plan_Step__c</object>
+        <outputReference>curPlanStep</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Plan_Steps</name>
+        <label>Get Plan Steps</label>
         <locationX>237</locationX>
         <locationY>267</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
@@ -305,11 +332,11 @@
             <field>Case_Plan__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>CasePlanRecord.Id</elementReference>
+                <elementReference>curCasePlanId</elementReference>
             </value>
         </filters>
         <object>Plan_Step__c</object>
-        <outputReference>PlanStepsRecords</outputReference>
+        <outputReference>curPlanSteps</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Name</queriedFields>
     </recordLookups>
@@ -330,40 +357,13 @@
             </value>
         </filters>
         <object>Plan_Step__c</object>
-        <outputReference>PlanStepRecord</outputReference>
+        <outputReference>curPlanStep</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Name</queriedFields>
         <queriedFields>Is_Required__c</queriedFields>
         <queriedFields>Flow__c</queriedFields>
         <queriedFields>Associate_Case_Status__c</queriedFields>
         <queriedFields>Start_When__c</queriedFields>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Similar_Name_Record</name>
-        <label>Get Similar Name Record</label>
-        <locationX>829</locationX>
-        <locationY>504</locationY>
-        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Similar_Name_Exist</targetReference>
-        </connector>
-        <filters>
-            <field>Case_Plan__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>CasePlanRecord.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Step_Name</elementReference>
-            </value>
-        </filters>
-        <object>Plan_Step__c</object>
-        <outputReference>PlanStepRecord</outputReference>
-        <queriedFields>Id</queriedFields>
     </recordLookups>
     <recordUpdates>
         <name>Update_Selected_Plan_Step</name>
@@ -397,23 +397,23 @@
     <screens>
         <name>Create_Step</name>
         <label>Create Step</label>
-        <locationX>405</locationX>
-        <locationY>433</locationY>
+        <locationX>343</locationX>
+        <locationY>459</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Get_Similar_Name_Record</targetReference>
+            <targetReference>Get_Identical_Name_Record</targetReference>
         </connector>
         <fields>
             <name>AddStepHeading</name>
-            <fieldText>Add Step</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Step Details&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Step_Name</name>
             <dataType>String</dataType>
-            <fieldText>Step Name</fieldText>
+            <fieldText>Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -446,14 +446,34 @@
             </outputParameters>
         </fields>
         <fields>
-            <name>Enter_Flow_Name_To_Case_Step</name>
-            <dataType>String</dataType>
-            <fieldText>This case step will launch which flow? (Use the Flow API Name without a version number)</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <name>noteFlowChooser</name>
+            <fieldText>&lt;p&gt;Select the Flow that should be launched when this step is started.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>caseParnet</name>
+            <name>flowList</name>
+            <extensionName>c:flowListFSC</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>baseURL</name>
+                <value>
+                    <stringValue>https://business-drive-2407-dev-ed.cs37.my.salesforce.com</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>showActiveFlowsOnly</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>selectedFlowName</assignToReference>
+                <name>selectedFlowApiName</name>
+            </outputParameters>
+        </fields>
+        <fields>
+            <name>caseParent</name>
             <extensionName>c:caseMgmt_CaseRecordTypePicklist</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -482,13 +502,13 @@
         </fields>
         <fields>
             <name>AlertForCaseStepParent</name>
-            <fieldText>This is optional. If you specify a predecessor, this step cannot be started until the predecessor has completed.</fieldText>
+            <fieldText>&lt;p&gt;Specifying a predecessor is optional. If you specify a predecessor, this step cannot be started until the predecessor has completed.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Is_Required</name>
             <dataType>Boolean</dataType>
-            <fieldText>This step is required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
+            <fieldText>Mark this Step as required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -532,6 +552,25 @@ Click On Next To Add More.</fieldText>
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Error_Name_in_use</name>
+        <label>Error - Name in use</label>
+        <locationX>543</locationX>
+        <locationY>597</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_Step</targetReference>
+        </connector>
+        <fields>
+            <name>DisplayTextScreenMessage</name>
+            <fieldText>Record already exist please create different!</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>Manage_Case_Steps</name>
         <label>Manage Case Steps</label>
         <locationX>54</locationX>
@@ -565,25 +604,6 @@ Click On Next To Add More.</fieldText>
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Message_Screen</name>
-        <label>Message Screen</label>
-        <locationX>543</locationX>
-        <locationY>597</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Create_Step</targetReference>
-        </connector>
-        <fields>
-            <name>DisplayTextScreenMessage</name>
-            <fieldText>Record already exist please create different!</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Update_Case_Step</name>
         <label>Update Case Step</label>
         <locationX>1147</locationX>
@@ -606,24 +626,24 @@ Click On Next To Add More.</fieldText>
         </fields>
         <fields>
             <name>CaseStepName</name>
-            <fieldText>Step Name: {!PlanStepRecord.Name}</fieldText>
+            <fieldText>Step Name: {!curPlanStep.Name}</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>AssociateStatus</name>
-            <fieldText>Status: {!PlanStepRecord.Associate_Case_Status__c}</fieldText>
+            <fieldText>Status: {!curPlanStep.Associate_Case_Status__c}</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Parent</name>
-            <fieldText>Parent/Predecessor: {!PlanStepRecord.Start_When__c}</fieldText>
+            <fieldText>Parent/Predecessor: {!curPlanStep.Start_When__c}</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Is_RequiredEdit</name>
             <dataType>Boolean</dataType>
             <defaultValue>
-                <elementReference>PlanStepRecord.Is_Required__c</elementReference>
+                <elementReference>curPlanStep.Is_Required__c</elementReference>
             </defaultValue>
             <fieldText>This step is required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
             <fieldType>InputField</fieldType>
@@ -633,7 +653,7 @@ Click On Next To Add More.</fieldText>
             <name>Enter_Flow_Name_To_Run_Case_StepUpdate</name>
             <dataType>String</dataType>
             <defaultValue>
-                <elementReference>PlanStepRecord.Flow__c</elementReference>
+                <elementReference>curPlanStep.Flow__c</elementReference>
             </defaultValue>
             <fieldText>This case step will launch which flow? (Use the Flow API Name without a version number)</fieldText>
             <fieldType>InputField</fieldType>
@@ -659,21 +679,13 @@ Click On Next To Add More.</fieldText>
         <showHeader>false</showHeader>
     </screens>
     <startElementReference>Operation_On_Plan_Step</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>CaseId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>CasePlanRecord</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Case_Plan__c</objectType>
     </variables>
     <variables>
         <name>CaseStatusOrder</name>
@@ -708,6 +720,29 @@ Click On Next To Add More.</fieldText>
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>curCasePlanId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>curPlanStep</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Plan_Step__c</objectType>
+    </variables>
+    <variables>
+        <name>curPlanSteps</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Plan_Step__c</objectType>
     </variables>
     <variables>
         <name>CurrentStatusCase</name>
@@ -780,27 +815,18 @@ Click On Next To Add More.</fieldText>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>PlanStepRecord</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Plan_Step__c</objectType>
-    </variables>
-    <variables>
-        <name>PlanStepsRecords</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Plan_Step__c</objectType>
-    </variables>
-    <variables>
         <name>SelectedAssociateCaseStatus</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>selectedFlowName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>selectedParent</name>

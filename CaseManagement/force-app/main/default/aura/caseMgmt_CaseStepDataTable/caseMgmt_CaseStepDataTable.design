@@ -11,5 +11,7 @@
     <design:attribute name="objectArrayCasePlan" label="Object Data Case Plan"/>
     <design:attribute name="objectArrayCaseStep" label="Object Data Case Step"/>
     <design:attribute name="isCasePlan" label="Is Data Table Use For Case Plan" required="true"/>
+	<design:attribute name="canNotSelectRow" label="Hide Selection Column?" />
+
 
 </design:component>

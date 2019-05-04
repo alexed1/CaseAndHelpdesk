@@ -1364,8 +1364,8 @@
     <screens>
         <name>ErrorSelectedMessage</name>
         <label>ErrorSelectedMessage</label>
-        <locationX>1151</locationX>
-        <locationY>1001</locationY>
+        <locationX>1146</locationX>
+        <locationY>935</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1610,12 +1610,6 @@
             <name>CaseId</name>
         </inputAssignments>
         <inputAssignments>
-            <name>CasePlanRecord</name>
-            <value>
-                <elementReference>curCasePlan</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <name>CaseStatusOrder</name>
             <value>
                 <elementReference>curCasePlan.CaseStatusOrdering__c</elementReference>
@@ -1640,25 +1634,23 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>SelectedPlanStepId</name>
+            <value>
+                <elementReference>SelectedPlanStepId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>isAdmin</name>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <name>SelectedPlanStepId</name>
+            <name>curCasePlanId</name>
             <value>
-                <elementReference>SelectedPlanStepId</elementReference>
+                <elementReference>curCasePlan.Id</elementReference>
             </value>
         </inputAssignments>
-        <outputAssignments>
-            <assignToReference>Message</assignToReference>
-            <name>Message</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>Output</assignToReference>
-            <name>Output</name>
-        </outputAssignments>
         <outputAssignments>
             <assignToReference>createPlanStep</assignToReference>
             <name>CreateDone</name>
@@ -1671,6 +1663,14 @@
             <assignToReference>editPlanStep</assignToReference>
             <name>EditDone</name>
         </outputAssignments>
+        <outputAssignments>
+            <assignToReference>Message</assignToReference>
+            <name>Message</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>Output</assignToReference>
+            <name>Output</name>
+        </outputAssignments>
     </subflows>
     <variables>
         <name>CasePlanColumns</name>
@@ -1679,7 +1679,7 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <value>
-            <stringValue>Name,Name,text;Case Status Ordering,CaseStatusOrdering__c,text;Support Process,RecordType_SupportProcess__c,text</stringValue>
+            <stringValue>Name,Name,text;Case Status Ordering,CaseStatusOrdering__c,text;RecordType,RecordType_SupportProcess__c,text</stringValue>
         </value>
     </variables>
     <variables>
