@@ -16,7 +16,6 @@
     <aura:attribute name="numOfRowsSelected" type="Integer" default="0" description="Set No. Of Row Selected"/>
     <aura:attribute name="key" type="String" default="Id" description="Set Key For Each Data"/>
     <aura:attribute name="recordId" type="String" description="Record Id For Selected Record"/>
-    <aura:attribute name="canNotSelectRow" type="Boolean" default="False" description="Show the Selection Column"/>
 
     <!-- handlers-->
     <aura:handler value="{!this}" name="init" action="{!c.invoke}"/>
@@ -29,7 +28,6 @@
                                  columns="{! v.columns }"
                                  maxRowSelection="{! v.maxRowSelection }"
                                  onrowselection="{! c.setRecordId }"
-                                 hideCheckboxColumn="{! v.canNotSelectRow }"
             />
             <!-- Show Data Table Plan Step -->
             <aura:set attribute="else">
@@ -38,7 +36,6 @@
                                      columns="{! v.columns }"
                                      maxRowSelection="{! v.maxRowSelection }"
                                      onrowselection="{! c.setRecordId }"
-                                     hideCheckboxColumn="{! v.canNotSelectRow }"
                 />
             </aura:set>
         </aura:if>

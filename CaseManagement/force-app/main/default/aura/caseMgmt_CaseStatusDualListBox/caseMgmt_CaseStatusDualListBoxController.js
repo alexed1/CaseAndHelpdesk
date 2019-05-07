@@ -4,7 +4,7 @@
 ({
         // Invoke Method Will Populate all the Picklist value to Dual List Box
         invoke : function(component, event, helper) {
-            console.log('status order invoke');
+            console.log('status order invoke : ' + component.get('v.isEditScreen'));
             component.set('v.SelectedValue','');
             //Validate Calling Screen
             if(!component.get('v.isEditScreen')){
@@ -41,6 +41,8 @@
                         };
                         items.push(item);
                 }
+                component.set("v.options", items);
+                component.set("v.values", selectedRes);
                 var selectedOptionValue = component.get("v.values");
                 var newOrder= "";
                 for(var i=0; i< selectedOptionValue.length; i++){

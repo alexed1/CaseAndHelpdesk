@@ -9,9 +9,13 @@
     <aura:attribute name="LabelPicklist" type="String" description="Picklist Label Where we are goint use this picklist"/>
     <aura:attribute name="recordTypeCSV" type="String" description="Comma Seprated Values of all the record type"/>
     <aura:attribute name="selectedFlow" type="String" description="Selected Flow from flow component"/>
+    
+    <aura:attribute name="predecessorLabel" type="String" default="{!$Label.c.Predecessor}"/>
+    <aura:attribute name="caseStatusLabel" type="String" default="{!$Label.c.CaseStatus}"/>
+    <aura:attribute name="recordTypeLabel" type="String" default="{!$Label.c.RecordType}"/>
 
     <!-- Predecessor Or parent Picklist -->
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Specify a predecessor (parent) case step')}">
+    <aura:if isTrue="{! equals(v.LabelPicklist, v.predecessorLabel)}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
 
             <aura:iteration items="{!v.Options}" var="option">
@@ -21,7 +25,7 @@
     </aura:if>
 
     <!-- Case Status Picklist -->
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Add to which Case Status')}">
+    <aura:if isTrue="{! equals(v.LabelPicklist,v.caseStatusLabel)}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
 
             <aura:iteration items="{!v.Options}" var="option">
@@ -31,7 +35,7 @@
     </aura:if>
 
     <!-- Support Process Or Record Type Picklist -->
-    <aura:if isTrue="{! equals(v.LabelPicklist,'Link to which Case Record Type?')}">
+    <aura:if isTrue="{! equals(v.LabelPicklist,v.recordTypeLabel)}">
         <lightning:select label="{!v.LabelPicklist}" value="{!v.SelectedRecordTypeId}" name="RecordTypeSelection">
             
             <aura:iteration items="{!v.Options}" var="option">

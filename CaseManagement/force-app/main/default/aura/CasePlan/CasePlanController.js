@@ -1,4 +1,5 @@
 ({
+    
     doInit: function(component, evt, helper) {
         // Fetch initial data from apex class and set to local variables
         helper._getCaseManagerData(component, component.get('v.recordId'));
@@ -7,10 +8,11 @@
         //Invokes when you click on aany of the case step button
         component.set("v.SelectedIndex",event.currentTarget.getAttribute("data-ind"));
         component.set("v.caseStepId",event.currentTarget.getAttribute("data-id"));
-        // Setting up a timer to auto refresh a view of component to update UI as per new status.
-        var interval = window.setInterval($A.getCallback(() => helper._updateData(component, component.get('v.recordId'), component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].IsCompleted"),interval)), 1000);
+        
          //Setting up a flow variable to invoke and update case step status
         if(!component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].IsPending")){
+            // Setting up a timer to auto refresh a view of component to update UI as per new status.
+            var interval = window.setInterval($A.getCallback(() => helper._updateData(component, component.get('v.recordId'), component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].IsCompleted"),interval)), 1000);
             var flowCaseStart = component.find("startCaseStep");
             var inputVariablesCaseStart = [
                 {
@@ -64,10 +66,19 @@
                         }
                         if(isParentComplete){
                             // If Parent Completed then Invoke Associated Flow using flow URL
-                            var currentUrl = window.location.href;
-                            var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
-                            var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
-                            window.open(associateFlowUrl, "_blank");
+                            try{
+                                var currentUrl = window.location.href;
+                            	var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
+                            	var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
+                            	window.open(associateFlowUrl, "_blank");
+                            }catch(ex){
+                                this.showtoast('Flow Not Exist Or Not Active','error');
+                                var killId = setTimeout(function() {
+  									for (var i = killId; i > 0; i--) window.clearInterval(i)
+								}, 1000);
+          						console.error('Message: ' + ex);
+                            }
+                            
                         }else{
                             // Else Update the Component Witha Toast Message
                             helper._getCaseManagerData(component, component.get('v.recordId'));
