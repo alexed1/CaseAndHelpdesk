@@ -8,9 +8,9 @@
         <members>MetadataServiceTest</members>
         <members>MockHttpResponseGenrator</members>
         <members>PicklistDescriber</members>
-        <members>caseMgmt_CasePlanControllerTest</members>
-        <members>caseMgmt_JSON2Apex</members>
-        <members>caseToAddCaseStepsTriggerHandler</members>
+        <members>CaseMgmt_CasePlanControllerTest</members>
+        <members>CaseMgmt_JSON2Apex</members>
+        <members>CaseToAddCaseStepsTriggerHandler</members>
         <name>ApexClass</name>
     </types>
     <types>

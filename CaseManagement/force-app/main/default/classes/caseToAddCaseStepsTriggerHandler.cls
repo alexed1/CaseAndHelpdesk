@@ -5,7 +5,7 @@
   and update the case with new or existing case step
 */
 
-public with sharing class caseToAddCaseStepsTriggerHandler {
+public with sharing class CaseToAddCaseStepsTriggerHandler {
 
 
     public static void beforeInsertAndUpdate(List<Case> newList, Map<Id, Case> oldMap) {
