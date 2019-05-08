@@ -13,5 +13,5 @@
     <tabs>Case_Management</tabs>
     <tabs>standard-Case</tabs>
     <uiType>Lightning</uiType>
-    <utilityBar>Case_Management_UtilityBar</utilityBar>
+  
 </CustomApplication>

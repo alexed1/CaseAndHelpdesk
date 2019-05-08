@@ -33,15 +33,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>caseMgmt_CasePlanControllerTest</apexClass>
+        <apexClass>CaseMgmt_CasePlanControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>caseMgmt_JSON2Apex</apexClass>
+        <apexClass>CaseMgmt_JSON2Apex</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>caseToAddCaseStepsTriggerHandler</apexClass>
+        <apexClass>CaseToAddCaseStepsTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <fieldPermissions>
