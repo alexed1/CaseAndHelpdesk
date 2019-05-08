@@ -2,15 +2,15 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>CaseMgmt_CasePlanController</members>
+        <members>CaseMgmt_CasePlanControllerTest</members>
         <members>CaseMgmt_FlowRestAPI</members>
+        <members>CaseMgmt_JSON2Apex</members>
+        <members>CaseToAddCaseStepsTriggerHandler</members>
         <members>JSON2ApexFlow</members>
         <members>MetadataService</members>
         <members>MetadataServiceTest</members>
         <members>MockHttpResponseGenrator</members>
         <members>PicklistDescriber</members>
-        <members>CaseMgmt_CasePlanControllerTest</members>
-        <members>CaseMgmt_JSON2Apex</members>
-        <members>CaseToAddCaseStepsTriggerHandler</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -18,8 +18,8 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>CaseToAddCaseSteps</members>
         <members>PicklistDescriberTrigger</members>
-        <members>caseToAddCaseSteps</members>
         <name>ApexTrigger</name>
     </types>
     <types>
@@ -78,7 +78,6 @@
     </types>
     <types>
         <members>Case_Management</members>
-        <members>Case_Management_UtilityBar</members>
         <members>Flow_Controller_Page</members>
         <name>FlexiPage</name>
     </types>
@@ -102,12 +101,6 @@
         <members>Case.CaseMgmt</members>
         <members>Case.Internal</members>
         <name>RecordType</name>
-    </types>
-    <types>
-        <members>Lighting</members>
-        <members>NewURL</members>
-        <members>Org_Url</members>
-        <name>RemoteSiteSetting</name>
     </types>
     <types>
         <members>CaseOrigin</members>
