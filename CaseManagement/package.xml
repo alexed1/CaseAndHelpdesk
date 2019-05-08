@@ -66,6 +66,12 @@
         <name>CustomField</name>
     </types>
     <types>
+        <members>CaseStatus</members>
+        <members>Predecessor</members>
+        <members>RecordType</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
         <members>Case_Plan_Record_Type__c</members>
         <members>Case_Plan__c</members>
         <members>Case_Step__c</members>
@@ -78,6 +84,7 @@
     </types>
     <types>
         <members>Case_Management</members>
+        <members>Case_Management_UtilityBar</members>
         <members>Flow_Controller_Page</members>
         <name>FlexiPage</name>
     </types>
