@@ -11,6 +11,7 @@
         <members>MetadataServiceTest</members>
         <members>MockHttpResponseGenrator</members>
         <members>PicklistDescriber</members>
+        <members>FlowListController</members> 
         <name>ApexClass</name>
     </types>
     <types>
@@ -24,10 +25,12 @@
     </types>
     <types>
         <members>CasePlan</members>
+        <members>caseMgmt_CaseStatusDualListBox</members>
         <members>caseMgmt_CaseRecordTypePicklist</members>
         <members>caseMgmt_CaseStatusDualListBox</members>
         <members>caseMgmt_CaseStepDataTable</members>
         <members>caseMgmt_HandleCaseComplete</members>
+        <members>flowListFSC</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
