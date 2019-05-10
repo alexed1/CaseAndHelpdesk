@@ -34,12 +34,6 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>Case.Admin</members>
-        <members>Case.CaseMgmt</members>
-        <members>Case.Internal</members>
-        <name>BusinessProcess</name>
-    </types>
-    <types>
         <members>Case_Management</members>
         <name>CustomApplication</name>
     </types>
@@ -106,20 +100,7 @@
         <members>Plan_Step__c-Plan Step Layout</members>
         <name>Layout</name>
     </types>
-    <types>
-        <members>Case.Admin</members>
-        <members>Case.CaseMgmt</members>
-        <members>Case.Internal</members>
-        <name>RecordType</name>
-    </types>
-    <types>
-        <members>CaseOrigin</members>
-        <members>CasePriority</members>
-        <members>CaseReason</members>
-        <members>CaseStatus</members>
-        <members>CaseType</members>
-        <name>StandardValueSet</name>
-    </types>
+
     <types>
         <members>Case_Plan__c.Manage_Case_Plan</members>
         <name>WebLink</name>
