@@ -1016,6 +1016,34 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <fieldText>Case Plans allow you to specify the order in which the case transitions through its stages.</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <fields>
+            <name>planStepsOrder</name>
+            <extensionName>c:dualListBox</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>FullItemSetCSV</name>
+                <value>
+                    <elementReference>CaseStatesOrder</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>SelectedItemsCSV</name>
+                <value>
+                    <elementReference>selectedCaseStatusOrder</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Select Plan States</stringValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>selectedCaseStatusOrder</assignToReference>
+                <name>SelectedItemsCSV</name>
+            </outputParameters>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>

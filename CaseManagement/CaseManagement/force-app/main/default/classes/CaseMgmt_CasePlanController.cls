@@ -107,7 +107,7 @@ Controller for CaseMgmt_CasePlan lightning component
                         if(orderString == null){
                             orderString = String.valueOf(value.value);
                         }else{
-                            orderString = orderString + ';' + String.valueOf(value.value);
+                            orderString = orderString + ',' + String.valueOf(value.value);
                         }
                     }
                     orderStatusStringList.add(orderString);
