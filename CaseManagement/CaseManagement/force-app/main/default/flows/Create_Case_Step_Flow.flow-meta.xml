@@ -4,7 +4,7 @@
         <name>AssignValue_To_Parent_String</name>
         <label>AssignValue To Parent String</label>
         <locationX>596</locationX>
-        <locationY>268</locationY>
+        <locationY>266</locationY>
         <assignmentItems>
             <assignToReference>caseStepParentString</assignToReference>
             <operator>Add</operator>
@@ -28,6 +28,23 @@
                 <stringValue>Created By User</stringValue>
             </value>
         </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>This exists solely to cover the possibility that the user might hit the previous button when they get to the next screen. The initial value of the flow picker is set to the database value, so if they change it at the screen before this and then hit previous, it will reload the database value and not the value they have just changed it to.</description>
+        <name>Update_PlanStepRecord</name>
+        <label>Update PlanStepRecord</label>
+        <locationX>1222</locationX>
+        <locationY>165</locationY>
+        <assignmentItems>
+            <assignToReference>PlanStepRecord.Flow__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedFlowName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Selected_Plan_Step</targetReference>
+        </connector>
     </assignments>
     <decisions>
         <name>Operation_On_Plan_Step</name>
@@ -236,7 +253,6 @@
         <label>Create Plan Step Record</label>
         <locationX>1088</locationX>
         <locationY>684</locationY>
-        <assignRecordIdToReference>PlanStepRecord.Id</assignRecordIdToReference>
         <inputAssignments>
             <field>Associate_Case_Status__c</field>
             <value>
@@ -252,7 +268,7 @@
         <inputAssignments>
             <field>Flow__c</field>
             <value>
-                <elementReference>Enter_Flow_Name_To_Case_Step</elementReference>
+                <elementReference>selectedFlowName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -383,7 +399,7 @@
         <inputAssignments>
             <field>Flow__c</field>
             <value>
-                <elementReference>Enter_Flow_Name_To_Run_Case_StepUpdate</elementReference>
+                <elementReference>selectedFlowName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -407,7 +423,7 @@
         </connector>
         <fields>
             <name>AddStepHeading</name>
-            <fieldText>Add Step</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Add Step&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -446,11 +462,32 @@
             </outputParameters>
         </fields>
         <fields>
-            <name>Enter_Flow_Name_To_Case_Step</name>
-            <dataType>String</dataType>
-            <fieldText>This case step will launch which flow? (Use the Flow API Name without a version number)</fieldText>
-            <fieldType>InputField</fieldType>
+            <name>showFlowList</name>
+            <extensionName>c:flowListFSC</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>selectedFlowApiName</name>
+                <value>
+                    <elementReference>selectedFlowName</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Run which flow when this step starts?</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>showActiveFlowsOnly</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>selectedFlowName</assignToReference>
+                <name>selectedFlowApiName</name>
+            </outputParameters>
         </fields>
         <fields>
             <name>caseParnet</name>
@@ -577,7 +614,7 @@ Click On Next To Add More.</fieldText>
         </connector>
         <fields>
             <name>DisplayTextScreenMessage</name>
-            <fieldText>Record already exist please create different!</fieldText>
+            <fieldText>&lt;p&gt;A step with this name already exists. &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -586,37 +623,37 @@ Click On Next To Add More.</fieldText>
     <screens>
         <name>Update_Case_Step</name>
         <label>Update Case Step</label>
-        <locationX>1147</locationX>
+        <locationX>1146</locationX>
         <locationY>60</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Update_Selected_Plan_Step</targetReference>
+            <targetReference>Update_PlanStepRecord</targetReference>
         </connector>
         <fields>
             <name>UpdateScreenDisplayText</name>
-            <fieldText>Update Step</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>ToolTipMessage</name>
-            <fieldText>Name, Status, and Parent/Predecessor  cannot be changed in order to protect existing deployments. To accomplish this, please delete this step and create a new one with the proper name.</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Update Step&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>CaseStepName</name>
-            <fieldText>Step Name: {!PlanStepRecord.Name}</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Step Name:&lt;/b&gt; {!PlanStepRecord.Name}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>AssociateStatus</name>
-            <fieldText>Status: {!PlanStepRecord.Associate_Case_Status__c}</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Status: &lt;/b&gt;{!PlanStepRecord.Associate_Case_Status__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Parent</name>
-            <fieldText>Parent/Predecessor: {!PlanStepRecord.Start_When__c}</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Predecessor Step: &lt;/b&gt;{!PlanStepRecord.Start_When__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>ToolTipMessage</name>
+            <fieldText>&lt;p&gt;The above values cannot be changed in order to protect existing deployments. &lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -625,19 +662,31 @@ Click On Next To Add More.</fieldText>
             <defaultValue>
                 <elementReference>PlanStepRecord.Is_Required__c</elementReference>
             </defaultValue>
-            <fieldText>This step is required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
+            <fieldText>Required. This step&#39;s associated flow must be completed before the case can transition to the next case status.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Enter_Flow_Name_To_Run_Case_StepUpdate</name>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>PlanStepRecord.Flow__c</elementReference>
-            </defaultValue>
-            <fieldText>This case step will launch which flow? (Use the Flow API Name without a version number)</fieldText>
-            <fieldType>InputField</fieldType>
+            <name>flowList2</name>
+            <extensionName>c:flowListFSC</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Run which flow when this step starts:</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectedFlowApiName</name>
+                <value>
+                    <elementReference>PlanStepRecord.Flow__c</elementReference>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>selectedFlowName</assignToReference>
+                <name>selectedFlowApiName</name>
+            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -801,6 +850,13 @@ Click On Next To Add More.</fieldText>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>selectedFlowName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>selectedParent</name>
