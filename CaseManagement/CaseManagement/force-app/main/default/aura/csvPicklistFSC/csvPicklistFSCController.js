@@ -3,12 +3,12 @@
     invoke : function(component, event, helper){
 		var listType = component.get('v.listType');
         if(listType == 'simple'){
-            helper.generateFromSimpleList(component.get('v.recordTypeCSV').split(","), component);         
+            helper.generateFromSimpleList(component.get('v.CSVString').split(","), component);         
         } else //each list member is complex, which means semicolon separated
         {
-            var colsStr = component.get('v.recordTypeCSV').split(',');
-            if(colStrArr){
-                helper.generateFromCommaSeparatedSublist(colStrArr, component);     
+            var stringList = component.get('v.CSVString').split(',');
+            if(stringList){
+                helper.generateFromCommaSeparatedSublist(stringList, component);     
             } 
         }
             

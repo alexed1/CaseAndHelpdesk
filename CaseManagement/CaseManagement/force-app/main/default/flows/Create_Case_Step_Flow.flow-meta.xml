@@ -6,10 +6,10 @@
         <locationX>596</locationX>
         <locationY>266</locationY>
         <assignmentItems>
-            <assignToReference>caseStepParentString</assignToReference>
+            <assignToReference>caseStepAvailableParentsCSV</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>caseParentValue</elementReference>
+                <elementReference>aggregateStepNamesFormula</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -173,7 +173,7 @@
         </rules>
     </decisions>
     <formulas>
-        <name>caseParentValue</name>
+        <name>aggregateStepNamesFormula</name>
         <dataType>String</dataType>
         <expression>{!PlanStepRecord.Name}&amp;&quot;,&quot;&amp;{!PlanStepRecord.Name}&amp;&quot;;&quot;</expression>
     </formulas>
@@ -256,7 +256,7 @@
         <inputAssignments>
             <field>Associate_Case_Status__c</field>
             <value>
-                <elementReference>SelectedAssociateCaseStatus</elementReference>
+                <elementReference>selectedCaseStatus</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -434,31 +434,37 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>caseStepAssociateStatus</name>
-            <extensionName>c:caseMgmt_CaseRecordTypePicklist</extensionName>
+            <name>selectCaseStatusPicklist</name>
+            <extensionName>c:csvPicklistFSC</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
-                <name>recordTypeCSV</name>
-                <value>
-                    <elementReference>CaseStatusOrder</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedRecordTypeId</name>
-                <value>
-                    <elementReference>SelectedAssociateCaseStatus</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>LabelPicklist</name>
+                <name>labelPicklist</name>
                 <value>
                     <stringValue>Add to which Case Status</stringValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>CSVString</name>
+                <value>
+                    <elementReference>orderedCaseStatusCSV</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectedString</name>
+                <value>
+                    <elementReference>selectedCaseStatus</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>listType</name>
+                <value>
+                    <stringValue>simple</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
-                <assignToReference>SelectedAssociateCaseStatus</assignToReference>
-                <name>SelectedRecordTypeId</name>
+                <assignToReference>selectedCaseStatus</assignToReference>
+                <name>selectedString</name>
             </outputParameters>
         </fields>
         <fields>
@@ -490,31 +496,37 @@
             </outputParameters>
         </fields>
         <fields>
-            <name>caseParnet</name>
-            <extensionName>c:caseMgmt_CaseRecordTypePicklist</extensionName>
+            <name>selectParentStepPicklist</name>
+            <extensionName>c:csvPicklistFSC</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
-                <name>LabelPicklist</name>
+                <name>labelPicklist</name>
                 <value>
                     <stringValue>Specify a predecessor (parent) case step</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>recordTypeCSV</name>
+                <name>CSVString</name>
                 <value>
-                    <elementReference>caseStepParentString</elementReference>
+                    <elementReference>caseStepAvailableParentsCSV</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>SelectedRecordTypeId</name>
+                <name>selectedString</name>
                 <value>
                     <elementReference>selectedParent</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>listType</name>
+                <value>
+                    <stringValue>simple</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>selectedParent</assignToReference>
-                <name>SelectedRecordTypeId</name>
+                <name>selectedString</name>
             </outputParameters>
         </fields>
         <fields>
@@ -642,7 +654,7 @@ Click On Next To Add More.</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>AssociateStatus</name>
+            <name>dispAssociatedStatus</name>
             <fieldText>&lt;p&gt;&lt;b&gt;Status: &lt;/b&gt;{!PlanStepRecord.Associate_Case_Status__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
@@ -708,7 +720,7 @@ Click On Next To Add More.</fieldText>
         <showHeader>false</showHeader>
     </screens>
     <startElementReference>Operation_On_Plan_Step</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>CaseId</name>
         <dataType>String</dataType>
@@ -725,14 +737,7 @@ Click On Next To Add More.</fieldText>
         <objectType>Case_Plan__c</objectType>
     </variables>
     <variables>
-        <name>CaseStatusOrder</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>caseStepParentString</name>
+        <name>caseStepAvailableParentsCSV</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -807,19 +812,19 @@ Click On Next To Add More.</fieldText>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>Message</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
         <name>newCaseStepRecord</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <objectType>Case_Step__c</objectType>
+    </variables>
+    <variables>
+        <name>orderedCaseStatusCSV</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>Output</name>
@@ -845,7 +850,7 @@ Click On Next To Add More.</fieldText>
         <objectType>Plan_Step__c</objectType>
     </variables>
     <variables>
-        <name>SelectedAssociateCaseStatus</name>
+        <name>selectedCaseStatus</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

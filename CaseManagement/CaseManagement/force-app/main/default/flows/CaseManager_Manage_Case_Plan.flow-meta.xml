@@ -13,11 +13,11 @@
         <inputParameters>
             <name>RecordIdList</name>
             <value>
-                <elementReference>SelectedRecordType</elementReference>
+                <elementReference>SelectedRecordTypeName</elementReference>
             </value>
         </inputParameters>
         <outputParameters>
-            <assignToReference>CaseStatesOrder</assignToReference>
+            <assignToReference>CaseStatesOrderCSV</assignToReference>
             <name>output</name>
         </outputParameters>
     </actionCalls>
@@ -30,7 +30,7 @@
             <assignToReference>selectedCaseStatusOrder</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>storeCasePlanRecord.CaseStatusOrdering__c</elementReference>
+                <elementReference>curCasePlan2.CaseStatusOrdering__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -40,33 +40,17 @@
     <assignments>
         <name>Assign_Selected_RecordTypeId</name>
         <label>Assign Selected RecordTypeId</label>
-        <locationX>547</locationX>
-        <locationY>331</locationY>
+        <locationX>550</locationX>
+        <locationY>334</locationY>
         <assignmentItems>
-            <assignToReference>SelectedRecordType</assignToReference>
+            <assignToReference>SelectedRecordTypeName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>storeCasePlanRecord.RecordTypeId__c</elementReference>
+                <elementReference>curCasePlan2.RecordTypeId__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
             <targetReference>Fetch_Selected_Case_Picklist</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_To_CSV</name>
-        <label>Assign To CSV</label>
-        <locationX>42</locationX>
-        <locationY>518</locationY>
-        <assignmentItems>
-            <assignToReference>RecordTypeCSVVar</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>RecordTypeCSVFormula</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Over_RecordType_Records</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -78,7 +62,7 @@
             <assignToReference>selectedCaseStatusOrder</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>storeCasePlanRecord.CaseStatusOrdering__c</elementReference>
+                <elementReference>curCasePlan2.CaseStatusOrdering__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -134,6 +118,23 @@
         </connector>
     </assignments>
     <assignments>
+        <description>Generate a single CSV string that contains semi-colon separated recordtype ID/Name pairs</description>
+        <name>Generate_CSV</name>
+        <label>Generate CSV</label>
+        <locationX>42</locationX>
+        <locationY>518</locationY>
+        <assignmentItems>
+            <assignToReference>RecordTypeCSVVar</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ConvertRecordTypeDataToCSV</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_RecordType_Records</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>GetCasePlanData</name>
         <label>GetCasePlanData</label>
         <locationX>51</locationX>
@@ -142,7 +143,7 @@
             <assignToReference>SelectedId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>CasePlanRecordVar.Id</elementReference>
+                <elementReference>curCasePlan.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -150,19 +151,19 @@
         </connector>
     </assignments>
     <choices>
-        <name>create_Choice</name>
-        <choiceText>Create New Case Plan</choiceText>
-        <dataType>String</dataType>
-        <value>
-            <elementReference>CreateCasePlan</elementReference>
-        </value>
-    </choices>
-    <choices>
-        <name>DefineNewPlanStep</name>
+        <name>AddStep</name>
         <choiceText>Add Plan Step</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>Create</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>create_Choice</name>
+        <choiceText>Create New Case Plan</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <elementReference>createChoice</elementReference>
         </value>
     </choices>
     <choices>
@@ -171,6 +172,14 @@
         <dataType>String</dataType>
         <value>
             <stringValue>Delete</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Done</name>
+        <choiceText>Done with steps</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>done</stringValue>
         </value>
     </choices>
     <choices>
@@ -190,7 +199,7 @@
         </value>
     </choices>
     <choices>
-        <name>ModifyExistingPlanStep</name>
+        <name>ModifyStep</name>
         <choiceText>Edit or Delete Plan Step</choiceText>
         <dataType>String</dataType>
         <value>
@@ -198,22 +207,22 @@
         </value>
     </choices>
     <decisions>
-        <name>Add_or_Delete_Branch</name>
-        <label>Add or Edit Branch</label>
-        <locationX>1930</locationX>
-        <locationY>792</locationY>
+        <name>Add_or_Delete_Step</name>
+        <label>Add/Modify Step Branch</label>
+        <locationX>1944</locationX>
+        <locationY>774</locationY>
         <defaultConnector>
-            <targetReference>Manage_Plan_Steps</targetReference>
+            <targetReference>Validate_Steps_Exist</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Modify</defaultConnectorLabel>
         <rules>
             <name>Add</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>AddOrEditRadioButtons</leftValueReference>
+                <leftValueReference>NextPlanStepActionChoice</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>DefineNewPlanStep</elementReference>
+                    <elementReference>AddStep</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -221,21 +230,36 @@
             </connector>
             <label>Add</label>
         </rules>
+        <rules>
+            <name>DoneOutcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NextPlanStepActionChoice</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Done</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CreateCase_Plan</targetReference>
+            </connector>
+            <label>Done</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Case_Plan_Exist</name>
-        <label>Case Plan Exist</label>
+        <label>Case Plans Exist</label>
         <locationX>772</locationX>
         <locationY>67</locationY>
         <defaultConnector>
             <targetReference>Error</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>No Case Plans</defaultConnectorLabel>
         <rules>
             <name>Case_Plan_Is_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>casePlanRecordList</leftValueReference>
+                <leftValueReference>curCasePlans</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -244,7 +268,7 @@
             <connector>
                 <targetReference>Existing_Case_Plan</targetReference>
             </connector>
-            <label>Case Plan Is Exist</label>
+            <label>Case Plans Exist</label>
         </rules>
     </decisions>
     <decisions>
@@ -257,14 +281,14 @@
             <name>IsCreate</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>create_Choice</leftValueReference>
-                <operator>WasSelected</operator>
+                <leftValueReference>CasePlanAction</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>create_Choice</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_Case_Plan_Screen</targetReference>
+                <targetReference>Manage_Case_Status_order</targetReference>
             </connector>
             <label>IsCreate</label>
         </rules>
@@ -272,10 +296,10 @@
             <name>isEdit</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>edit_choice</leftValueReference>
-                <operator>WasSelected</operator>
+                <leftValueReference>CasePlanAction</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>edit_choice</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -309,7 +333,7 @@
     <decisions>
         <name>Check_Selected_Id_is_Null</name>
         <label>Check Selected Id is Null</label>
-        <locationX>1011</locationX>
+        <locationX>1010</locationX>
         <locationY>322</locationY>
         <defaultConnector>
             <targetReference>Get_Selected_Case_Plan</targetReference>
@@ -341,7 +365,7 @@
             <name>Found</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SimilarCasePlanRecord</leftValueReference>
+                <leftValueReference>matchingCasePlan</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -356,7 +380,7 @@
             <name>Not_Found</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SimilarCasePlanRecord</leftValueReference>
+                <leftValueReference>matchingCasePlan</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -378,7 +402,7 @@
             <name>FoundWhenEdit</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SimilarCasePlanRecord</leftValueReference>
+                <leftValueReference>matchingCasePlan</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -393,7 +417,7 @@
             <name>Not_Found_When_Edit</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SimilarCasePlanRecord</leftValueReference>
+                <leftValueReference>matchingCasePlan</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -472,14 +496,14 @@
             <name>Create_Case_Plan</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>create_Choice</leftValueReference>
-                <operator>WasSelected</operator>
+                <leftValueReference>CasePlanAction</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>create_Choice</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>RecordTypeSelectScreen</targetReference>
+                <targetReference>CreateCasePlan</targetReference>
             </connector>
             <label>Create Case Plan</label>
         </rules>
@@ -487,10 +511,10 @@
             <name>Edit_Case_Plan</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>edit_choice</leftValueReference>
-                <operator>WasSelected</operator>
+                <leftValueReference>CasePlanAction</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <elementReference>edit_choice</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -566,7 +590,7 @@
             <name>Modification_Selected</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>DefineNewPlanStep</leftValueReference>
+                <leftValueReference>AddStep</leftValueReference>
                 <operator>WasSelected</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -626,15 +650,35 @@
             <label>Edit</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Validate_Steps_Exist</name>
+        <label>Validate Steps Exist</label>
+        <locationX>1691</locationX>
+        <locationY>727</locationY>
+        <defaultConnector>
+            <targetReference>Manage_Plan_Steps</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Steps Exist</defaultConnectorLabel>
+        <rules>
+            <name>Steps_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>curPlanSteps</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_No_Steps_Defined</targetReference>
+            </connector>
+            <label>No Steps Exist</label>
+        </rules>
+    </decisions>
     <formulas>
-        <name>fieldsDataCSV</name>
+        <name>ConvertRecordTypeDataToCSV</name>
         <dataType>String</dataType>
-        <expression>{!loopRecordVar.Id}&amp;&quot;,&quot;&amp;{!loopRecordVar.Name}&amp;&quot;,&quot;&amp;{!loopRecordVar.CaseStatusOrdering__c}&amp;&quot;,&quot;&amp;{!loopRecordVar.RecordType_SupportProcess__c}</expression>
-    </formulas>
-    <formulas>
-        <name>RecordTypeCSVFormula</name>
-        <dataType>String</dataType>
-        <expression>{!RecordTypeData.Id}&amp;&quot;,&quot;&amp;{!RecordTypeData.DeveloperName}&amp;&quot;;&quot;</expression>
+        <expression>{!curRecordType.Id}&amp;&quot;;&quot;&amp;{!curRecordType.DeveloperName}&amp;&quot;,&quot;</expression>
     </formulas>
     <interviewLabel>Manage Case Plan {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CaseManager Manage Case Plan</label>
@@ -643,11 +687,11 @@
         <label>Loop Over RecordType Records</label>
         <locationX>43</locationX>
         <locationY>336</locationY>
-        <assignNextValueToReference>RecordTypeData</assignNextValueToReference>
-        <collectionReference>ListOfRecordTypes</collectionReference>
+        <assignNextValueToReference>curRecordType</assignNextValueToReference>
+        <collectionReference>curRecordTypes</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Assign_To_CSV</targetReference>
+            <targetReference>Generate_CSV</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>CreateOrEdit</targetReference>
@@ -671,7 +715,7 @@
         <label>Create Case Plan Record</label>
         <locationX>58</locationX>
         <locationY>688</locationY>
-        <assignRecordIdToReference>CasePlanRecordVar.Id</assignRecordIdToReference>
+        <assignRecordIdToReference>curCasePlan.Id</assignRecordIdToReference>
         <connector>
             <targetReference>Case_Plan_Created</targetReference>
         </connector>
@@ -690,13 +734,13 @@
         <inputAssignments>
             <field>RecordTypeId__c</field>
             <value>
-                <elementReference>SelectedRecordTypeValue.Id</elementReference>
+                <elementReference>selectedRecordType.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>RecordType_SupportProcess__c</field>
             <value>
-                <elementReference>SelectedRecordTypeValue.DeveloperName</elementReference>
+                <elementReference>selectedRecordType.DeveloperName</elementReference>
             </value>
         </inputAssignments>
         <object>Case_Plan__c</object>
@@ -711,7 +755,7 @@
             <targetReference>Case_Plan_Exist</targetReference>
         </connector>
         <object>Case_Plan__c</object>
-        <outputReference>casePlanRecordList</outputReference>
+        <outputReference>curCasePlans</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>Name</queriedFields>
@@ -735,7 +779,7 @@
             </value>
         </filters>
         <object>Case_Plan__c</object>
-        <outputReference>storeCasePlanRecord</outputReference>
+        <outputReference>curCasePlan2</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>RecordType_SupportProcess__c</queriedFields>
@@ -752,7 +796,7 @@
             <targetReference>New_Case_Plan_List</targetReference>
         </connector>
         <object>Case_Plan__c</object>
-        <outputReference>casePlanRecordList</outputReference>
+        <outputReference>curCasePlans</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>Name</queriedFields>
@@ -772,11 +816,11 @@
             <field>Case_Plan__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>storeCasePlanRecord.Id</elementReference>
+                <elementReference>curCasePlan2.Id</elementReference>
             </value>
         </filters>
         <object>Plan_Step__c</object>
-        <outputReference>PlanStepRecordsList</outputReference>
+        <outputReference>curPlanSteps</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>Flow__c</queriedFields>
         <queriedFields>Associate_Case_Status__c</queriedFields>
@@ -801,7 +845,7 @@
             </value>
         </filters>
         <object>RecordType</object>
-        <outputReference>ListOfRecordTypes</outputReference>
+        <outputReference>curRecordTypes</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>DeveloperName</queriedFields>
     </recordLookups>
@@ -822,7 +866,7 @@
             </value>
         </filters>
         <object>Case_Plan__c</object>
-        <outputReference>storeCasePlanRecord</outputReference>
+        <outputReference>curCasePlan2</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>CaseStatusOrdering__c</queriedFields>
         <queriedFields>Name</queriedFields>
@@ -849,11 +893,11 @@
             <field>Name</field>
             <operator>NotEqualTo</operator>
             <value>
-                <elementReference>storeCasePlanRecord.Name</elementReference>
+                <elementReference>curCasePlan2.Name</elementReference>
             </value>
         </filters>
         <object>Case_Plan__c</object>
-        <outputReference>SimilarCasePlanRecord</outputReference>
+        <outputReference>matchingCasePlan</outputReference>
         <queriedFields>Id</queriedFields>
     </recordLookups>
     <recordLookups>
@@ -873,7 +917,7 @@
             </value>
         </filters>
         <object>Case_Plan__c</object>
-        <outputReference>SimilarCasePlanRecord</outputReference>
+        <outputReference>matchingCasePlan</outputReference>
         <queriedFields>Id</queriedFields>
     </recordLookups>
     <recordLookups>
@@ -889,11 +933,11 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>SelectedRecordType</elementReference>
+                <elementReference>SelectedRecordTypeName</elementReference>
             </value>
         </filters>
         <object>RecordType</object>
-        <outputReference>SelectedRecordTypeValue</outputReference>
+        <outputReference>selectedRecordType</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>DeveloperName</queriedFields>
     </recordLookups>
@@ -910,11 +954,11 @@
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>SelectedRecordType</elementReference>
+                <elementReference>SelectedRecordTypeName</elementReference>
             </value>
         </filters>
         <object>RecordType</object>
-        <outputReference>SelectedRecordTypeValue</outputReference>
+        <outputReference>selectedRecordType</outputReference>
         <queriedFields>Id</queriedFields>
         <queriedFields>DeveloperName</queriedFields>
     </recordLookups>
@@ -942,13 +986,13 @@
         <inputAssignments>
             <field>RecordTypeId__c</field>
             <value>
-                <elementReference>SelectedRecordType</elementReference>
+                <elementReference>SelectedRecordTypeName</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>RecordType_SupportProcess__c</field>
             <value>
-                <elementReference>SelectedRecordTypeValue.DeveloperName</elementReference>
+                <elementReference>selectedRecordType.DeveloperName</elementReference>
             </value>
         </inputAssignments>
         <object>Case_Plan__c</object>
@@ -966,83 +1010,8 @@
         </connector>
         <fields>
             <name>CasePlanSuccessMessage</name>
-            <fieldText>Case Plan {!Case_Plan_Name} Created
-Click on the Next button to manage case steps for this case plan</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Case Plan {!Case_Plan_Name} Created&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Create_Case_Plan_Screen</name>
-        <label>Create Case Plan Screen</label>
-        <locationX>700</locationX>
-        <locationY>785</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Is_Item_Selected</targetReference>
-        </connector>
-        <fields>
-            <name>ManageCaseStatusOrder</name>
-            <fieldText>Manage Case Status Order</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>caseStatusDualListBox</name>
-            <extensionName>c:caseMgmt_CaseStatusDualListBox</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>StatusOrder</name>
-                <value>
-                    <elementReference>CaseStatesOrder</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedStatusOrder</name>
-                <value>
-                    <elementReference>selectedCaseStatusOrder</elementReference>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>selectedCaseStatusOrder</assignToReference>
-                <name>SelectedValue</name>
-            </outputParameters>
-        </fields>
-        <fields>
-            <name>DisplayToolTip</name>
-            <fieldText>Case Plans allow you to specify the order in which the case transitions through its stages.</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>planStepsOrder</name>
-            <extensionName>c:dualListBox</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>FullItemSetCSV</name>
-                <value>
-                    <elementReference>CaseStatesOrder</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedItemsCSV</name>
-                <value>
-                    <elementReference>selectedCaseStatusOrder</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>label</name>
-                <value>
-                    <stringValue>Select Plan States</stringValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>selectedCaseStatusOrder</assignToReference>
-                <name>SelectedItemsCSV</name>
-            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1059,13 +1028,73 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <targetReference>Get_Record_Type</targetReference>
         </connector>
         <fields>
-            <name>Create_Or_Edit_choices</name>
+            <name>CasePlanAction</name>
             <choiceReferences>create_Choice</choiceReferences>
             <choiceReferences>edit_choice</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Case Plan Manager</fieldText>
+            <fieldText>Select an Action</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>CreateCasePlan</name>
+        <label>Create Case Plan</label>
+        <locationX>248</locationX>
+        <locationY>517</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Get_Similiar_Record</targetReference>
+        </connector>
+        <fields>
+            <name>DisplaytextRecordTypeScreen</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Create New Case Plan&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Case_Plan_Name</name>
+            <dataType>String</dataType>
+            <fieldText>Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>selectRecordTypePicklist</name>
+            <extensionName>c:csvPicklistFSC</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>CSVString</name>
+                <value>
+                    <elementReference>RecordTypeCSVVar</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectedString</name>
+                <value>
+                    <elementReference>SelectedRecordTypeName</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>listType</name>
+                <value>
+                    <stringValue>complex</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>labelPicklist</name>
+                <value>
+                    <stringValue>Link Case Plan to which Case Record Type</stringValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>SelectedRecordTypeName</assignToReference>
+                <name>selectedString</name>
+            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1082,10 +1111,15 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <targetReference>Get_Similar_Record_When_Edit</targetReference>
         </connector>
         <fields>
+            <name>dispEditPlan</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Edit Case Plan&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>Name</name>
             <dataType>String</dataType>
             <defaultValue>
-                <elementReference>storeCasePlanRecord.Name</elementReference>
+                <elementReference>curCasePlan2.Name</elementReference>
             </defaultValue>
             <fieldText>Name</fieldText>
             <fieldType>InputField</fieldType>
@@ -1093,7 +1127,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </fields>
         <fields>
             <name>RecordType</name>
-            <fieldText>Record Type: {!storeCasePlanRecord.RecordType_SupportProcess__c}</fieldText>
+            <fieldText>Record Type: {!curCasePlan2.RecordType_SupportProcess__c}</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1112,7 +1146,26 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorMessage</name>
-            <fieldText>No Case Plan Exist Please Create One</fieldText>
+            <fieldText>&lt;p&gt;No Case Plans are defined.  Please create one.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Error_No_Steps_Defined</name>
+        <label>Error - No Steps Defined</label>
+        <locationX>1661</locationX>
+        <locationY>899</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Manage_Plan_Steps_0</targetReference>
+        </connector>
+        <fields>
+            <name>dispErrorNoSteps</name>
+            <fieldText>&lt;p&gt;No steps have been defined.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1169,7 +1222,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>DisplayHeaderForExistngCasePlan</name>
-            <fieldText>Select Case Plan to Edit</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Select Case Plan to Edit&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1191,7 +1244,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <inputParameters>
                 <name>objectArrayCasePlan</name>
                 <value>
-                    <elementReference>casePlanRecordList</elementReference>
+                    <elementReference>curCasePlans</elementReference>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -1206,7 +1259,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
     <screens>
         <name>Manage_Case_Plan_Edit</name>
         <label>Manage Case Plan</label>
-        <locationX>1322</locationX>
+        <locationX>1323</locationX>
         <locationY>478</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1220,31 +1273,83 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>CaseStatusEditComponent</name>
-            <extensionName>c:caseMgmt_CaseStatusDualListBox</extensionName>
+            <name>dlbSetStateOrder</name>
+            <extensionName>c:dualListBox</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
-                <name>StatusOrder</name>
+                <name>FullItemSetCSV</name>
                 <value>
-                    <elementReference>CaseStatesOrder</elementReference>
+                    <elementReference>CaseStatesOrderCSV</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>isEditScreen</name>
-                <value>
-                    <booleanValue>true</booleanValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedStatusOrder</name>
+                <name>SelectedItemsCSV</name>
                 <value>
                     <elementReference>selectedCaseStatusOrder</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Set State Order</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>selectedCaseStatusOrder</assignToReference>
-                <name>SelectedValue</name>
+                <name>SelectedItemsCSV</name>
+            </outputParameters>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manage_Case_Status_order</name>
+        <label>Manage Case Status order</label>
+        <locationX>701</locationX>
+        <locationY>785</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Is_Item_Selected</targetReference>
+        </connector>
+        <fields>
+            <name>ManageCaseStatusOrder</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Manage Case Status Order&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>DisplayToolTip</name>
+            <fieldText>Case Plans allow you to specify the order in which the case transitions through its stages.</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>planStepsOrder</name>
+            <extensionName>c:dualListBox</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>FullItemSetCSV</name>
+                <value>
+                    <elementReference>CaseStatesOrderCSV</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>SelectedItemsCSV</name>
+                <value>
+                    <elementReference>selectedCaseStatusOrder</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Select Plan States</stringValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>selectedCaseStatusOrder</assignToReference>
+                <name>SelectedItemsCSV</name>
             </outputParameters>
         </fields>
         <showFooter>true</showFooter>
@@ -1289,7 +1394,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <inputParameters>
                 <name>objectArrayCaseStep</name>
                 <value>
-                    <elementReference>PlanStepRecordsList</elementReference>
+                    <elementReference>curPlanSteps</elementReference>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -1304,18 +1409,19 @@ Click on the Next button to manage case steps for this case plan</fieldText>
     <screens>
         <name>Manage_Plan_Steps_0</name>
         <label>Add or Edit Plan Step?</label>
-        <locationX>1696</locationX>
-        <locationY>920</locationY>
+        <locationX>1779</locationX>
+        <locationY>922</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Add_or_Delete_Branch</targetReference>
+            <targetReference>Add_or_Delete_Step</targetReference>
         </connector>
         <fields>
-            <name>AddOrEditRadioButtons</name>
-            <choiceReferences>DefineNewPlanStep</choiceReferences>
-            <choiceReferences>ModifyExistingPlanStep</choiceReferences>
+            <name>NextPlanStepActionChoice</name>
+            <choiceReferences>AddStep</choiceReferences>
+            <choiceReferences>ModifyStep</choiceReferences>
+            <choiceReferences>Done</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Add or Edit Plan Step?</fieldText>
             <fieldType>RadioButtons</fieldType>
@@ -1356,7 +1462,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             <inputParameters>
                 <name>objectArrayCasePlan</name>
                 <value>
-                    <elementReference>casePlanRecordList</elementReference>
+                    <elementReference>curCasePlans</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -1383,62 +1489,8 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </connector>
         <fields>
             <name>ErrorNoId</name>
-            <fieldText>No Record Selected From Case Plan, Please Select One Record.</fieldText>
+            <fieldText>&lt;p&gt;Please select a Case Plan.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>RecordTypeSelectScreen</name>
-        <label>Select Record Type</label>
-        <locationX>248</locationX>
-        <locationY>517</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Get_Similiar_Record</targetReference>
-        </connector>
-        <fields>
-            <name>DisplaytextRecordTypeScreen</name>
-            <fieldText>Create New Case Plan</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>Case_Plan_Name</name>
-            <dataType>String</dataType>
-            <fieldText>Case Plan Name</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>caseRecordTypeComponent</name>
-            <extensionName>c:caseMgmt_CaseRecordTypePicklist</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>recordTypeCSV</name>
-                <value>
-                    <elementReference>RecordTypeCSVVar</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>SelectedRecordTypeId</name>
-                <value>
-                    <elementReference>SelectedRecordType</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>LabelPicklist</name>
-                <value>
-                    <stringValue>Link this Case Plan to Support Process</stringValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-            <outputParameters>
-                <assignToReference>SelectedRecordType</assignToReference>
-                <name>SelectedRecordTypeId</name>
-            </outputParameters>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1452,7 +1504,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_Case_Plan_Screen</targetReference>
+            <targetReference>Manage_Case_Status_order</targetReference>
         </connector>
         <fields>
             <name>ErrorSelectedItem</name>
@@ -1471,7 +1523,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>RecordTypeSelectScreen</targetReference>
+            <targetReference>CreateCasePlan</targetReference>
         </connector>
         <fields>
             <name>SimilarCasePlanMessage</name>
@@ -1517,13 +1569,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <inputAssignments>
             <name>CasePlanRecord</name>
             <value>
-                <elementReference>storeCasePlanRecord</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>CaseStatusOrder</name>
-            <value>
-                <elementReference>storeCasePlanRecord.CaseStatusOrdering__c</elementReference>
+                <elementReference>curCasePlan2</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1545,25 +1591,23 @@ Click on the Next button to manage case steps for this case plan</fieldText>
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>SelectedPlanStepId</name>
+            <value>
+                <elementReference>SelectedPlanStepId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>isAdmin</name>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <inputAssignments>
-            <name>SelectedPlanStepId</name>
+            <name>orderedCaseStatusCSV</name>
             <value>
-                <elementReference>SelectedPlanStepId</elementReference>
+                <elementReference>curCasePlan2.CaseStatusOrdering__c</elementReference>
             </value>
         </inputAssignments>
-        <outputAssignments>
-            <assignToReference>Message</assignToReference>
-            <name>Message</name>
-        </outputAssignments>
-        <outputAssignments>
-            <assignToReference>Output</assignToReference>
-            <name>Output</name>
-        </outputAssignments>
         <outputAssignments>
             <assignToReference>createPlanStep</assignToReference>
             <name>CreateDone</name>
@@ -1575,6 +1619,10 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <outputAssignments>
             <assignToReference>editPlanStep</assignToReference>
             <name>EditDone</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>Output</assignToReference>
+            <name>Output</name>
         </outputAssignments>
     </subflows>
     <variables>
@@ -1588,30 +1636,14 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </value>
     </variables>
     <variables>
-        <name>casePlanRecordList</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>CasePlanRecordVar</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>CaseStatesOrder</name>
+        <name>CaseStatesOrderCSV</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>CreateCasePlan</name>
+        <name>createChoice</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -1626,6 +1658,54 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>curCasePlan</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case_Plan__c</objectType>
+    </variables>
+    <variables>
+        <name>curCasePlan2</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case_Plan__c</objectType>
+    </variables>
+    <variables>
+        <name>curCasePlans</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case_Plan__c</objectType>
+    </variables>
+    <variables>
+        <name>curPlanSteps</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Plan_Step__c</objectType>
+    </variables>
+    <variables>
+        <name>curRecordType</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>RecordType</objectType>
+    </variables>
+    <variables>
+        <name>curRecordTypes</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>RecordType</objectType>
     </variables>
     <variables>
         <name>DeletePlanStep</name>
@@ -1652,19 +1732,27 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>ListOfRecordTypes</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>RecordType</objectType>
-    </variables>
-    <variables>
-        <name>loopRecordVar</name>
+        <name>indexCasePlan</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+        <objectType>Case_Plan__c</objectType>
+    </variables>
+    <variables>
+        <name>matchingCasePlan</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case_Plan__c</objectType>
+    </variables>
+    <variables>
+        <name>matchingCasePlans</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
         <objectType>Case_Plan__c</objectType>
     </variables>
     <variables>
@@ -1692,27 +1780,11 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         </value>
     </variables>
     <variables>
-        <name>PlanStepRecordsList</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>Plan_Step__c</objectType>
-    </variables>
-    <variables>
         <name>RecordTypeCSVVar</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>RecordTypeData</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-        <objectType>RecordType</objectType>
     </variables>
     <variables>
         <name>selectedCaseStatusOrder</name>
@@ -1743,14 +1815,7 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <name>SelectedRecordType</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>true</isOutput>
-    </variables>
-    <variables>
-        <name>SelectedRecordTypeValue</name>
+        <name>selectedRecordType</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
@@ -1758,27 +1823,10 @@ Click on the Next button to manage case steps for this case plan</fieldText>
         <objectType>RecordType</objectType>
     </variables>
     <variables>
-        <name>SimilarCasePlanRecord</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>SimmilarCasePlanList</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Case_Plan__c</objectType>
-    </variables>
-    <variables>
-        <name>storeCasePlanRecord</name>
-        <dataType>SObject</dataType>
+        <name>SelectedRecordTypeName</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <objectType>Case_Plan__c</objectType>
     </variables>
 </Flow>
