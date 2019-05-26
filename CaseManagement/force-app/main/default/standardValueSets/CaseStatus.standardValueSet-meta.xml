@@ -43,4 +43,40 @@
         <label>Closed</label>
         <closed>true</closed>
     </standardValue>
+    <standardValue>
+        <fullName>Collect Resume</fullName>
+        <default>false</default>
+        <label>Collect Resume</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Recruiter Review</fullName>
+        <default>false</default>
+        <label>Recruiter Review</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Interview</fullName>
+        <default>false</default>
+        <label>Interview</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Decision</fullName>
+        <default>false</default>
+        <label>Decision</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Offer</fullName>
+        <default>false</default>
+        <label>Offer</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>foobar</fullName>
+        <default>false</default>
+        <label>foobar</label>
+        <closed>false</closed>
+    </standardValue>
 </StandardValueSet>

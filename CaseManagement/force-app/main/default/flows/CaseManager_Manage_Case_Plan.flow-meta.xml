@@ -1240,7 +1240,7 @@
         </fields>
         <fields>
             <name>dlbSetStateOrder</name>
-            <extensionName>c:dualListBox</extensionName>
+            <extensionName>c:dualListBoxFSC</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>FullItemSetCSV</name>
@@ -1292,7 +1292,7 @@
         </fields>
         <fields>
             <name>planStepsOrder</name>
-            <extensionName>c:dualListBox</extensionName>
+            <extensionName>c:dualListBoxFSC</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>FullItemSetCSV</name>

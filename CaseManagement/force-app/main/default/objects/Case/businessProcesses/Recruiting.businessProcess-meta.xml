@@ -26,4 +26,8 @@
         <fullName>Recruiter Review</fullName>
         <default>false</default>
     </values>
+    <values>
+        <fullName>foobar</fullName>
+        <default>false</default>
+    </values>
 </BusinessProcess>
