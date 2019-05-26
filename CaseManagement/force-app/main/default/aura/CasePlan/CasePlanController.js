@@ -30,8 +30,8 @@
                 }
 
             ];
-            // Invokes a flow Case_Step_Management.
-            flowCaseStart.startFlow('CaseManager_Case_Step_Management',inputVariablesCaseStart);
+            // Invokes a flow CaseManager_ProcessCaseStep.
+            flowCaseStart.startFlow('CaseManager_ProcessCaseStep',inputVariablesCaseStart);
         }else{
             component.set('v.caseStepId',event.currentTarget.getAttribute("data-id"));
             component.set('v.startCaseStepManagement',true);
@@ -198,7 +198,7 @@
 
         ];
         // Invoke a flow from here
-        flow.startFlow("CaseManager_Case_Management_Next_Status",inputVariables);
+        flow.startFlow("CaseManager_ProcessCaseTransitionRequest",inputVariables);
     },
 
     // Invoke on finish of case status change flow

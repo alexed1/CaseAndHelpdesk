@@ -40,8 +40,8 @@
     <assignments>
         <name>Assign_Selected_RecordTypeId</name>
         <label>Assign Selected RecordTypeId</label>
-        <locationX>550</locationX>
-        <locationY>334</locationY>
+        <locationX>547</locationX>
+        <locationY>331</locationY>
         <assignmentItems>
             <assignToReference>SelectedRecordTypeName</assignToReference>
             <operator>Assign</operator>
@@ -207,12 +207,12 @@
         </value>
     </choices>
     <decisions>
-        <name>Add_or_Delete_Step</name>
-        <label>Add/Modify Step Branch</label>
-        <locationX>1944</locationX>
-        <locationY>774</locationY>
+        <name>Add_or_Delete_Branch</name>
+        <label>Add or Edit Branch</label>
+        <locationX>2324</locationX>
+        <locationY>866</locationY>
         <defaultConnector>
-            <targetReference>Validate_Steps_Exist</targetReference>
+            <targetReference>Manage_Plan_Steps</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Modify</defaultConnectorLabel>
         <rules>
@@ -241,7 +241,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>CreateCase_Plan</targetReference>
+                <targetReference>Get_Case_Plan</targetReference>
             </connector>
             <label>Done</label>
         </rules>
@@ -650,31 +650,6 @@
             <label>Edit</label>
         </rules>
     </decisions>
-    <decisions>
-        <name>Validate_Steps_Exist</name>
-        <label>Validate Steps Exist</label>
-        <locationX>1691</locationX>
-        <locationY>727</locationY>
-        <defaultConnector>
-            <targetReference>Manage_Plan_Steps</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Steps Exist</defaultConnectorLabel>
-        <rules>
-            <name>Steps_Exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>curPlanSteps</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Error_No_Steps_Defined</targetReference>
-            </connector>
-            <label>No Steps Exist</label>
-        </rules>
-    </decisions>
     <formulas>
         <name>ConvertRecordTypeDataToCSV</name>
         <dataType>String</dataType>
@@ -717,7 +692,7 @@
         <locationY>688</locationY>
         <assignRecordIdToReference>curCasePlan.Id</assignRecordIdToReference>
         <connector>
-            <targetReference>Case_Plan_Created</targetReference>
+            <targetReference>Case_Plan_Created_Or_Modified</targetReference>
         </connector>
         <inputAssignments>
             <field>CaseStatusOrdering__c</field>
@@ -998,10 +973,10 @@
         <object>Case_Plan__c</object>
     </recordUpdates>
     <screens>
-        <name>Case_Plan_Created</name>
-        <label>Case Plan Created</label>
+        <name>Case_Plan_Created_Or_Modified</name>
+        <label>Case Plan Modified</label>
         <locationX>51</locationX>
-        <locationY>934</locationY>
+        <locationY>933</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1010,7 +985,7 @@
         </connector>
         <fields>
             <name>CasePlanSuccessMessage</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Case Plan {!Case_Plan_Name} Created&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Case Plan Modified&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1028,6 +1003,11 @@
             <targetReference>Get_Record_Type</targetReference>
         </connector>
         <fields>
+            <name>dispManageCasePlan</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Manage Case Plan&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>CasePlanAction</name>
             <choiceReferences>create_Choice</choiceReferences>
             <choiceReferences>edit_choice</choiceReferences>
@@ -1035,6 +1015,11 @@
             <fieldText>Select an Action</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>dispDocumentation</name>
+            <fieldText>&lt;p&gt;&lt;a href=&quot;https://unofficialsf.com/case-manager/&quot; target=&quot;_blank&quot;&gt;Documentation&lt;/a&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1127,7 +1112,7 @@
         </fields>
         <fields>
             <name>RecordType</name>
-            <fieldText>Record Type: {!curCasePlan2.RecordType_SupportProcess__c}</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Record Type: &lt;/b&gt;{!curCasePlan2.RecordType_SupportProcess__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1147,25 +1132,6 @@
         <fields>
             <name>ErrorMessage</name>
             <fieldText>&lt;p&gt;No Case Plans are defined.  Please create one.&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Error_No_Steps_Defined</name>
-        <label>Error - No Steps Defined</label>
-        <locationX>1661</locationX>
-        <locationY>899</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Manage_Plan_Steps_0</targetReference>
-        </connector>
-        <fields>
-            <name>dispErrorNoSteps</name>
-            <fieldText>&lt;p&gt;No steps have been defined.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -1367,13 +1333,9 @@
             <targetReference>Modification_Type</targetReference>
         </connector>
         <fields>
-            <name>What_Kind_Of_Modification_Needed</name>
-            <choiceReferences>Edit</choiceReferences>
-            <choiceReferences>Delete</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Edit or Delete?</fieldText>
-            <fieldType>RadioButtons</fieldType>
-            <isRequired>true</isRequired>
+            <name>dispSelectModify</name>
+            <fieldText>&lt;p&gt;&lt;b&gt;Select Step to Modify:&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>PlanStepDataTable</name>
@@ -1403,19 +1365,28 @@
                 <name>recordId</name>
             </outputParameters>
         </fields>
+        <fields>
+            <name>What_Kind_Of_Modification_Needed</name>
+            <choiceReferences>Edit</choiceReferences>
+            <choiceReferences>Delete</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Edit or Delete?</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Manage_Plan_Steps_0</name>
         <label>Add or Edit Plan Step?</label>
-        <locationX>1779</locationX>
-        <locationY>922</locationY>
+        <locationX>1696</locationX>
+        <locationY>920</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Add_or_Delete_Step</targetReference>
+            <targetReference>Add_or_Delete_Branch</targetReference>
         </connector>
         <fields>
             <name>NextPlanStepActionChoice</name>

@@ -713,7 +713,7 @@ Click On Next To Add More.</fieldText>
         <allowPause>true</allowPause>
         <fields>
             <name>UpdateMessageScreen</name>
-            <fieldText>Case Step Updated Successfully!</fieldText>
+            <fieldText>&lt;p&gt;&lt;b&gt;Case Step Updated Successfully!&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>

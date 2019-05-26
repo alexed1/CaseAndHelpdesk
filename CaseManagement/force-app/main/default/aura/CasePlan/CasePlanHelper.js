@@ -1,6 +1,3 @@
-/**
- * Created by Shubham on 1/29/2019.
- */
 ({
     _getCaseManagerData : function(component, recordId){
         // Fetch Initial Data On Load of a Component

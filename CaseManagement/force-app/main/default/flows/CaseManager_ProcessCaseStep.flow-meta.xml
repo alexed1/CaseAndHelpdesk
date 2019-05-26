@@ -102,8 +102,8 @@
             <label>Is Null</label>
         </rules>
     </decisions>
-    <interviewLabel>CaseManager Case Step Management {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>CaseManager Case Step Management</label>
+    <interviewLabel>CaseManager_ProcessCaseStep {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CaseManager_ProcessCaseStep</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -116,7 +116,7 @@
             <stringValue>LightningFlowBuilder</stringValue>
         </value>
     </processMetadataValues>
-    <processType>Flow</processType>
+    <processType>AutoLaunchedFlow</processType>
     <recordLookups>
         <name>Get_Case_Step_Record</name>
         <label>Get Case Step Record</label>
@@ -193,7 +193,7 @@
         <object>Case_Step__c</object>
     </recordUpdates>
     <startElementReference>Get_Case_Step_Record</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>CaseId</name>
         <dataType>String</dataType>

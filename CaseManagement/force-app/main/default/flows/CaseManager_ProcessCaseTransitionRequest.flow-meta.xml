@@ -187,8 +187,8 @@
             <label>Is Null</label>
         </rules>
     </decisions>
-    <interviewLabel>Case Management Next Status {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>CaseManager Case Management Next Status</label>
+    <interviewLabel>CaseManager_ProcessCaseTransitionRequest {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CaseManager_ProcessCaseTransitionRequest</label>
     <loops>
         <name>Loop_Over_Case_Step_Records</name>
         <label>Loop Over Case Step Records</label>
@@ -299,7 +299,7 @@
         <object>Case</object>
     </recordUpdates>
     <startElementReference>GetCaseStepRecords</startElementReference>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>AlertMessage</name>
         <dataType>String</dataType>

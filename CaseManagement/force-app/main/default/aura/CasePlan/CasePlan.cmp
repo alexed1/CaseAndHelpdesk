@@ -89,7 +89,7 @@
                 </aura:iteration>
                 <aura:set attribute="else">
                     <p>
-                    <center><b>Current case status doesn't have any associated case step.</b></center>
+                    <center><b>Current case status doesn't have at least one associated case step. Add case steps using the Manage Case Plan flow in the Case Management app</b></center>
                     </p>
                 </aura:set>
             </aura:if>

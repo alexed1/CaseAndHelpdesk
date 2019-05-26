@@ -1,4 +1,5 @@
 .sfdx
 .DS_store
-/flow_action_components/Summer18/Google/force-app/main/default/profiles/Admin.profile-meta.xml
-/flow_action_components/Summer18/Google/force-app/main/default/flows/*.flow-meta.xml
+/force-app/main/default/profiles/
+/force-app/main/default/standardValueSets
+
