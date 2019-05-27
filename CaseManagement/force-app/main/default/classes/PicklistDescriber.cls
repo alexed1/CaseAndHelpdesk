@@ -1,5 +1,4 @@
 /**
- * Created by Shubham on 2/4/2019.
  * Purpose: Create and Update picklist field and its values for plan step 
    Called from Trigger: PicklistDescriberTrigger 
  */

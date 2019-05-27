@@ -7,6 +7,7 @@
         actionVar.setParams({ recordId : recordId });
         // Setting Up Callback Result to Aura Attributes
         actionVar.setCallback(this, function(response) {
+            console.log('return value from getCaseManagerData is: '+ response.getReturnValue() );
             component.set("v.caseManager",response.getReturnValue());
             if($A.util.isEmpty(component.get("v.caseManager.recordCasePlan"))){
                 component.set("v.notEmpty",false);

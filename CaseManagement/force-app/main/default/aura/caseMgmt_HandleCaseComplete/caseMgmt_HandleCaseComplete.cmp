@@ -1,4 +1,0 @@
-<aura:component description="caseMgmt_HandleCaseComplete" implements="lightning:availableForFlowScreens" access="global">
-    <aura:handler value="{!this}" action="{!c.invoke}" name="init"/>
-    <b>Case Step Completedxx!</b>
-</aura:component>

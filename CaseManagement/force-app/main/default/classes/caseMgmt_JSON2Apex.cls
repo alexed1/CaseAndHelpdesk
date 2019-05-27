@@ -1,7 +1,3 @@
-/**
- * Created by Shubham on 1/24/2019.
- */
-
 public with sharing class caseMgmt_JSON2Apex {
     public class Status {
         public List<Values> values {get;set;}

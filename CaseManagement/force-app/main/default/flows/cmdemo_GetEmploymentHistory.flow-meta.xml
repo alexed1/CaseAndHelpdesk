@@ -24,6 +24,11 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
+            <name>dispRecordEmploymentHistory</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Record Employment History&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>Time_Worked</name>
             <dataType>String</dataType>
             <fieldText>Period Worked</fieldText>
@@ -45,7 +50,7 @@
             <isRequired>false</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <startElementReference>screenGetEmploymentHistory</startElementReference>
     <status>Active</status>

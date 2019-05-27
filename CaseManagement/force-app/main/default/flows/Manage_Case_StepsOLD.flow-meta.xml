@@ -177,8 +177,8 @@
         <dataType>String</dataType>
         <expression>{!PlanStepRecord.Name}&amp;&quot;,&quot;&amp;{!PlanStepRecord.Name}&amp;&quot;;&quot;</expression>
     </formulas>
-    <interviewLabel>Create Case Step Flow {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Manage Case Steps</label>
+    <interviewLabel>Manage Case Steps {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Manage Case StepsOLD</label>
     <loops>
         <name>Loop_Over_Plan_Steps_Records</name>
         <label>Loop Over Plan Steps Records</label>

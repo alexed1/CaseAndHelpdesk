@@ -3,25 +3,30 @@
         // Fetch initial data from apex class and set to local variables
         helper._getCaseManagerData(component, component.get('v.recordId'));
     },
-    updateCaseStep : function(component,event,helper){
-        //Invokes when you click on aany of the case step button
-        component.set("v.SelectedIndex",event.currentTarget.getAttribute("data-ind"));
-        component.set("v.caseStepId",event.currentTarget.getAttribute("data-id"));
+    
+    
+    ////Invoked when you click on any of the case step buttons
+    processCaseStepClick : function(component,event,helper){   
+        component.set("v.SelectedIndex",event.currentTarget.getAttribute("data-casestepindex"));
+        component.set("v.caseStepId",event.currentTarget.getAttribute("data-casestepid"));
         // Setting up a timer to auto refresh a view of component to update UI as per new status.
-        var interval = window.setInterval($A.getCallback(() => helper._updateData(component, component.get('v.recordId'), component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].IsCompleted"),interval)), 1000);
+        var interval = window.setInterval($A.getCallback(() => helper._updateData(component, component.get('v.recordId'), component.get("v.caseManager.curCaseStepDescribes["+component.get("v.SelectedIndex")+"].IsCompleted"),interval)), 1000);
          //Setting up a flow variable to invoke and update case step status
-        if(!component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].IsPending")){
+         //FIX: instead of matching the current click to the appropriate case step using an index, match to a name. more reliable
+        
+        if(!component.get("v.caseManager.curCaseStepDescribes["+component.get("v.SelectedIndex")+"].IsPending")){
+           //if the step hasn't already been started, go ahead and start it
             var flowCaseStart = component.find("startCaseStep");
             var inputVariablesCaseStart = [
                 {
                    name : "CaseStepId",
                    type : "String",
-                   value: event.currentTarget.getAttribute("data-id")
+                   value: event.currentTarget.getAttribute("data-casestepid")
                 },
                 {
                     name : "StartWhen",
                     type : "String",
-                    value: component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StartWhen")
+                    value: component.get("v.caseManager.curCaseStepDescribes["+component.get("v.SelectedIndex")+"].StartWhen")
                 },
                 {
                     name : "CaseId",
@@ -33,14 +38,16 @@
             // Invokes a flow CaseManager_ProcessCaseStep.
             flowCaseStart.startFlow('CaseManager_ProcessCaseStep',inputVariablesCaseStart);
         }else{
-            component.set('v.caseStepId',event.currentTarget.getAttribute("data-id"));
+            //the case step has already been started. need to ask user if they want to restart it
+            component.set('v.caseStepId',event.currentTarget.getAttribute("data-casestepid"));
             component.set('v.startCaseStepManagement',true);
-            component.set('v.alreadyFlowRuning',true);
+            component.set('v.alreadyFlowRunning',true);
+            //markup in cmp will appear when alreadyFlowRunning is true
         }
 
     },
 
-    // Invoke this flow when Case Step Management flow is finished.
+    //check to see if there is an incomplete parent step. if not, launch the associated flow
     updateComponentAfterCompletion : function(component, event, helper){
             var isParentComplete;
             if(event.getParam("status") === "FINISHED_SCREEN" || event.getParam("status") === "FINISHED") {
@@ -65,17 +72,17 @@
                         if(isParentComplete){
                             // If Parent Completed then Invoke Associated Flow using flow URL
                             var currentUrl = window.location.href;
-                            var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
-                            var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
+                            var returnURLCleanupFlow = encodeURI('/flow/CaseManager_Finish_Case_Step_Processing?CaseStepId='+component.get('v.caseStepId') + '&retURL=/005');
+                            var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.curCaseStepDescribes["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+returnURLCleanupFlow);
                             window.open(associateFlowUrl, "_blank");
                         }else{
-                            // Else Update the Component Witha Toast Message
+                            // Else Parent step not completed
                             helper._getCaseManagerData(component, component.get('v.recordId'));
                             component.set('v.startCaseStepManagement',false);
                             var toastEvent = $A.get("e.force:showToast");
                             toastEvent.setParams({
-                                "title": "Error!",
-                                "message": "Please Complete Parent Step!"
+                                "title": "Error",
+                                "message": "Please Complete Parent Step first."
                             });
                             toastEvent.fire();
                         }
@@ -83,32 +90,31 @@
 
         },
 
-     //It Will Invoke the flow again when some leave a flow in complete
+     //User can restart a step that is in process
      restartFlow : function(component,event,helper){
-         component.set('v.alreadyFlowRuning',false);
+         component.set('v.alreadyFlowRunning',false);
          var currentUrl = window.location.href;
-         var finishFlows = encodeURI('/flow/CaseManager_Case_Step_Complete_Handler?CaseStepId='+component.get('v.caseStepId'));
-         var associateFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.caseStepWraperList["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
-         window.open(associateFlowUrl, "_blank");
+         var finishFlows = encodeURI('/flow/CaseManager_Finish_Case_Step_Processing?CaseStepId='+component.get('v.caseStepId'));
+         var associatedFlowUrl = encodeURI('/flow/'+component.get("v.caseManager.curCaseStepDescribes["+component.get("v.SelectedIndex")+"].StepFlow")+'?recordId='+component.get('v.caseStepId')+'&retURL='+finishFlows);
+         window.open(associatedFlowUrl, "_blank");
 
      },
 
      //Using to Hide Confirmation Message after Click
      closeFlowMessageModel : function(component,event,helper){
-         component.set('v.alreadyFlowRuning',false);
+         component.set('v.alreadyFlowRunning',false);
      },
 
-    // nIt Will Invoke a add new step flow when end-user click on add step button
-    startFlowAddStep : function(component, event, helper){
-        //Setting Up Variables for Flow
+    // AdHoc Case Steps are added to an individual Case and don't change the Plan Steps
+    addAdHocCaseStep : function(component, event, helper) {
         component.set("v.openModal",true);
         var flow = component.find("flowCreateStep");
-                var inputVariables = [
+        var inputVariables = [
 
                     {
-                      name : "Create",
-                      type : "Boolean",
-                      value : true
+                      name : "requestedStepAction",
+                      type : "String",
+                      value : "add"
                     },
                     {
                         name : "CaseId",
@@ -121,13 +127,13 @@
                         value : component.get("v.caseManager.CaseStatus")
                     },
                     {
-                        name : "isAdmin",
-                        type : "Boolean",
-                        value : false
+                        name : "requestType",
+                        type : "String",
+                        value : "AdHoc"
                     }
                 ];
-                //Invoke a Add Step Flow From User
-        flow.startFlow("Create_Case_Step_Flow",inputVariables);
+        
+        flow.startFlow("CaseManager_Manage_Case_Steps",inputVariables);
     },
 
     // CLose Modal Window if User Ending up with Add Steps
@@ -146,15 +152,17 @@
         helper._getCaseManagerData(component, component.get('v.recordId'));
     },
 
-    // If User Click on Next Transition Button It will Help to Update the Case Status
-    changeStatus: function(component,event,helper){
+    // User Clicked on Transition Case button
+    requestCaseTransition: function(component,event,helper){
         component.set("v.changeCaseStatus",true);
         var oldOrderList = component.get('v.caseManager.recordCasePlan.CaseStatusOrdering__c');
-        var res = oldOrderList.split(";");
+        console.log('in requestCaseTransition, oldOrderList is: ' + oldOrderList);
+        var res = oldOrderList.split(",");
         var nextStatus ="";
         var valueForList = [];
         // Checking Next Status Is Available or Not
         for (var i = 0; i < res.length; i++) {
+            console.log('inrequestCaseTransition, component.get("v.caseManager.CaseStatus") is: ' + component.get("v.caseManager.CaseStatus"));
             if(res[i] == component.get("v.caseManager.CaseStatus")){
                 if(i<res.length){
                     nextStatus = res[i+1];
@@ -197,6 +205,7 @@
 
 
         ];
+        console.log('inputVariables sent to ProcessCaseTransitionRequest flow are: ' + JSON.stringify(inputVariables));
         // Invoke a flow from here
         flow.startFlow("CaseManager_ProcessCaseTransitionRequest",inputVariables);
     },

@@ -1,11 +1,10 @@
 /**
-* Created by Shubham on 2/21/2019.
-  Hanler class for caseToAddCaseStepsTrigger
+  Handler class for generateCaseSteps apex trigger
   when new case is created or existing one updated it will add
   and update the case with new or existing case step
 */
 
-public with sharing class caseToAddCaseStepsTriggerHandler {
+public with sharing class generateCaseStepsHandler {
 
 
     public static void beforeInsertAndUpdate(List<Case> newList, Map<Id, Case> oldMap) {
