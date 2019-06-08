@@ -107,8 +107,8 @@
             <!-- Case is not associated with any of the record type then this will shows-->
             <aura:set attribute="else">
                 <p>
-                <center><b>This Support Process does not have an active Case Plan. Specify a Case
-                        Plan in Custom Settings</b></center>
+                <center><b>The Record Type of this Case does not have an active Case Plan. Link a Case Plan to this Record Type using 
+                    a Custom Setting</b></center>
                 </p>
             </aura:set>
         </aura:if>
