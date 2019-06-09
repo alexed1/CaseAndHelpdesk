@@ -423,13 +423,13 @@
         </connector>
         <fields>
             <name>AddStepHeading</name>
-            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Add Step&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 18px;&quot;&gt;Add Case Plan Step&lt;/b&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Step_Name</name>
             <dataType>String</dataType>
-            <fieldText>Step Name</fieldText>
+            <fieldText>Plan Step Name</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -502,7 +502,7 @@
             <inputParameters>
                 <name>labelPicklist</name>
                 <value>
-                    <stringValue>Specify a predecessor (parent) case step</stringValue>
+                    <stringValue>Specify a predecessor (parent) Plan Step</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -531,13 +531,13 @@
         </fields>
         <fields>
             <name>AlertForCaseStepParent</name>
-            <fieldText>This is optional. If you specify a predecessor, this step cannot be started until the predecessor has completed.</fieldText>
+            <fieldText>&lt;p&gt;If you specify a predecessor, this step cannot be started until the predecessor has completed.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Is_Required</name>
             <dataType>Boolean</dataType>
-            <fieldText>This step is required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
+            <fieldText>Make this step required. Its associated flow must be completed before the case can transition to the next case status.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>

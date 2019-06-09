@@ -13,7 +13,7 @@ Controller for CaseMgmt_CasePlan lightning component
         List<Plan_Step__c> planStepList = new List<Plan_Step__c>();
         //Case Steps are created for a particular case, based on the plan
         List<Case_Step__c> caseStepList = new List<Case_Step__c>();
-        Boolean flag = false;
+        Boolean CaseStepPlanStepMatchFound = false; 
         
         // Fetch Case Plans and Status From Case on the basis of recordId passed from component
         List<Case> caseRecords = new List<Case>([Select Id, Status,Case_Plan__c  From Case where Id =: recordId]);
@@ -35,10 +35,11 @@ Controller for CaseMgmt_CasePlan lightning component
         }
         
         // Check Case Step is Created by user or Admin and update describe according to user and admin.
+        // The 'describe' data structures will be added to the case manager object that's returned to the LC
         for(Case_Step__c curCaseStep : caseStepList){
-            flag = false;
+            CaseStepPlanStepMatchFound = false;
             for(Plan_Step__c curPlanStep : planStepList){
-                if(curCaseStep.Plan_Step__c == curPlanStep.Id && !flag){
+                if(curCaseStep.Plan_Step__c == curPlanStep.Id && !CaseStepPlanStepMatchFound){
                     //for each matching Case Step and Plan Step, create a new case Step describe
                     curCaseStepDescribe = new CaseStepDescribe();
                     curCaseStepDescribe.StepName =  curPlanStep.Name;
@@ -46,15 +47,22 @@ Controller for CaseMgmt_CasePlan lightning component
                     curCaseStepDescribe.IsRequired   = curPlanStep.Is_Required__c;
                     curCaseStepDescribe.StepFlow = curPlanStep.Flow__c;
                     curCaseStepDescribe.PlanStepId = curPlanStep.Id;
-                    curCaseStepDescribe.StartWhen = curPlanStep.Start_When__c;
+                    System.debug('curPlanStep.Start_When__c is ' + curPlanStep.Start_When__c);
+                    if (curPlanStep.Start_When__c !=  null) {
+                        curCaseStepDescribe.StartWhen = curPlanStep.Start_When__c;
+                    } else {
+                        curCaseStepDescribe.StartWhen = "None";
+                    }
+                    
                     curCaseStepDescribe.CaseStepId = curCaseStep.Id;
                     curCaseStepDescribe.IsCompleted = curCaseStep.IsCompleted__c;
                     curCaseStepDescribe.IsPending = curCaseStep.Is_Pending__c;
                     caseManagerRecord.curCaseStepDescribes.add(curCaseStepDescribe);
-                    flag = true;
+                    CaseStepPlanStepMatchFound = true;
                 }
             }
-            if(!flag){
+            //if there were no matches, generate this describe instead ISSUE: what is the purpose of this?
+            if(!CaseStepPlanStepMatchFound){
                 curCaseStepDescribe = new CaseStepDescribe();
                 curCaseStepDescribe.StepName =  curCaseStep.Name;
                 curCaseStepDescribe.AssociateStatus = curCaseStep.Associated_Status__c;
@@ -73,8 +81,6 @@ Controller for CaseMgmt_CasePlan lightning component
         for(Case_Plan__c casepl : [SELECT Name, Id, CaseStatusOrdering__c, RecordType_SupportProcess__c, RecordTypeId__c FROM Case_Plan__c WHERE Id =: caseRecords[0].Case_Plan__c]){
             caseManagerRecord.recordCasePlan =casepl;
         }
-
-
 
         return caseManagerRecord;
     }
