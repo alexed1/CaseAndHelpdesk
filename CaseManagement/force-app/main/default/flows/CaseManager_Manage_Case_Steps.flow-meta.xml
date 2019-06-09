@@ -175,7 +175,7 @@
     <formulas>
         <name>aggregateStepNamesFormula</name>
         <dataType>String</dataType>
-        <expression>{!PlanStepRecord.Name}&amp;&quot;,&quot;&amp;{!PlanStepRecord.Name}&amp;&quot;;&quot;</expression>
+        <expression>{!PlanStepRecord.Name}&amp;&quot;;&quot;&amp;{!PlanStepRecord.Name}&amp;&quot;,&quot;</expression>
     </formulas>
     <interviewLabel>CaseManager_Manage_Case_Steps {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CaseManager Manage Case Steps</label>
@@ -693,7 +693,7 @@
             <defaultValue>
                 <elementReference>PlanStepRecord.Is_Required__c</elementReference>
             </defaultValue>
-            <fieldText>Required. This step&#39;s associated flow must be completed before the case can transition to the next case status.</fieldText>
+            <fieldText>Required. This step&apos;s associated flow must be completed before the case can transition to the next case status.</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -761,9 +761,6 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
-        <value>
-            <stringValue>None,None;</stringValue>
-        </value>
     </variables>
     <variables>
         <name>CreateDone</name>
@@ -849,7 +846,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>can be &quot;AdHoc&quot; or &quot;Standard&quot;. A Standard request is made through the plan management flows, generally by an admin. It creates a &#39;permanent&#39; Plan Step that will be used for all subsequent Case Plans. AdHoc steps are added by a user to their current Case Plan.</description>
+        <description>can be &quot;AdHoc&quot; or &quot;Standard&quot;. A Standard request is made through the plan management flows, generally by an admin. It creates a &apos;permanent&apos; Plan Step that will be used for all subsequent Case Plans. AdHoc steps are added by a user to their current Case Plan.</description>
         <name>requestType</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -874,7 +871,7 @@
         <name>selectedParent</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>true</isInput>
+        <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
     <variables>
