@@ -51,7 +51,7 @@ Controller for CaseMgmt_CasePlan lightning component
                     if (curPlanStep.Start_When__c !=  null) {
                         curCaseStepDescribe.StartWhen = curPlanStep.Start_When__c;
                     } else {
-                        curCaseStepDescribe.StartWhen = "None";
+                        curCaseStepDescribe.StartWhen = 'None';
                     }
                     
                     curCaseStepDescribe.CaseStepId = curCaseStep.Id;
