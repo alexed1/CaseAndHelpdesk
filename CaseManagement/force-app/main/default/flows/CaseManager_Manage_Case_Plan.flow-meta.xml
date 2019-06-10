@@ -1018,7 +1018,7 @@
         </fields>
         <fields>
             <name>dispDocumentation</name>
-            <fieldText>&lt;p&gt;&lt;a href=&quot;https://unofficialsf.com/case-manager/&quot; target=&quot;_blank&quot;&gt;Documentation&lt;/a&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;a href=&quot;https://unofficialsf.com/acm/&quot; target=&quot;_blank&quot;&gt;Documentation&lt;/a&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
