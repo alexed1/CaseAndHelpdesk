@@ -739,7 +739,7 @@
         <showHeader>false</showHeader>
     </screens>
     <startElementReference>Operation_On_Plan_Step</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>CaseId</name>
         <dataType>String</dataType>
